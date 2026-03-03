@@ -1,0 +1,85 @@
+/* ============================================================
+   MASTER 2 : TRANSFORM + TRANSITION
+   ============================================================ */
+
+/* ===================== QUESTION =====================
+
+Create interactive cards where:
+
+1) On hover:
+   - Scale
+   - Rotate
+   - Move
+   - Add shadow
+
+2) Add smooth transition
+3) Use different timing functions
+4) Combine multiple transforms
+
+Goal:
+Understand transform & transition fully.
+============================================================ */
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Transform & Transition Master</title>
+
+<style>
+
+body {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+/* Card */
+.card {
+    width: 200px;
+    height: 200px;
+    background: coral;
+
+    transition: all 0.5s ease-in-out;
+    /* property | duration | timing-function */
+}
+
+/* Hover Effect */
+.card:hover {
+    transform: scale(1.2) rotate(10deg) translateY(-20px);
+    /* multiple transforms combined */
+
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* Transform Origin Example */
+.origin {
+    transform-origin: top left;
+    /* rotation starts from top-left corner */
+}
+
+.origin:hover {
+    transform: rotate(20deg);
+}
+
+/* Timing Function Variations */
+.linear {
+    transition: all 0.5s linear;
+}
+
+.ease {
+    transition: all 0.5s ease;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card"></div>
+<div class="card origin"></div>
+<div class="card linear"></div>
+<div class="card ease"></div>
+
+</body>
+</html>

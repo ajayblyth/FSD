@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sidebar Flexbox Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="day17.css">
+</head>
+<body>
+
+  <!-- Hidden checkbox for toggle -->
+  <input type="checkbox" id="check">
+
+  <!-- Open button -->
+  <label for="check" class="btn_open">
+    <i class="fas fa-bars"></i>
+  </label>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <!-- Logo -->
+    <div class="logo">
+      <a href="#">My Logo</a>
+      <label for="check" class="btn_close">
+        <i class="fas fa-times"></i>
+      </label>
+    </div>
+
+    <!-- Sidebar content using flex column -->
+    <div class="sidebar_content">
+      <ul class="menu">
+        <li><i class="fas fa-home"></i><a href="#">Home</a></li>
+        <li><i class="fas fa-user"></i><a href="#">About</a></li>
+        <li><i class="fas fa-briefcase"></i><a href="#">Services</a></li>
+        <li><i class="fas fa-envelope"></i><a href="#">Contact</a></li>
+        <li><i class="fas fa-question-circle"></i><a href="#">Help</a></li>
+      </ul>
+
+      <div class="social">
+        <i class="fab fa-facebook-f"></i>
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-linkedin-in"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main_box">
+    <h1>Welcome to My Flexbox Sidebar Page</h1>
+  </main>
+
+</body>
+</html>

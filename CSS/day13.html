@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar Layout</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            background-color:15;
+            
+        }
+
+        .navbar {
+            height: 50px;
+            background-color: #e1bf8f;   /* beige */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px;
+        } 
+
+        .nav-left,
+        .nav-right {
+            display: flex;
+            gap: 6px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: black;
+            border: 2px solid black;
+            padding: 2px 6px;
+            font-family: serif;
+        }
+
+        .content {
+            height: calc(100vh - 50px);
+            background-color: cyan;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About</a>
+        </div>
+
+        <div class="nav-right">
+            <a href="#">Profile</a>
+        </div>
+    </nav>
+
+    <main class="content"></main>
+
+</body>
+</html>

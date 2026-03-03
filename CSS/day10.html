@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        header {
+            width: 700px;
+            height: 200px;
+            background-color: aqua;
+            border: 2px solid black;
+            border-radius: 50%;
+            margin: 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            box-sizing: border-box;
+            /* keep content inside */
+            opacity: 0.8;
+
+
+            /* note
+            perspective for scale3d effect
+
+Same width & height → perfect circle
+
+flex centers text
+
+box-sizing: border-box keeps padding inside */
+            transition: background-color 0.4s ease, transform 0.4s ease;
+        }
+
+        header:hover {
+            background-color: blueviolet;
+       transform: rotate(45deg) translate(200px);
+
+       /* Note: if u mention rotate and translate in different lines, then only  the last mentioned property will work, so put tranform properties in same line to work. */
+
+
+        }
+
+        .outer {
+            height: 200px;
+            width: 70px;
+            border: 2px solid black;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+       
+
+        .outer div {
+            height: 50px;
+            width: 50px;
+            border: 2px solid black;
+            margin: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #red {
+            background-color: red;
+            transition: background-color 0.5s ease, transform 0.3s ease;
+            /* putting animation in two properties above; */
+        }
+
+        #red:hover {
+            background-color: black;
+            transform: scale(1.2);
+        }
+
+        #yellow {
+            background-color: yellow;
+            transition: background-color 0.5s ease, transform 0.3s ease;
+        }
+
+        #yellow:hover {
+            background-color: teal;
+            transform: skew(15deg);
+        }
+
+        #green {
+            background-color: green;
+            transition: background-color 0.5s linear, transform 0.3s linear;
+        }
+
+        #green:hover {
+            background-color: blue;
+            transform: translate(30px, 20px);
+
+
+        }
+         body{
+                background-color: lightcoral;
+            }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h3><b>Opacity / Transition / Transform</b><hr>day 10 practice </h3>
+        
+    </header>
+
+    <div class="outer">
+        <div id="red"></div>
+        <div id="yellow"></div>
+        <div id="green"></div>
+    </div>
+</body>
+
+</html>

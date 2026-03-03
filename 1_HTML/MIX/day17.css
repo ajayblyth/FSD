@@ -1,0 +1,28 @@
+.sidebar_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* menu at top, social at bottom */
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* Menu spacing simplified */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;   /* spacing handled by flex gap */
+  list-style: none;
+  padding: 0;
+}
+.menu li {
+  display: flex;
+  align-items: center;
+}
+.menu li i {
+  margin-right: 10px; /* only small icon spacing needed */
+}
+.social {
+  display: flex;
+  justify-content: center;
+  gap: 15px;  /* spacing handled by flex gap */
+}

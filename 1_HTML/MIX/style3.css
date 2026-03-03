@@ -1,0 +1,109 @@
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eee;
+}
+
+.page {
+  width: 90%;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+}
+
+.block-box {
+  width: 200px;
+  padding: 10px 20px;
+  border: 5px solid black;
+  margin: 30px 40px;
+  background: lightblue;
+}
+
+.content-box {
+  box-sizing: content-box;
+}
+
+.border-box {
+  box-sizing: border-box;
+  background: lightgreen;
+}
+
+.inline-text {
+  margin: 20px;
+  padding: 10px;
+  background: pink;
+}
+
+.row {
+  margin-top: 1rem;
+}
+
+.inline-block-box {
+  display: inline-block;
+  width: 150px;
+  padding: 10px;
+  margin: 10px;
+  border: 2px solid black;
+  background: lightyellow;
+}
+
+.units {
+  margin-top: 2rem;
+}
+
+.em-box {
+  font-size: 1.5em;
+  padding: 1em;
+  border: 2px solid black;
+  margin-bottom: 1em;
+}
+
+.rem-box {
+  font-size: 1.5rem;
+  padding: 1rem;
+  border: 2px solid black;
+  margin-bottom: 1em;
+}
+
+.percent-box {
+  width: 50%;
+  padding: 5%;
+  border: 2px solid black;
+  margin-bottom: 1em;
+}
+
+.vw-box {
+  width: 30vw;
+  padding: 2vw;
+  border: 2px solid black;
+  margin-bottom: 1em;
+}
+
+.vh-box {
+  height: 20vh;
+  padding: 1rem;
+  border: 2px solid black;
+  margin-bottom: 1em;
+}
+
+.vmin-box {
+  width: 20vmin;
+  height: 20vmin;
+  border: 2px solid black;
+  margin-bottom: 1em;
+}
+
+.vmax-box {
+  width: 20vmax;
+  height: 10vmax;
+  border: 2px solid black;
+}

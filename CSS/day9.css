@@ -1,0 +1,18 @@
+.outer{
+  height:200px;
+  width:70px;
+  border:2px solid black;
+}
+
+.outer div{
+  height:50px;
+  width:50px;
+  border:2px solid black;
+  margin:10px;
+  border-radius:50%; 
+  /* makes thing circular */
+}
+
+.red{background:red;}
+.yellow{background:yellow;}
+.green{background:green;}

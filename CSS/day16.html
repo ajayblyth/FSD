@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Z-Index Basic Demo</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    position: relative;
+    width: 400px;
+    height: 250px;
+    border: 2px solid black;
+    margin: 40px;
+  }
+
+  .box {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .box1 {
+    background: red;
+    top: 40px;
+    left: 40px;
+    z-index: 1;
+  }
+
+  .box2 {
+    background: blue;
+    top: 80px;
+    left: 80px;
+    z-index: 2; /* higher → on top */
+  }
+</style>
+</head>
+
+<body>
+
+<h2>Z-Index</h2>
+
+<div class="container">
+  <div class="box box1">z-index: 1</div>
+  <div class="box box2">z-index: 2</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* MAIN APP LAYOUT */
+.app {
+    display: flex;
+    height: calc(100vh - 90px);
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    background: #121212;
+    padding: 20px;
+}
+
+.logo {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.menu a {
+    display: block;
+    color: #b3b3b3;
+    text-decoration: none;
+    margin: 15px 0;
+}
+
+.menu a:hover {
+    color: #fff;
+}
+
+/* MAIN CONTENT */
+.main {
+    flex: 1;
+    background: #181818;
+    overflow-y: auto;
+}
+
+/* TOP BAR */
+.topbar {
+    height: 60px;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+/* CONTENT */
+.content {
+    padding: 20px;
+}
+
+.cards {
+    display: flex;
+    gap: 20px;
+}
+
+.card {
+    width: 160px;
+    background: #282828;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 4px;
+}
+
+/* PLAYER */
+.player {
+    height: 90px;
+    background: #181818;
+    border-top: 1px solid #282828;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}

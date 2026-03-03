@@ -1,0 +1,172 @@
+EXAMPLE HTML PAGE (MOST COMMON TAGS)
+
+<!DOCTYPE html> <!-- Defines HTML5 document -->
+<html lang="en"> <!-- Root element, language = English -->
+
+<head> <!-- Metadata section (not visible on page) -->
+
+    <meta charset="UTF-8"> <!-- Supports all characters -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive design -->
+    <title>Complete HTML Structure</title> <!-- Browser tab title -->
+
+    <link rel="stylesheet" href="style.css"> <!-- External CSS -->
+    <link rel="icon" href="favicon.ico"> <!-- Favicon -->
+
+</head>
+
+<body> <!-- Visible page content starts -->
+
+<!-- ================= HEADER ================= -->
+<header> <!-- Top section: logo + title + navigation -->
+
+    <img src="logo.png" alt="Website Logo" width="120"> 
+    <h1>My Website</h1> 
+
+    <nav> 
+        <ul> 
+            <li><a href="#">Home</a></li> 
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+</header>
+
+
+<main> 
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section> 
+    
+        <h2>About Us</h2> 
+
+        <p> 
+            We build modern websites using
+            <strong>HTML</strong>, <!-- Important text -->
+            <em>CSS</em>, <!-- Emphasized text -->
+            <span>JavaScript</span>. <!-- Inline container -->
+        </p>
+
+        <a href="https://example.com" target="_blank">Visit our website</a> <!-- External link -->
+
+    </section>
+
+
+    <!-- ===== SERVICES SECTION ===== -->
+    <section>
+
+        <h2>Our Services</h2>
+
+        <article> <!-- Independent reusable content -->
+            <h3>Web Development</h3>
+            <p>Responsive and fast websites.</p>
+        </article>
+
+        <article>
+            <h3>App Development</h3>
+            <p>Android and iOS applications.</p>
+        </article>
+
+    </section>
+
+
+    <section>
+
+        <h2>Gallery</h2>
+        <img src="image1.jpg" alt="Sample Image" width="300"> 
+
+    </section>
+
+
+    <!-- ===== LISTS SECTION ===== -->
+    <section>
+
+        <h2>Technologies</h2>
+
+        <ul> 
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+        </ul>
+
+        <ol> 
+            <li>Plan</li>
+            <li>Design</li>
+            <li>Develop</li>
+        </ol>
+
+    </section>
+
+
+    <!-- ===== FORM SECTION ===== -->
+    <section>
+
+        <h2>Contact Form</h2>
+
+        <form action="#" method="post"> <!-- User input form -->
+
+            <label>Name: <input type="text" name="name" placeholder="Enter your name"></label> <!-- Text input -->
+            <br><br>
+
+            <label>Email: <input type="email" name="email" placeholder="Enter your email"></label> <!-- Email input -->
+            <br><br>
+
+            <label>Password: <input type="password" name="password"></label> <!-- Password input -->
+            <br><br>
+
+            <p>Gender:</p>
+            <label><input type="radio" name="gender" value="male"> Male</label> <!-- Radio -->
+            <label><input type="radio" name="gender" value="female"> Female</label>
+            <br><br>
+
+            <label><input type="checkbox"> I agree to terms</label>
+            <br><br>
+
+            <label>
+                City:
+                <select name="city"> <!-- Dropdown -->
+                    <option value="">Select city</option>
+                    <option>Delhi</option>
+                    <option>Mumbai</option>
+                    <option>Bangalore</option>
+                </select>
+            </label>
+            <br><br>
+
+            <label>Message: <textarea rows="4" cols="30"></textarea></label> <!-- Multi-line input -->
+            <br><br>
+
+            <button type="submit">Submit</button> 
+            <button type="reset">Reset</button>
+            
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<!-- ================= ASIDE ================= -->
+<aside> <!-- Side / extra content -->
+
+    <h3>Quick Links</h3>
+    <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms</a></li>
+    </ul>
+
+</aside>
+
+
+<!-- ================= FOOTER ================= -->
+<footer> <!-- Bottom section -->
+
+    <p>&copy; 2026 My Website</p> <!-- Copyright -->
+    <a href="#">Facebook</a> | <a href="#">Twitter</a> | <a href="#">LinkedIn</a> <!-- Social links -->
+
+</footer>
+
+</body>
+</html>

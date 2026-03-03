@@ -1,0 +1,153 @@
+   <!-- FLEXBOX MASTER ASSIGNMENT
+
+/* ===================== QUESTION =====================
+
+Create a responsive dashboard layout using Flexbox.
+
+REQUIREMENTS:
+
+1) Navbar
+   - Logo aligned LEFT
+   - Menu aligned RIGHT
+
+2) Main Section
+   - Sidebar on LEFT
+   - Content on RIGHT
+
+3) Inside Content
+   - 6 cards
+
+4) Responsive
+   - Cards must wrap on smaller screens
+
+5) Flex Behavior
+   - One card must grow bigger
+   - One card must change order
+
+6) Proper alignment everywhere -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Flex Master Assignment</title>
+
+<style>
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+    display: flex;                  /* activate flex */
+    flex-direction: row;            /* horizontal layout */
+    justify-content: space-between; /* logo left, menu right */
+    align-items: center;            /* vertical center */
+    padding: 15px;
+    background: #222;
+    color: white;
+}
+
+.menu {
+    display: flex;                  /* make menu flex */
+    gap: 20px;                      /* space between items */
+}
+
+
+
+.main {
+    display: flex;                  /* sidebar + content side by side */
+    min-height: 90vh;
+}
+
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    flex-basis: 200px;              /* initial width */
+    flex-shrink: 0;                 /* prevent shrinking */
+    background: #333;
+    color: white;
+    padding: 20px;
+}
+
+
+/* ================= CONTENT ================= */
+
+.content {
+    flex: 1;                        /* grow=1 shrink=1 basis=0 */
+    padding: 20px;
+
+    display: flex;                  /* cards become flex items */
+    flex-wrap: wrap;                /* allow wrapping */
+    gap: 20px;                      /* spacing between cards */
+
+    justify-content: center;        /* horizontal alignment */
+    align-content: flex-start;   
+       /* align rows at top */
+}
+
+
+/* ================= CARDS ================= */
+
+.card {
+    background: lightblue;
+    padding: 20px;
+
+    flex: 1 1 200px;                /* grow shrink basis=200px */
+                                    /* minimum width 200px */
+
+    display: flex;                  /* center text */
+    justify-content: center;        /* horizontal center */
+    align-items: center;            /* vertical center */
+}
+
+
+/* ================= SPECIAL FLEX FEATURES ================= */
+
+.card.big {
+    flex-grow: 2;                   /* grow bigger than others */
+}
+
+.card.first {
+    order: -1;                      /* move this card first */
+}
+
+.card.self {
+    align-self: flex-end;           /* override alignment */
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div>MyLogo</div>
+
+    <div class="menu">
+        <div>Home</div>
+        <div>Profile</div>
+        <div>Settings</div>
+    </div>
+</div>
+
+
+<div class="main">
+
+    <div class="sidebar">
+        Sidebar Menu
+    </div>
+
+    <div class="content">
+        <div class="card first">1</div>
+        <div class="card">2</div>
+        <div class="card big">3 Big</div>
+        <div class="card self">4</div>
+        <div class="card">5</div>
+        <div class="card">6</div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="nav-section">
+                <ul>
+                    <li class="active"><i class="fa-solid fa-house"></i> Home</li>
+                    <li><i class="fa-solid fa-magnifying-glass"></i> Search</li>
+                </ul>
+            </div>
+            
+            <div class="library-section">
+                <div class="library-header">
+                    <span><i class="fa-solid fa-lines-leaning"></i> Your Library</span>
+                    <div class="header-actions">
+                        <i class="fa-solid fa-plus"></i>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </div>
+                
+                <div class="sidebar-card">
+                    <h4>Create your first playlist</h4>
+                    <p>It's easy, we'll help you</p>
+                    <button class="pill-button btn-white">Create playlist</button>
+                </div>
+
+                <div class="sidebar-card">
+                    <h4>Let's find some podcasts</h4>
+                    <p>We'll keep you updated on new episodes</p>
+                    <button class="pill-button btn-white">Browse podcasts</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-nav">
+                <div class="nav-arrows">
+                    <button class="arrow-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="arrow-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="top-buttons">
+                    <button class="pill-button btn-white">Explore Premium</button>
+                    <button class="pill-button btn-black">Install App</button>
+                    <button class="user-icon"><i class="fa-regular fa-user"></i></button>
+                </div>
+            </header>
+
+            <section>
+                <h2 class="section-title">Recently Played</h2>
+                <div class="card-grid">
+                    <div class="music-card">
+                        <div class="img-container">
+                            <img src="https://via.placeholder.com/150/1db954/ffffff?text=Top+50" alt="Top 50 Global">
+                            <div class="play-hover"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h3>Top 50 - Global</h3>
+                        <p>Your daily updates of the most played tracks...</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">Trending now near you</h2>
+                <div class="card-grid">
+                    <div class="music-card">
+                        <img src="https://via.placeholder.com/150/333/fff?text=Song+1" alt="Song Cover">
+                        <h3>Top 50 - Global</h3>
+                        <p>Daily updates of the most played tracks</p>
+                    </div>
+                    <div class="music-card">
+                        <img src="https://via.placeholder.com/150/444/fff?text=Song+2" alt="Song Cover">
+                        <h3>Top 50 - Global</h3>
+                        <p>Daily updates of the most played tracks</p>
+                    </div>
+                    <div class="music-card">
+                        <img src="https://via.placeholder.com/150/555/fff?text=Song+3" alt="Song Cover">
+                        <h3>Top 50 - Global</h3>
+                        <p>Daily updates of the most played tracks</p>
+                    </div>
+                    <div class="music-card">
+                        <img src="https://via.placeholder.com/150/222/fff?text=Song+4" alt="Song Cover">
+                        <h3>Top 50 - Global</h3>
+                        <p>Daily updates of the most played tracks</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="player">
+        <div class="song-details">
+            </div>
+
+        <div class="player-controls">
+            <div class="control-buttons">
+                <i class="fa-solid fa-shuffle grey-icon"></i>
+                <i class="fa-solid fa-backward-step"></i>
+                <div class="main-play-btn"><i class="fa-solid fa-play"></i></div>
+                <i class="fa-solid fa-forward-step"></i>
+                <i class="fa-solid fa-repeat grey-icon"></i>
+            </div>
+            <div class="progress-container">
+                <span class="time">0:00</span>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill"></div>
+                </div>
+                <span class="time">3:33</span>
+            </div>
+        </div>
+
+        <div class="volume-controls">
+            <i class="fa-solid fa-microphone grey-icon"></i>
+            <i class="fa-solid fa-bars grey-icon"></i>
+            <i class="fa-solid fa-volume-high grey-icon"></i>
+            <div class="volume-bar-bg">
+                <div class="volume-fill"></div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

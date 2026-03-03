@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+body{
+margin: 0;
+font-family: sans-serif;
+
+}
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    color: white;
+    padding: 10px;
+
+}
+.points a{
+    color: white;
+    opacity: 0.8;
+    padding: 10px;
+}
+.logo{
+opacity: 0.8;
+
+}
+.logo:hover{
+opacity: 1;
+color: yellow;
+
+}
+a:hover{
+    color: aqua;
+    opacity: 1;
+
+}
+.sidebar{
+
+    width: 250px;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    height: 100vh;
+    width: 100px;
+}
+
+.sidebar a{
+    color: white;
+}
+.sidebar a.active{
+    color:yellow;
+    font-size: bold;
+    
+}
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"> Logo</div>
+
+<div class="points">
+    
+<a href="">Home</a>
+<a href="">Profile</a>
+<a href="">Setting</a>
+
+</div>
+    </nav>
+
+    <aside class="sidebar">
+        <a href="#" class="active">Dashboard</a>
+<a href="#">Reports</a>
+<a href="#">Random</a>
+<a href="#">Logout</a>
+    </aside>
+    
+</body>
+</html>

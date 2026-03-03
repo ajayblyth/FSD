@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1" cellpadding="10" cellspacing="0">
+  <caption>Student Details</caption>
+  <thead>
+    <tr><th>Name</th><th>Age</th><th>City</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ajay</td><td>24</td><td>Delhi</td></tr>
+    <tr><td>Rahul</td><td>26</td><td>Mumbai</td></tr>
+  </tbody>
+  <tfoot>
+    <tr><td colspan="3">Total Students: 2</td></tr>
+  </tfoot>
+</table>
+
+<table border="1" cellpadding="8" cellspacing="0">
+
+    <tr>
+        <th>Name</th>
+        <th>Math</th>
+        <th>Science</th>
+        <th>Department</th>
+    </tr>
+
+    <tr>
+        <td>Ajay</td>
+        <td>80</td>
+        <td>85</td>
+        <td rowspan="2">IT</td>   <!-- IT spans 2 rows -->
+    </tr>
+
+    <tr>
+        <td>Rahul</td>
+        <td>75</td>
+        <td>78</td>
+        <!-- Department cell is skipped because of rowspan -->
+    </tr>
+
+    <tr>
+        <td colspan="3">Total</td> <!-- Total spans 3 columns -->
+        <td>IT</td>
+    </tr>
+
+</table>
+
+<form action="/server" method="post">
+
+    <!-- Username -->
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="name">
+    <br><br>
+
+    <!-- Password -->
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password">
+    <br><br>
+
+    <!-- Submit using input , Submit looks like a button by browser design--> 
+    <input type="submit" value="Submit">
+    <br><br>
+
+    <!-- Button without type (acts as submit by default) -->
+    <button>Click Me</button>
+    <br><br>
+
+    <!-- Button that does NOT submit the form -->
+    <button type="button">Click Only</button>
+
+</form>
+
+<form action="https://www.google.com/search">
+Google
+<input type="text" name ="q">
+<button >Search</button>
+</form>
+
+
+<<form action="server">
+
+  <input type="radio" id="apple" name="fruit" value="apple">
+  <label for="apple">Apple</label>
+
+  <input type="radio" id="mango" name="fruit" value="mango">
+  <label for="mango">Mango</label>
+
+  <input type="radio" id="banana" name="fruit" value="banana">
+  <label for="banana">Banana</label>
+
+  <button type="submit">Submit</button>
+
+</form>
+<form>
+
+    <select name ="profession">
+<option value ="none">No option </option>
+<option value ="first" selected>first</option>
+<option value ="second">second </option>
+
+
+
+    </select>
+</form>
+
+<form action="server">
+
+    <label for="feedback">Feedback</label><br>
+
+    <textarea  id="feedback"  name="feedback"  rows="4" cols="30"placeholder="Write here...">
+    </textarea>
+
+    <br><br>
+
+    <button type="submit">Submit</button>
+
+</form>
+
+
+</body>
+</html>

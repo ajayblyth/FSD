@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+body{
+margin: 0;
+font-family: sans-serif;
+}
+.container{
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 70px 1fr 60px;
+    grid-template-areas: 
+    "header header"
+    "sidebar content"
+    "footer footer";
+        height: 100vh;
+
+
+    .header{
+
+        grid-area: header;
+        background: black;
+        color: white;
+    }
+
+    .sidebar{
+
+        grid-area: sidebar;
+        background-color: grey;
+    }
+    .content{
+
+        grid-area: content;
+    }
+    footer{
+
+        grid-area: footer;
+        background: black;
+        color: white;
+    }
+
+
+}
+
+    </style>
+</head>
+<body>
+    <!-- header , sidebar main content -->
+
+<div class="container">
+
+
+    <header class="header">Basic page</header>
+
+<aside class="sidebar">
+    sidebar
+</aside>
+    
+    <main>
+        <h2 class="content">main content</h2>
+    </main>
+    <footer>random website</footer>
+ 
+</div>
+
+</body>
+</html>

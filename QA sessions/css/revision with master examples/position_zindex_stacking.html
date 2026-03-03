@@ -1,0 +1,128 @@
+/* ============================================================
+   MASTER 1 : POSITION + Z-INDEX + STACKING CONTEXT
+   ============================================================ */
+
+/* ===================== QUESTION =====================
+
+Create a card layout where:
+
+1) A card has:
+   - Image
+   - Badge (top-left)
+   - Floating button (bottom-right)
+
+2) Add:
+   - One overlapping modal
+   - Background overlay
+   - Multiple layered elements
+
+3) Use:
+   position (relative, absolute, fixed)
+   z-index
+   stacking context behavior
+
+Goal:
+Understand layering completely.
+============================================================ */
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Position & Z-Index Master</title>
+
+<style>
+
+/* Reset */
+body {
+    margin: 0;
+    font-family: Arial;
+}
+
+/* ================= CARD ================= */
+
+.card {
+    position: relative;          /* parent for absolute children */
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+/* Badge */
+.badge {
+    position: absolute;          /* positioned inside card */
+    top: 10px;
+    left: 10px;
+    background: red;
+    color: white;
+    padding: 5px 10px;
+    z-index: 2;                  /* above image */
+}
+
+/* Floating Button */
+.fab {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    background: blue;
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    z-index: 3;                  /* highest inside card */
+}
+
+/* Image */
+.image {
+    height: 150px;
+    background: lightgray;
+    position: relative;
+    z-index: 1;                  /* below badge & button */
+}
+
+/* ================= OVERLAY ================= */
+
+.overlay {
+    position: fixed;             /* covers full screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 10;                 /* above everything */
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+                                  /* perfect center */
+    background: white;
+    padding: 30px;
+    z-index: 11;                  /* above overlay */
+}
+
+/* Stacking context example */
+.card.transform {
+    transform: scale(1);          /* creates new stacking context */
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card transform">
+    <div class="badge">NEW</div>
+    <div class="image"></div>
+    <div class="fab">+</div>
+    <p>Card Content</p>
+</div>
+
+<div class="overlay"></div>
+<div class="modal">Modal Window</div>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Grid Layout Example with Gap</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: grid;
+
+      /* 2 columns: sidebar 1fr, content 3fr */
+      grid-template-columns: 1fr 3fr;
+
+      /* Rows auto-sized based on content 
+     
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+
+ Here’s the repeat(auto-fit, minmax(200px, 1fr)) explained in 3 lines:
+ repeat(auto-fit, …) → automatically fit as many columns as possible in the container.
+
+minmax(200px, 1fr) → each column is at least 200px and can grow to fill remaining space.
+
+Together → grid becomes fully responsive, columns shrink or stack automatically based on screen width.
+
+repeat(<count>, <value>) → shorthand for repeating <value> <count> times; here <count> can be a number or auto-fit/auto-fill.
+
+repeat(auto-fit, minmax(200px, 1fr)) → automatically fit as many columns as possible in the container.
+
+minmax(200px, 1fr) → each column is at least 200px and can grow to fill remaining space; together this makes the grid fully responsive, columns shrink or stack automatically based on screen width.
+      Named areas */
+      
+      grid-template-areas:
+        "header header"
+        "sidebar content"
+        "footer footer";
+
+      /* Full viewport height */
+      height: 100vh;
+
+      /* Space between rows and columns */
+      gap: 10px;  /* shorthand for row-gap & column-gap */
+
+      /* Optional: add a border around grid for clarity */
+      border: 2px solid #1e1717;
+    }
+
+    .header {
+        grid-area: header;
+     /*   This tells CSS which element goes into the area named header. */ 
+      background: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+
+      /* Optional: span border inside for learning */
+      border: 1px solid #fff;
+    }
+
+    .sidebar {
+      grid-area: sidebar;
+      background: #2196F3;
+      color: white;
+      padding: 20px;
+    }
+
+    .content {
+      grid-area: content;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+
+    .footer {
+      grid-area: footer;
+      background: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+   
+    
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="header">Header</div>
+    <div class="sidebar">Sidebar</div>
+    <div class="content">Main Content Area</div>
+    <div class="footer">Footer</div>
+  </div>
+
+</body>
+</html>
+
+<!-- 🔹 Why "header header" and "footer footer" ?
+
+Because:
+
+grid-template-columns: 1fr 3fr;
+
+👉 You defined 2 columns
+
+So every row in grid-template-areas must have 2 values. */
+
+    -->
