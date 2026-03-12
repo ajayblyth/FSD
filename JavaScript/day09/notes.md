@@ -2,7 +2,8 @@
 FUNCTION EXPRESSIONS
 ============================================================================================================================
 
-Definition: Function stored in a variable. Anonymous, not hoisted.
+Definition: Function stored in a variable. 
+- usually Anonymous, Because the variable name already acts as the function name.
 
 const variableName = function(arg1,arg2){
     // logic
@@ -16,6 +17,31 @@ Important Notes:
 - Stored inside variable
 - Anonymous function
 - Cannot be called before definition
+
+🚀 Why Storing in Variable Is More Powerful
+1️⃣ Can Change at Runtime
+let action = function() { 
+    console.log("Run");
+};
+
+action = function() {
+    console.log("Stop");
+};
+
+action(); // Stop
+
+You cannot reassign a function declaration like this easily.
+
+2️⃣ Can Create Functions Conditionally
+let action;
+
+if (true) {
+    action = function() { console.log("A"); };
+} else {
+    action = function() { console.log("B"); };
+}
+
+You cannot declare two function action() inside blocks safely.
 
 
 ============================================================================================================================
@@ -36,6 +62,7 @@ let greet = function(){
     };
 
 multipleGreet(greet,2);  // hello  hello
+
 
 multipleGreet(function(){
      console.log("namaste");
@@ -104,7 +131,26 @@ Important Points:
 THIS KEYWORD
 ============================================================================================================================
 
-Definition: Refers to the object executing the function
+Definition: - "this" refers to calling object.
+
+Its value depends on how the function is called, not where it is defined.
+
+In an object method, this refers to that object.
+
+In regular functions (non-strict mode), this refers to the global object (window in browser); in strict mode, it is undefined.
+
+Arrow functions inherit this from outer/ surrounding (lexical) scope.
+
+-- this depends on how the function is called (the caller).
+const obj = {
+  name: "Ajay",
+  greet() { console.log(this.name); }
+};
+
+obj.greet();   // "Ajay" → called as object method, so this = obj
+
+👉 If called as obj.greet(), this = obj.
+👉 If called as normal greet(), this = global object (or undefined in strict mode).
 
 const student = {
     name: "nithin",

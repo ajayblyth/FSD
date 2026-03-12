@@ -6,9 +6,6 @@ Definition:
 Object is a collection of key–value pairs.
 Used to store related data and functionality together.
 
-Each key is called a property name,
-and each value can be data or a function.
-
 ============================================================================================================================
 CREATING OBJECT
 ============================================================================================================================
@@ -26,10 +23,7 @@ let ajay = {
     city: "Delhi"
 };
 
-
-============================================================================================================================
-ACCESSING VALUES (2 WAYS)
-============================================================================================================================
+-ACCESSING VALUES (2 WAYS in objects)
 
 1) Dot Notation
 ajay.name;              // "Ajay"
@@ -37,30 +31,67 @@ ajay.name;              // "Ajay"
 2) Bracket Notation
 ajay["name"];           // "Ajay"
 
-Dynamic key example:
-let key = "age";
-ajay[key];              // 25
+When to use Bracket notation
 
-Note:
-- Dot → simple & common
-- Bracket → required for dynamic keys or keys with spaces
+Use it when the key is stored in a variable.
 
+Example
+let ajay = {
+  name: "Ajay",
+  age: 25,
+  city: "Delhi"
+};
 
-If:
+let key = "name";
 
-key = "name";
-ajay[key];        // "Ajay"
+console.log(ajay[key]);   // Ajay
 
+If you write:
+console.log(ajay.key);
 
+Output will be undefined, because it looks for a key literally called "key".
 
-WHY DOT NOTATION DOESN'T WORK for dynamic?
+Another situation (keys with spaces)
 
-ajay.key;   ❌  (Looks for property literally named "key")
+Dot notation cannot work.
 
-Dot notation does NOT read variable value.
-Bracket notation DOES.
+let person = {
+  "full name": "Ajay Sharma"
+};
 
+console.log(person["full name"]); // Ajay Sharma
 
+Dot notation would fail:
+
+person.full name  // ❌ error
+
+✅ Simple rule
+
+object.name → when key is fixed
+
+object[key] → when key comes from variable / dynamic / spaces.
+
+✅ Rule
+obj["name"] → string key
+
+obj[key] → variable containing the key
+
+obj.name → dot notation (direct key)
+==============================================
+Note: ACCESSING ARRAY VALUES
+
+Array values are accessed using INDEX.
+
+Example:
+
+let arr = ["Apple", "Banana", "Mango"];
+
+arr[0]   → Apple
+arr[1]   → Banana
+arr[2]   → Mango
+
+Rule:
+Array indexing starts from 0.
 ====================================================
 ADD / UPDATE / DELETE IN OBJECTS
 ====================================================
@@ -129,7 +160,6 @@ student["marks"]["eng"];        // 85
 student is a variable declared using let, while marks is not a variable — it is a property (key) inside the object.
 Only variables use let/const/var; object properties do not.
 
-
 ============================================================================================================================
 OBJECT METHODS
 ============================================================================================================================
@@ -145,23 +175,120 @@ let person = {
 
 person.greet();
 
+--Benefit of methods:
+-----------------------------------------------------
+Organize related data and behavior together
+Data + function stay inside the same object.example array and ites realted methods stays together in one object.
 
-============================================================================================================================
-THIS KEYWORD
-============================================================================================================================
+Better code structure
+Makes code easier to understand and maintain.
 
-Refers to the object calling the method.
+Reuse functionality
+Same object can call the method whenever needed.
 
-let user = {
-    name: "Rahul",
-    score: 95,
-    getScore(){
-        console.log(this.score);
+Work directly with object data using this
+
+
+================================================================================
+THIS KEYWORD (JavaScript) – INTERVIEW POINTS
+================================================================================
+
+1) Definition
+   "this" refers to the object that is currently executing the function.
+
+2) Purpose
+   Used to access properties and methods of the current object.
+
+3) Inside Object Method
+   "this" refers to the object that owns the method.
+
+   Example:
+   let person = {
+       name: "Ajay",
+       greet: function(){
+           console.log(this.name);
+       }
+   };
+
+   Explanation:
+this.name → accessing object PROPERTY
+
+If it were a method, it would be called like:
+
+this.greet()
+
+4) Global Context
+   In browser, "this" refers to the global object (window).
+
+5) Inside Regular Function
+   "this" depends on how the function is called.
+   Example 1: Function called normally
+
+function show(){
+    console.log(this);
+}
+
+show();
+
+Result:
+In browser → this = window object
+
+
+
+Example 2: Function called as object method
+
+let person = {
+    name: "Ajay",
+    show: function(){
+        console.log(this.name);
     }
 };
 
-user.getScore();     // 95
+person.show();
 
+Result:
+this = person object
+Output → Ajay
+
+6) Arrow Function
+   Arrow functions do NOT have their own "this".
+   They inherit "this" from the surrounding scope (lexical this).
+
+   Example:
+
+let person = {
+    name: "Ajay",
+
+    greet: function () {
+        let show = () => {
+            console.log(this.name);
+        };
+
+        show();
+    }
+};
+
+person.greet();
+
+Output:
+Ajay
+
+Explanation:
+Arrow function "show" does not create its own "this".
+It uses "this" from the surrounding function (greet).
+
+Here:
+this → person object
+
+7) Constructor Function
+   "this" refers to the newly created object.
+
+8) call(), apply(), bind()
+   These methods are used to explicitly set the value of "this".
+
+9) Important Concept
+   Value of "this" is determined at runtime based on the calling object.
+================================================================================
 
 ============================================================================================================================
 LOOPING OBJECT (FOR...IN)
@@ -203,8 +330,6 @@ Destructuring means extracting values
 from an object (or array) and storing them 
 into separate variables in a short, clean way.
 
-
-
 let person = { name:"Ajay", age:25 };
 
 let { name, age } = person;  //✔ Automatically creates variables
@@ -221,15 +346,163 @@ Means:
 let name = person.name;
 let age  = person.age;
 
+WHY NOT JUST USE object.property INSTEAD OF DESTRUCTURING?
+================================================================================
 
-============================================================================================================================
-SPREAD OPERATOR (OBJECT COPY / MERGE)
-============================================================================================================================
+Both are correct. Destructuring is used mainly for convenience and cleaner code.
 
+1) Avoid Repeating Object Name
+
+Without destructuring:
+console.log(person.name);
+console.log(person.age);
+console.log(person.name);
+
+With destructuring:
+let {name, age} = person;
+console.log(name);
+console.log(age);
+console.log(name);
+
+
+
+2) Useful When Using Properties Many Times
+
+Without destructuring:
+let total = person.age + person.age;
+
+With destructuring:
+let {age} = person;
+let total = age + age;
+
+
+
+
+
+================================================================================
+SPREAD OPERATOR (...) – JAVASCRIPT
+================================================================================
+
+DEFINITION
+------------------------------------------------------------------------------
+The spread operator (...) expands elements of an array or properties of an
+object into individual elements.
+
+It is commonly used for copying, merging, and passing values.
+
+Example:
 let obj1 = { a:1, b:2 };
-let obj2 = { ...obj1, c:3 };
+let obj2 = { ...obj1, c:3 }; // shallow copy
 
-console.log(obj2);    // { a:1, b:2, c:3 }
+console.log(obj2);
+
+Output
+{ a:1, b:2, c:3 }
+
+
+
+1) SPREAD IN ARRAYS (COPY / MERGE)
+------------------------------------------------------------------------------
+Used to copy or combine arrays.
+
+Copy Array
+
+let arr1 = [1,2,3];
+let arr2 = [...arr1];
+
+console.log(arr2);
+
+Output
+[1,2,3]
+
+
+Merge Arrays
+
+let a = [1,2];
+let b = [3,4];
+
+let c = [...a, ...b];
+
+console.log(c);
+
+Output
+[1,2,3,4]
+
+
+
+2) SPREAD IN OBJECTS (COPY / MERGE)
+------------------------------------------------------------------------------
+Used to copy or merge objects.
+
+let obj1 = { name:"Ajay" };
+let obj2 = { age:25 };
+
+let obj3 = { ...obj1, ...obj2 };
+
+console.log(obj3);
+
+Output
+{ name:"Ajay", age:25 }
+
+
+
+3) PASS ARRAY VALUES TO FUNCTION
+------------------------------------------------------------------------------
+Spread converts array elements into function arguments.
+
+let nums = [10,20,30];
+
+console.log(Math.max(...nums));
+
+Output
+30
+
+
+
+IMPORTANT POINTS
+------------------------------------------------------------------------------
+• ... expands elements or properties
+• Works with arrays and objects
+• Used for copying and merging data
+• Can convert array elements into function arguments
+================================================================================
+================================================================================
+SHALLOW COPY
+================================================================================
+
+Definition
+------------------------------------------------------------------------------
+A shallow copy creates a new object or array, but copies only the first level
+of properties. Nested objects or arrays are copied by reference, not duplicated.
+
+This means both copies share the same inner objects.
+
+
+
+Example
+
+let obj1 = {
+    name: "Ajay",
+    address: { city: "Delhi" }
+};
+
+let obj2 = { ...obj1 };   // shallow copy
+
+obj2.address.city = "Mumbai";
+
+console.log(obj1.address.city);
+
+Output
+Mumbai
+
+
+
+Conclusion
+------------------------------------------------------------------------------
+Top-level data → copied
+
+Nested objects/arrays → shared reference
+================================================================================
 
 
 ============================================================================================================================
