@@ -3,7 +3,7 @@ FUNCTION EXPRESSIONS
 ============================================================================================================================
 
 Definition: Function stored in a variable. 
-- usually Anonymous, Because the variable name already acts as the function name.
+- they are usually Anonymous, Because the variable name already acts as the function name.
 
 const variableName = function(arg1,arg2){
     // logic

@@ -36,21 +36,17 @@ console.log(arr1);
 // =========================================
 // 2) map()
 // =========================================
-// Definition:
-// Returns a NEW array after transforming each element.
+--Returns a NEW array after transforming each element.
 
-const mapped = nums.map((num) => {
-    num = num + 1;
-    num = num / 2;
-    return num;
-});
+let arr = [1, 2, 3, 4];
 
-console.log(mapped);
-// [1, 1.5, 2, 2.5, 3]
+let squares = arr.map(num => num * num);
 
+console.log(squares);
+
+Output: [1, 4, 9, 16]
 // ✔ Same length as original
 // ✔ Original array unchanged
-
 
 // =========================================
 // 3) filter()
@@ -58,11 +54,11 @@ console.log(mapped);
 // Definition:
 // Returns a NEW array with elements that pass a condition.
 
-const filtered = nums.filter((num) => {
-    return num % 2 === 0;
-});
+let arr = [1, 2, 3, 4];
 
-console.log(filtered);
+let even = arr.filter(num => num % 2 === 0);
+
+console.log(even);
 // [2, 4]
 
 // ✔ May return fewer elements
@@ -74,12 +70,10 @@ console.log(filtered);
 // =========================================
 // Definition:
 // Returns TRUE if at least ONE element passes condition.
+let arr = [1, 2, 3, 4];
+let result = arr.some(num => num > 3);
 
-let hasEven = nums.some((num) => {
-    return num % 2 === 0;
-});
-
-console.log(hasEven);
+console.log(result);
 // true
 
 
@@ -89,11 +83,11 @@ console.log(hasEven);
 // Definition:
 // Returns TRUE only if ALL elements pass condition.
 
-let allPositive = nums.every((num) => {
-    return num >= 0;
-});
+let arr = [1, 2, 3, 4];
 
-console.log(allPositive);
+let result = arr.every(num => num > 0);
+
+console.log(result);
 // true
 
 
@@ -102,13 +96,14 @@ console.log(allPositive);
 // =========================================
 // Definition:
 // Reduces array to a SINGLE value using accumulator.
+--Accumulator = variable that keeps accumulating the result each step.
+--Accumulate means to collect or gather gradually over time.
+let arr = [1, 2, 3, 4];
 
-let sum = nums.reduce((acc, num) => {
-    return acc + num;
-}, 0);
+let sum = arr.reduce((acc, num) => acc + num, 0);
 
 console.log(sum);
-// 15
+// 10
 
 
 // IMPORTANT NOTE:
@@ -120,6 +115,25 @@ let product = nums.reduce((acc, num) => {
 
 console.log(product);
 // 120
+
+let product = nums.reduce((acc, num) => acc*num, 1);
+
+
+Parts explanation
+
+1️⃣ (acc, num)
+
+acc → accumulator (stores running result)
+
+num → current element from array
+
+2️⃣ acc + num
+
+Adds current number to the accumulated result.
+
+3️⃣ 0
+
+Initial value of accumulator (starting point).
 
 
 // =========================================
@@ -159,15 +173,6 @@ let multiplesOfTen = nums.every((num) => {
 console.log(multiplesOfTen);
 
 ==================
-const nums = [10, 20, 5, 40, 50];
-
-const min= nums.reduce((acc, num) => {
-    return num < acc ? num : acc; 
-}, nums[0]); // Initialize the accumulator with the first number
-
-console.log(minNum); // Output: 5
-
-OR
 
 const nums = [10, 20, 5, 40, 50];
 
@@ -476,4 +481,7 @@ Spread  → Expands elements/properties
 Rest    → Collects multiple values into array
 Destructuring → Extracts values into variables
 
-All three use (...) but work differently based on context.
+All three use (...) but work differently based on context.daddd 
+
+
+

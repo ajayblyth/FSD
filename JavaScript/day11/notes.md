@@ -46,10 +46,11 @@ const double = n => n * 2;
 
 
 // ===== Important Points =====
-
+--- it makes short and clean code.
 // 1) Arrow functions are anonymous (no name).
 // 2) They do NOT have their own "this".
-// 3) Mostly used in callbacks and short functions.
+// 3) Mostly used in callbacks and short functions,Works nicely with map(), filter(), reduce() and other array methods.
+----
 
 ==============================
 // ================= setTimeout =================
@@ -108,12 +109,17 @@ console.log("Welcome to OpqTech");
 // 1) setTimeout is asynchronous.
 // 2) It schedules the callback function.
 // 3) JS continues executing next lines immediately.
-// 4) Callback runs when main thread is free.
+// 4) Callback runs when main thread is free, so its not necessary that its function will run after the time given in setTimeout,
+main thread should be free as well.
 
+Common uses:
+--Delay execution of code.
+--Show message/animation after some time.
+--Run a function later without blocking the program.
 =========================
 // ================= setInterval =================
 
-// setInterval runs a function again and again
+// setInterval runs/repeat a function again and again
 // after every given time (in milliseconds)
 
 
@@ -151,100 +157,152 @@ setTimeout(()=>{
 // 3) It returns an ID.
 // 4) Use clearInterval(id) to stop it.
 
-========================================
 
-// ================= this IN REGULAR vs ARROW FUNCTIONS =================
+================================================================================
+THIS IN REGULAR FUNCTIONS vs ARROW FUNCTIONS (JavaScript)
+================================================================================
 
+DEFINITION
+------------------------------------------------------------------------------
+"this" is a keyword that refers to the object that is currently executing
+the function.
+
+The value of "this" is determined at runtime based on how the function
+is called.
+
+EXAMPLE
+------------------------------------------------------------------------------
 const student = {
   name: "aman",
   marks: 95,
 
-  prop: this,  
-  // "this" here refers to global object (window in browser)
-  // because object is created in global scope
+  prop: this,
+  // "this" here refers to the global object (window in browser)
+  // because the object is created in global scope
 
 
-  // ===== Regular Function =====
+  // ---------------- REGULAR FUNCTION ----------------
   getName: function () {
-    console.log(this);  
-    // Regular function gets its own "this" at runtime
-    // "this" depends on how the function is called
-    // student.getName() → this = student
+    console.log(this);
+    // Regular functions get their own "this" at runtime
+    // Value depends on how the function is called
 
     return this.name;
   },
 
 
-  // ===== Arrow Function =====
+  // ---------------- ARROW FUNCTION ----------------
   getMarks: () => {
-    console.log(this);  // this will also point out to point object as its global here
-    // Arrow function does NOT create its own "this"
-    // It inherits "this" from surrounding (global scope here → window)/
+    console.log(this);
+    // Arrow functions DO NOT create their own "this"
+    // They inherit "this" from surrounding scope (global here)
 
-  //depending upon where it is created
-
-
-    return this.marks;  
-    // undefined (because window.marks doesn't exist)
+    return this.marks;
+    // undefined because window.marks does not exist
   },
 
 
-  // ===== Arrow inside setTimeout =====
+  // ---------------- ARROW inside setTimeout ----------------
   getInfo1: function () {
     setTimeout(() => {
-      console.log(this);  
+      console.log(this);
       // Arrow inherits "this" from getInfo1
       // getInfo1 called by student → this = student
     }, 2000);
   },
 
 
-  // ===== Regular function inside setTimeout =====
+  // ---------------- REGULAR FUNCTION inside setTimeout ----------------
   getInfo2: function () {
     setTimeout(function () {
-      console.log(this);  
+      console.log(this);
       // Regular function called by browser
       // this = window (or undefined in strict mode)
     }, 2000);
-  },
+  }
 };
 
 
 
-// ================= WINDOW OBJECT =================
-
-// window is the global object in browsers.
-// All global variables and functions become properties of window.
-// In normal function calls, "this" refers to window (non-strict mode).
-// It represents the browser environment (DOM, timers, alerts, etc.).
-
-
-
-// ================= THEORY SUMMARY =================
-
-// ===== Regular Function =====
-// 1) Gets its own "this" at runtime.
-// 2) "this" depends on how it is called.
-// 3) Called as object method → this = object.
+WINDOW OBJECT
+------------------------------------------------------------------------------
+• window is the global object in browsers
+• Global variables and functions become properties of window
+• In normal function calls (non-strict mode), this → window
+• It represents the browser environment (DOM, timers, alerts, etc.)
 
 
-// ===== Arrow Function =====
-// 1) Does NOT create its own "this".
-// 2) Inherits "this" from outer (lexical) scope.
-// 3) "this" never changes based on how it's called.
+
+REGULAR FUNCTION (function keyword)
+------------------------------------------------------------------------------
+1) Gets its own "this" at runtime
+2) "this" depends on how the function is called
+3) Called as object method → this = object
+4) Called as normal function → this = window (or undefined in strict mode)
 
 
-// ===== Rule of Thumb =====
-// Use arrow function when you want to preserve outer this.
-// Use regular function when this should depend on caller.
 
-const nums = [1, 2, 3, 4, 5];
-let maxNumber = 0; 
+ARROW FUNCTION (=>)
+------------------------------------------------------------------------------
+1) Does NOT create its own "this"
+2) Inherits "this" from outer (lexical) scope
+3) "this" never changes based on how it is called
+
+
+
+EXPLANATION FROM EXAMPLE
+------------------------------------------------------------------------------
+getName
+• Regular function
+• Called as student.getName()
+• this → student object
+
+
+getMarks
+• Arrow function
+• Inherits this from global scope
+• this → window
+
+
+getInfo1
+• Arrow inside setTimeout
+• Inherits this from getInfo1
+• this → student
+
+
+getInfo2
+• Regular function inside setTimeout
+• Called by browser
+• this → window
+
+
+
+RULE OF THUMB
+------------------------------------------------------------------------------
+Use arrow functions → when you want to preserve outer "this"
+
+Use regular functions → when "this" should depend on the caller
+
+
+
+EXAMPLE (Arrow Function in Real Usage)
+------------------------------------------------------------------------------
+const nums = [1,2,3,4,5];
+let maxNumber = 0;
 
 nums.forEach((num) => {
-    if (num > maxNumber) {
-        maxNumber = num; 
+    if(num > maxNumber){
+        maxNumber = num;
     }
 });
 
-console.log(maxNumber); 
+console.log(maxNumber);
+
+Output
+5
+
+Explanation
+• forEach uses an arrow function
+• Arrow keeps surrounding scope variables accessible
+• Used commonly in array methods
+================================================================================
