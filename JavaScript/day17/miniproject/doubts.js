@@ -14,8 +14,6 @@ let btns = ["yellow", "red", "purple", "green"];
 // Selecting the <h2> element where level / game messages will be displayed, keeping it global
 let h2 = document.querySelector("h2");
 
-
-
 // start game: Listen for any keypress on the document
 document.addEventListener("keypress", function() {
 
@@ -50,13 +48,18 @@ function levelUp() {
 
   
     // Select the button element of that color
-    let randBtn = document.querySelector(`.${randColor}`);
+    let randBtn = document.querySelector(`.${randColor}`); //randcolor = red/ green/yellow/purple
 
     // Add that color to game sequence
     gameSeq.push(randColor);
 
     // Flash the randomly selected button
     btnFlash(randBtn);
+//      randBtn becomes something like:
+// <div class="btn red" id="red">0</div>
+// Meaning:
+// randColor → "red" (string)
+// randBtn → actual DOM element
 }
 
 function btnFlash(btn) {
@@ -96,7 +99,8 @@ for(btn of allbtns) {
 function btnPress(){
 
     userFlash(this);
-
+// When an event listener is attached to an element, JavaScript automatically
+// sets "this" inside the handler to the element that triggered the event.
     // Get color of clicked button from its id
     userColor = this.getAttribute("id");
 
@@ -105,17 +109,6 @@ function btnPress(){
 
     checAns();
 
-}
-
-function resetGame() {
-
-    started = false;
-
-    gameSeq = [];
-
-    userSeq = [];
-
-    level = 0; 
 }
 
 
@@ -151,5 +144,17 @@ function checAns() {
         resetGame();
     }
 }
+
+function resetGame() {
+
+    started = false;
+
+    gameSeq = [];
+
+    userSeq = [];
+
+    level = 0; 
+}
+
 
 
