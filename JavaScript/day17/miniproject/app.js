@@ -6,20 +6,13 @@ let btns = ["yellow", "red", "purple", "green"];
 
 let h2 = document.querySelector("h2");
 
-document.addEventListener("keypress", function(event) {
+document.addEventListener("keypress", function() {
     if(started === false) {
-        console.log("Game started");
         started = true;
         levelUp();
     }
 })
 
-function btnFlash(btn) {
-    btn.classList.add("flash");
-    setTimeout(function() {
-        btn.classList.remove("flash");
-    }, 300);
-}
 function levelUp() {
     userSeq = [];
     console.log("Level up");
@@ -32,6 +25,15 @@ function levelUp() {
     gameSeq.push(randColor);
     btnFlash(randBtn);
 }
+
+
+function btnFlash(btn) {
+    btn.classList.add("flash");
+    setTimeout(function() {
+        btn.classList.remove("flash");
+    }, 500);
+}
+
 function userFlash(btn) {
   btn.classList.add("userflash");
   setTimeout(function () {
