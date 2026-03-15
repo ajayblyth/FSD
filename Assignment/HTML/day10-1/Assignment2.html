@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task_2</title>
+</head>
+
+<body>
+
+    <section>
+    <h2>Countdown Video</h2><hr>
+
+    <video src="./videoplayback.mp4" controls loop muted autoplay   poster="./poster.png"     width="400" height="300" type="video/mp4"
+    >
+        Your browser does not support the HTML5 video tag.
+
+</video>
+ 
+
+
+    </section><br><br>
+
+<section>
+    <p>  Today is the 9<sup>th</sup> of October and 2<sup>4</sup> = 16 always
+</p>
+
+</section><br><br>
+
+<section >
+    <h1><b>Academic achievements</b></h1><hr>
+     <ul>
+        <li>Won 3rd  place in Inter-School Math Competition</li>
+        <li>Represented school in National Football Championship</li>
+        <li>Received certificate for Science Project Exhibition</li>
+    </ul>
+</section><br><br><br>
+
+<footer>
+
+ <img src="trademark.png" alt="trademark" width="25px" height="25px">
+
+    <img src="copyright.jpg" alt="copyright" width="30px" height="30px">
+
+
+</footer>
+
+
+</body>
+</html>
+
+
+
+<!-- 
+HTML (Level 2)
+Practice Questions
+Qs1. Self-learning
+Search on the internet & learn to use the video tag in HTML. (Similar to the img tag)
+Qs2. Is video tag a semantic tag?
+Qs3. Print the following using HTML tags:
+Today is the 9th of October and 2^4 = 16 always
+Qs4. Add a new section to your portfolio page for your achievements. Mention anything
+you have achieved, competitions won, participations etc. in this section.
+It could be related to coding, tech, art, music, sports, debating etc.
+Use the following tags in some manner to achieve this:
+<section>, <ul>, <b>, <hr> etc.
+Qs5. Print the symbols for copyright & trademark on your webpage. -->
+
+
+
+---------------------------------------------------
+HTML <video> TAG - QUICK NOTES
+---------------------------------------------------
+Purpose- Used to embed videos in a web page.
+
+
+1) BASIC SYNTAX
+------------------------------------------------------------
+
+<!-- Local video -->
+<video src="video.mp4" controls></video>
+
+<!-- Online direct video URL -->
+<video src="https://example.com/video.mp4" controls></video>
+
+
+
+2) FULL FEATURE EXAMPLE (PROFESSIONAL FORMAT)
+------------------------------------------------------------
+
+<video width="400" height="315" controls autoplay muted loop poster="thumbnail.jpg" preload="metadata">
+    <source src="video.mp4" type="video/mp4">
+    <source src="video.webm" type="video/webm">
+    Your browser does not support the video tag.
+</video>
+
+
+
+3) ATTRIBUTE EXPLANATION (ONE LINE EACH)
+------------------------------------------------------------
+
+src            → Video file path (local or direct URL)
+controls       → Shows play/pause/volume/fullscreen controls
+autoplay       → Starts video automatically on page load
+muted          → Starts video without sound (needed for autoplay)
+loop           → Repeats video continuously
+width/height   → Sets video size (better via CSS)
+poster         → Image shown before video starts
+preload        → Controls loading behavior (auto | metadata | none)
+<source>       → Provides multiple video formats
+type           → Specifies video format (video/mp4, video/webm)
+Fallback text  → Displays if browser doesn't support video
+class/id       → Used for CSS or JavaScript styling
+
+Note:WHAT WILL HAPPEN without giving video type?
+------------------------------------------------------------
+
+✔ In most modern browsers → Video will STILL work.
+✔ Browser will try to detect format from file extension (.mp4, .webm).
+✖ But detection becomes slower and less efficient.
+
+
+
+4) YOUTUBE / STREAMING VIDEOS
+------------------------------------------------------------
+
+<!-- Cannot use <video> for YouTube directly -->
+<!-- Use <iframe> instead -->
+
+<iframe width="560" height="315"
+    src="https://www.youtube.com/embed/VIDEO_ID"
+    title="YouTube Video"
+    frameborder="0"
+    allowfullscreen>
+</iframe>
+
+NOTE:
+• URL must be direct video file for <video>
+• YouTube/Vimeo require <iframe>
+
+
+
+5) SUPPORTED VIDEO TYPES
+------------------------------------------------------------
+
+mp4   → Widely supported (recommended)
+webm  → Modern browsers
+ogg   → Open-source format
+
+
+
+6) QUICK BEST PRACTICES
+------------------------------------------------------------
+
+• Always use controls
+• Combine autoplay + muted for auto-play
+• Use multiple <source> formats
+• Include fallback text
+• Use poster for better UX
+• Prefer CSS for responsive sizing
+• Use width="100%" for full-width videos
+• Optimize video size for faster loading

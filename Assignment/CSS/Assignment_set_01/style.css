@@ -1,0 +1,44 @@
+/* Qs1, Qs3, Qs5 */
+body {
+    background-color: wheat;
+    font-family: Georgia;
+    text-align: center;
+}
+
+/* Qs2 */
+p {
+    color: #A52A2A;
+    line-height: 30px;
+}
+
+/* Qs4 */
+p {
+    color: red;
+}
+
+/* Qs4 */
+h3 {
+    color: black;
+}
+
+/* Qs6 */
+a {
+    color: rgb(0, 128, 0);
+    text-decoration: none;
+}
+
+/* Qs7 */
+button {
+    background-color: white;
+    color: blueviolet;
+}
+
+/* Qs8 */
+textarea {
+    color: #000000;
+}
+
+/* Qs10 */
+span {
+    text-decoration: underline;
+}

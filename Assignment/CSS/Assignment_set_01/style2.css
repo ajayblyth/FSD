@@ -1,0 +1,37 @@
+* {
+    text-align: center;
+}
+
+#topic {
+    color: blue;
+}
+
+h1, h3, h5 {
+    font-family: Georgia;
+}
+
+body p {
+    color: white;
+    background-color: cornflowerblue;
+}
+
+div button {
+    background-color: purple;
+    color: azure;
+}
+
+button:hover {
+    background-color: yellow;
+}
+
+p:nth-child(odd) {
+    color: yellow;
+}
+
+h1::first-letter {
+    color: red;
+}
+
+input:checked + label {
+    color: darkgreen;
+}
