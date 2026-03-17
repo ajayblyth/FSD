@@ -1,9 +1,21 @@
 ==================== DOM (Document Object Model) ====================
 
 -------------------- 1) DEFINITION --------------------
-The DOM represents an HTML document as a logical tree structure.
+The DOM represents an HTML document as a logical tree structure.(This structure exists in memory and not physical → so it's logical)
 It converts HTML elements into objects that JavaScript can access and modify.
 We make dynamic changes in HTML using DOM.
+
+👉 Dynamic change = changing the webpage AFTER it has loaded (using JavaScript)
+
+Example:
+document.getElementById("title").innerText = "Hello Ajay";
+
+✔ Text changed without reloading page
+✔ This is called dynamic
+
+🧠 Simple meaning:
+
+👉 Dynamic = runtime change (not fixed/static HTML)
 
 -------------------- 2) PURPOSE --------------------
 • Access HTML elements
@@ -28,11 +40,14 @@ document
                 └── li
 
 • document → top level object
+• html → child of document
 • body → child of html
 • div, ul → children of body
 • h1 → child of div
 • li → children of ul
 This is called a hierarchical structure.
+
+"In DOM, document is the top-level object and html is its root element (documentElement), followed by body and other elements in a hierarchical structure."
 
 ==================== 4) HTML EXAMPLE ====================
 <body>
@@ -153,6 +168,8 @@ element.style.backgroundColor = "yellow"
 element.classList.add("active")
 element.classList.remove("active")
 element.classList.toggle("active")
+👉 toggle() adds the class if it is not present
+👉 removes the class if it is already present
 
 ---------- Setting Attributes ----------
 element.setAttribute("src", "image.jpg")
@@ -160,9 +177,9 @@ element.setAttribute("href", "https://example.com")
 
 ---------- Adding / Removing Elements ----------
 parent.appendChild(newElement)
-parent.insertBefore(newElement, referenceElement)
 parent.removeChild(childElement)
 parent.replaceChild(newElement, oldElement)
+parent.insertBefore(newElement, referenceElement)
 
 Example:
 <!DOCTYPE html>

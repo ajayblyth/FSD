@@ -248,9 +248,6 @@ console.log(merged);
 
 //3.a)(...) to copy and extend an object.
 
-
-Extracted Text
-JavaScript
 let data = {
     email: "ironman@gmail.com",
     password: "abcd",
