@@ -38,8 +38,3 @@ Examples: <span>, <a>, <img>, <strong>, <b>
 | <sup> | superscript (above text),     | a<sup>2</sup> + b<sup>2</sup>     |
 |       | used in math                  | → a² + b²                        |
 +-------+-------------------------------+----------------------------------+
-
-
-
-
-

@@ -39,7 +39,7 @@ This Full Stack Development course is designed to take you from basics to job-re
 
 ## What is the Internet?
 
-The **internet** is a huge global network that connects millions of devices such as computers, mobiles, and servers across the world. These devices communicate with each other to send and receive data.
+The **internet** is a huge global NETWORK that connects millions of devices such as computers, mobiles, and servers across the world. These devices communicate with each other to send and receive data.
 
 Data travels through physical mediums like **optical fiber cables**, undersea cables, and sometimes wireless networks.
 
@@ -119,21 +119,6 @@ It includes:
 
 ---
 
-## How a Web Page is Displayed
-
-The process of loading a web page:
-
-1. User types a **URL** in the browser
-2. Browser sends a **request** to the server
-3. Server responds with files:
-
-   * **HTML** – structure
-   * **CSS** – styling
-   * **JavaScript** – behavior
-4. Browser interprets these files
-5. Final web page is displayed to the user
-
----
 
 ## Browser
 
@@ -151,6 +136,24 @@ Examples:
 * Google Chrome
 * Microsoft Edge
 * Mozilla Firefox
+
+---
+
+## How a Web Page is Displayed
+
+The process of loading a web page:
+
+1. User types a **URL** in the browser
+2. Browser sends a **request** to the server
+3. Server responds with files:
+
+   * **HTML** – structure
+   * **CSS** – styling
+   * **JavaScript** – behavior
+4. Browser interprets these files
+5. Final web page is displayed to the user
+
+
 
 ---
 

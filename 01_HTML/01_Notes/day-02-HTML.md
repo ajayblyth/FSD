@@ -3,13 +3,13 @@
 DAY 1–2 : HTML (HYPERTEXT MARKUP LANGUAGE)
 ================================================================================
 
-A web page is a single document written in HTML that is displayed in a web browser and can contain text, images, links, 
-and other media.
-
 HTML INTRODUCTION
 --------------------------------------------------------------------------------
-HTML (HyperText Markup Language) is the standard markup language used to create and structure web pages.
-HTML defines the STRUCTURE and CONTENT of a web page.
+“HTML (HyperText Markup Language) is the standard markup language used to create and structure web pages and their content.”
+
+-- Web Page
+ "A web page is a single document written in HTML that is displayed in a web browser and can contain text, images, links, 
+and other media."
 
 WHAT HTML DOES
 --------------------------------------------------------------------------------
@@ -17,13 +17,11 @@ WHAT HTML DOES
 • Buttons, forms, lists                              • Acts as the skeleton (building blocks) of a web page
 --------------------------------------------------------------------------------
 
-
 WHAT IS MARKUP?
 --------------------------------------------------------------------------------
 A markup language uses TAGS to define structure, add meaning to text, and control how content is displayed.
 HTML is called a markup language because it "marks up" content using tags.
 --------------------------------------------------------------------------------
-
 
 HTML ELEMENT
 --------------------------------------------------------------------------------
@@ -35,14 +33,16 @@ Example:   <p>Hello</p>
 IMPORTANT HTML ELEMENTS (ONE-LINE EXPLANATION)
 --------------------------------------------------------------------------------
 <html>     → Root element that tells browser this is an HTML document
+
 <head>     → Stores metadata and configuration (not visible on page)
-<body>     → Contains all visible content shown to the user
 <title>    → Sets the browser tab name
 <meta>     → Provides metadata (charset, viewport, SEO info)
-link>      → Links external resources like CSS or favicon
+<link>     → Links external resources like CSS or favicon
 <style>    → Writes internal CSS inside HTML
 <script>   → Adds JavaScript functionality
---------------------------------------------------------------------------------
+
+<body>     → Contains all visible content shown to the user
+
 <header>   → Intro or top section of a page or section
 <nav>      → Contains navigation links
 <main>     → Holds the primary, unique content of the page (only one)
@@ -73,14 +73,12 @@ Purpose:
 <span>     → Non-semantic inline container (no meaning)
 <br>       → Line break
 <hr>       → Horizontal line separator
---------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-
-
 HTML TAG
 --------------------------------------------------------------------------------
-HTML tags are keywords written inside angle brackets < >. They tell the browser how to handle or display content.
+HTML tags are keywords written inside angle brackets < >. 
+They tell the browser how to handle or display content.
 
 Examples:   <p>   </p>     <img>     <input>
 --------------------------------------------------------------------------------
@@ -94,9 +92,7 @@ Meaning       | Keyword only                   | Tag + content
 Includes text | ❌ No                          | ✅ Yes
 Structure     | Marks boundaries               | Represents content
 Example       | <p> </p>                      | <p>Hello</p>
-Self-closing  | <img>                          | <img src="a.jpg">
 --------------------------------------------------------------------------------
-
 
 TYPES OF HTML TAGS
 --------------------------------------------------------------------------------
@@ -121,6 +117,9 @@ Every HTML page follows this basic structure:
 
 <!DOCTYPE html>
 <!-- Declares HTML5 document (ALWAYS first line) -->
+
+NOTE: <!DOCTYPE html> = “Use modern rules”
+No DOCTYPE = “Use old buggy rules”
 
 <html lang="en">
 <!-- Root element + page language (English) -->
@@ -217,6 +216,27 @@ Every HTML page follows this basic structure:
 </body>
 </html>
 
+----------------------------
+---------------------------------------------------------------
+Feature            | <section>                  | <article>
+---------------------------------------------------------------
+Purpose            | Groups related content     | Independent content
+Independence       | Not standalone             | Standalone
+Meaning            | Part of a page             | Complete piece
+Reusability        | Usually not reusable       | Reusable/shareable
+Content type       | Topics, categories         | Blog, news, posts
+Requires heading   | Usually yes                | Usually yes
+SEO importance     | Medium                     | High
+---------------------------------------------------------------
+<section>
+  <h2>Sports News</h2>
+  <p>Latest updates about sports...</p>
+</section>
+
+<article>
+  <h2>India wins match</h2>
+  <p>Full news article here...</p>
+</article>
 
 
 METADATA (WHAT DOES IT MEAN?)
