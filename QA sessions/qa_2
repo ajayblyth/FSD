@@ -1,0 +1,119 @@
+show databases;
+use practice_db;
+
+CREATE TABLE tech_inventory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    item_name VARCHAR(100) NOT NULL,
+    category VARCHAR(50),
+    brand VARCHAR(50),
+    price DECIMAL(10, 2),
+    stock INT,
+    supplier_email VARCHAR(100),
+    promo_code VARCHAR(15), -- For practicing IS NULL
+    rating DECIMAL(2, 1)    -- For practicing > and < comparisons (e.g., 4.5)
+);
+
+INSERT INTO tech_inventory 
+(item_name, category, brand, price, stock, supplier_email, promo_code, rating)
+VALUES 
+('Galaxy Tab S9', 'Tablets', 'Samsung', 799.99, 25, 'sales@samsung.com', 'TECH20', 4.8),
+('Galaxy Book3', 'Laptops', 'Samsung', 1299.00, 10, 'support@samsung.com', NULL, 4.2),
+('iPad Air', 'Tablets', 'Apple', 599.00, 0, 'orders@apple.com', 'APPLE5', 4.9),
+('MacBook Air M2', 'Laptops', 'Apple', 1099.00, 15, 'shipping@apple.com', NULL, 4.7),
+('Pixel 8 Pro', 'Mobile', 'Google', 999.00, 40, 'direct@google.com', 'PIXEL10', 4.5),
+('Pixel Buds Pro', 'Audio', 'Google', 199.99, 100, 'nexus@gmail.com', NULL, 4.3),
+('Surface Laptop 5', 'Laptops', 'Microsoft', 999.99, 8, 'store@outlook.com', 'OFFICE', 4.0),
+('XPS 13 Laptop', 'Laptops', 'Dell', 1150.00, 5, 'contact@dell.com', NULL, 4.6),
+('Insignia Mouse', 'Accessories', 'BestBuy', 15.50, 250, 'bulk@gmail.com', 'CHEAP', 3.5),
+('Basic HDMI Cable', 'Accessories', 'Generic', 9.99, 500, 'info@generic.com', NULL, 2.8);
+
+SQL Study Notes – Darshan
+
+1. String Functions
+
+Convert to uppercase:
+SELECT UPPER(item_name) FROM tech_inventory;
+Get length of string:
+SELECT LENGTH(item_name) FROM tech_inventory;
+Concatenate strings:
+SELECT CONCAT(item_name, ' ', brand) AS full_name FROM tech_inventory;
+Extract first 5 characters:
+SELECT LEFT(item_name, 5) FROM tech_inventory;
+Find position of 'Air':
+SELECT INSTR(item_name, 'Air') FROM tech_inventory;
+
+2. Arithmetic Operators / Price Updates
+
+Increase price by 10%:
+SELECT item_name, price * 1.10 AS new_price FROM tech_inventory;
+Calculate total stock value:
+SELECT SUM(price * stock) AS total_stock_value FROM tech_inventory;
+Update stock for Apple products by 10:
+UPDATE tech_inventory SET stock = stock + 10 WHERE brand='Apple';
+
+3. Handling NULLs
+
+Update promo_code if NULL:
+UPDATE tech_inventory SET promo_code='SALE10' WHERE promo_code IS NULL;
+
+4. CRUD Operations
+
+Create table:
+CREATE TABLE tech_inventory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    item_name VARCHAR(100) NOT NULL,
+    category VARCHAR(50),
+    brand VARCHAR(50),
+    price DECIMAL(10,2),
+    stock INT,
+    supplier_email VARCHAR(100),
+    promo_code VARCHAR(15),
+    rating DECIMAL(2,1)
+);
+Read: SELECT * FROM tech_inventory;
+Update: UPDATE tech_inventory SET stock = stock + 10 WHERE brand='Apple';
+Delete cheap products (<10):
+DELETE FROM tech_inventory WHERE price < 10;
+
+5. Aggregate Functions / GROUP BY / HAVING
+
+Count products per brand:
+SELECT brand, COUNT(*) FROM tech_inventory GROUP BY brand;
+Average price per category:
+SELECT category, AVG(price) FROM tech_inventory GROUP BY category;
+Total stock per brand (having > 100):
+SELECT brand, SUM(stock) AS total_stock
+FROM tech_inventory
+GROUP BY brand
+HAVING total_stock > 100;
+
+6. Date / DATETIME / TIMESTAMP
+
+Current date: SELECT CURDATE();
+Current timestamp: SELECT NOW();
+Add 7 days: SELECT DATE_ADD(NOW(), INTERVAL 7 DAY);
+Difference in days: SELECT DATEDIFF('2026-04-10', NOW());
+
+7. Foreign Key / Relationships
+
+Create table with foreign key:
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT,
+    quantity INT,
+    order_date DATE,
+    FOREIGN KEY (product_id) REFERENCES tech_inventory(id)
+);
+Cascade delete example: ON DELETE CASCADE
+
+Tips
+
+Practice string functions, arithmetic updates, aggregate functions.
+Always check NULL handling.
+Learn foreign key constraints and date functions.
+
+tomorrow topics:
+-- String Functions
+-- Arth operators, Modifying tables, CRUD
+-- Aggregate Functions, GROUP BY, HAVING, DATE, DATETIME, TIMESTAMP
+-- Foreign Key, Relationships,
