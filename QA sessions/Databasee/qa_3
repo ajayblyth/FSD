@@ -1,0 +1,57 @@
+
+Darshan
+6:36 AM
+Add new column discount
+
+Darshan
+6:39 AM
+Modify column datatype - price col to decimal
+
+Darshan
+6:42 AM
+Count products per category
+
+Darshan
+6:45 AM
+Total stock per brand
+
+Darshan
+6:48 AM
+Categories with avg price > 500
+
+Darshan
+6:51 AM
+created_at
+6:53 AM
+ALTER TABLE tech_inventory
+ADD created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+Darshan
+6:54 AM
+Find products added today
+
+Darshan
+7:00 AM
+Create supplier table, id, email
+
+Darshan
+7:04 AM
+Add foreign key column supplier_id
+Add foreign key constraint
+
+Darshan
+7:18 AM
+ALTER TABLE tech_inventory ADD supplier_id INT;
+
+ALTER TABLE tech_inventory
+ADD CONSTRAINT fk_supplier
+FOREIGN KEY (supplier_id)
+REFERENCES suppliers(id);
+Insert supplier and link
+
+tomorrow topics:
+-- String Functions
+-- Arth operators, Modifying tables, CRUD
+-- Aggregate Functions, GROUP BY, HAVING, DATE, DATETIME, TIMESTAMP
+-- Foreign Key, Relationships,JOINS
+

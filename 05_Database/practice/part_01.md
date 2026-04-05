@@ -57,6 +57,7 @@ UNIQUE → no duplicate emails
 CHECK → validates data (price > 0 etc.)
 DEFAULT → auto values (quantity, timestamp)
 GENERATED COLUMN → auto full name
+
 🔹 BASIC
 
 1. Uppercase

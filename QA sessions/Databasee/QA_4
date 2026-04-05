@@ -1,0 +1,140 @@
+==============================================================================
+SQL INTERVIEW Q&A – tech_inventory TABLE
+==============================================================================
+
+1. Find the 2nd highest priced product (without LIMIT)
+------------------------------------------------------------------------------
+SELECT *
+FROM tech_inventory
+WHERE price = (
+    SELECT MAX(price)
+    FROM tech_inventory
+    WHERE price < (SELECT MAX(price) FROM tech_inventory)
+);
+
+------------------------------------------------------------------------------
+
+2. Find brands whose average rating is higher than overall average
+------------------------------------------------------------------------------
+SELECT brand, AVG(rating) AS avg_rating
+FROM tech_inventory
+GROUP BY brand
+HAVING AVG(rating) > (
+    SELECT AVG(rating) FROM tech_inventory
+);
+
+------------------------------------------------------------------------------
+
+3. Joins define
+------------------------------------------------------------------------------
+-- JOIN combines rows from two tables based on related column
+-- Types:
+-- INNER JOIN → only matching rows
+-- LEFT JOIN → all left + matching right
+-- RIGHT JOIN → all right + matching left
+-- CROSS JOIN → Cartesian product
+-- SELF JOIN → table joins with itself
+
+Example:
+SELECT t.item_name, s.email
+FROM tech_inventory t
+JOIN suppliers s
+ON t.supplier_id = s.id;
+
+------------------------------------------------------------------------------
+
+4. Find most expensive product in each category
+------------------------------------------------------------------------------
+SELECT *
+FROM tech_inventory t1
+WHERE price = (
+    SELECT MAX(t2.price)
+    FROM tech_inventory t2
+    WHERE t2.category = t1.category
+);
+
+------------------------------------------------------------------------------
+
+5. Approach (for finding most expensive product per category)
+------------------------------------------------------------------------------
+1. Conceptually group by category
+2. Find MAX(price) per category
+3. Compare each row’s price with category MAX using correlated subquery
+4. Fetch rows where price = category MAX
+
+------------------------------------------------------------------------------
+
+6. Using GROUP BY MAX(price) – how to get actual product details
+------------------------------------------------------------------------------
+-- GROUP BY + MAX(price) alone returns only category + max price
+-- To get full row, use subquery or JOIN:
+
+SELECT t.*
+FROM tech_inventory t
+JOIN (
+    SELECT category, MAX(price) AS max_price
+    FROM tech_inventory
+    GROUP BY category
+) m
+ON t.category = m.category AND t.price = m.max_price;
+
+------------------------------------------------------------------------------
+
+7. Find products contributing top 50% of total inventory value (can use subquery)
+------------------------------------------------------------------------------
+SELECT *
+FROM tech_inventory
+WHERE (price * stock) >= (
+    SELECT SUM(price * stock) * 0.5
+    FROM tech_inventory
+);
+
+-- Note: For true cumulative top 50%, use window functions (MySQL 8+)
+
+------------------------------------------------------------------------------
+
+8. Find products with highest rating in entire table
+------------------------------------------------------------------------------
+SELECT *
+FROM tech_inventory
+WHERE rating = (
+    SELECT MAX(rating)
+    FROM tech_inventory
+);
+
+------------------------------------------------------------------------------
+
+9. Can’t we use without subquery (for highest rating)
+------------------------------------------------------------------------------
+SELECT *
+FROM tech_inventory
+ORDER BY rating DESC
+LIMIT 1;
+
+-- ORDER BY + LIMIT gives highest-rated product
+-- Subquery approach needed if multiple products have same highest rating
+
+------------------------------------------------------------------------------
+
+10. Find categories where total stock is less than average stock of all categories
+------------------------------------------------------------------------------
+SELECT category, SUM(stock) AS total_stock
+FROM tech_inventory
+GROUP BY category
+HAVING SUM(stock) < (
+    SELECT AVG(total_stock)
+    FROM (
+        SELECT SUM(stock) AS total_stock
+        FROM tech_inventory
+        GROUP BY category
+    ) AS sub
+);
+
+-- Approach:
+-- 1. Aggregate stock per category
+-- 2. Compute average total stock across categories
+-- 3. Use HAVING to filter categories below average
+
+==============================================================================
+
+Joins, Views, Truncate, , CASE, =========== Window Functions,CTE
