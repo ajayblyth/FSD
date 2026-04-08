@@ -1,0 +1,138 @@
+===============================================================================
+DATABASE: practice_db
+TABLE: customers
+
+customer_id name email city signup_date
+
+1 Rahul Sharma rahul@gmail.com
+ Bangalore 2023-01-10
+2 Priya Verma priya@gmail.com
+ Delhi 2023-02-15
+3 Amit Patel amit@gmail.com
+ Mumbai 2023-03-20
+4 Sneha Reddy sneha@gmail.com
+ Hyderabad 2023-04-05
+5 Vikram Singh vikram@gmail.com
+ Chennai 2023-05-18
+6 Anjali Mehta anjali@gmail.com
+ Pune 2023-06-22
+
+CREATE TABLE customers (
+customer_id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(100) NOT NULL,
+email VARCHAR(100) UNIQUE,
+city VARCHAR(50),
+signup_date DATE
+);
+
+INSERT INTO customers (name, email, city, signup_date) VALUES
+('Rahul Sharma', 'rahul@gmail.com
+', 'Bangalore', '2023-01-10'),
+('Priya Verma', 'priya@gmail.com
+', 'Delhi', '2023-02-15'),
+('Amit Patel', 'amit@gmail.com
+', 'Mumbai', '2023-03-20'),
+('Sneha Reddy', 'sneha@gmail.com
+', 'Hyderabad', '2023-04-05'),
+('Vikram Singh', 'vikram@gmail.com
+', 'Chennai', '2023-05-18'),
+('Anjali Mehta', 'anjali@gmail.com
+', 'Pune', '2023-06-22');
+
+TABLE: orders
+
+order_id customer_id product_name amount order_date
+
+1 1 iPhone 14 79999 2023-07-01 10:30
+2 1 AirPods Pro 24999 2023-07-05 12:00
+3 2 Samsung TV 55999 2023-07-03 14:20
+4 3 MacBook Air 99999 2023-07-10 09:00
+5 4 Gaming Mouse 1999 2023-07-11 18:45
+6 4 Mechanical Keyboard 4999 2023-07-12 20:10
+7 5 Smart Watch 14999 2023-07-15 16:30
+8 2 Bluetooth Speaker 2999 2023-07-18 11:15
+
+CREATE TABLE orders (
+order_id INT AUTO_INCREMENT PRIMARY KEY,
+customer_id INT,
+product_name VARCHAR(100),
+amount DECIMAL(10,2),
+order_date DATETIME,
+CONSTRAINT fk_customer
+FOREIGN KEY (customer_id)
+REFERENCES customers(customer_id)
+);
+
+INSERT INTO orders (customer_id, product_name, amount, order_date) VALUES
+(1, 'iPhone 14', 79999, '2023-07-01 10:30:00'),
+(1, 'AirPods Pro', 24999, '2023-07-05 12:00:00'),
+(2, 'Samsung TV', 55999, '2023-07-03 14:20:00'),
+(3, 'MacBook Air', 99999, '2023-07-10 09:00:00'),
+(4, 'Gaming Mouse', 1999, '2023-07-11 18:45:00'),
+(4, 'Mechanical Keyboard', 4999, '2023-07-12 20:10:00'),
+(5, 'Smart Watch', 14999, '2023-07-15 16:30:00'),
+(2, 'Bluetooth Speaker', 2999, '2023-07-18 11:15:00');
+
+===============================================================================
+SQL QUERIES & EXPLANATIONS
+
+-- Q1: Get all orders with customer names
+SELECT c.name, o.product_name, o.amount, o.order_date
+FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id;
+
+-- Explanation:
+-- INNER JOIN returns only customers who have orders.
+
+-- Q2: Get all customers and their orders (including customers with no orders)
+SELECT c.name, o.product_name, o.amount
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id;
+
+-- Explanation:
+-- LEFT JOIN keeps all customers.
+-- Customers with no orders show NULL for order columns.
+
+-- Q3: Show order amount category using CASE
+SELECT product_name,
+amount,
+CASE
+WHEN amount >= 20000 THEN 'High'
+ELSE 'Low'
+END AS amount_category
+FROM orders;
+
+-- Explanation:
+-- CASE classifies orders as High or Low based on amount.
+
+-- Q4: Count orders per customer
+SELECT c.name, COUNT(o.order_id) AS total_orders
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.name;
+
+-- Explanation:
+-- Counts how many orders each customer made.
+-- Includes customers with 0 orders.
+
+-- Q5: Self-Join Example in inventory table
+SELECT a.item_name, b.item_name
+FROM tech_inventory a
+JOIN tech_inventory b
+ON a.brand = b.brand;
+
+-- Explanation:
+-- Self-join compares rows within the same table.
+-- Returns all items from the same brand paired together.
+
+-- Alternative: Cartesian product
+SELECT * FROM tech_inventory a, tech_inventory b;
+
+-- Explanation:
+-- Returns all possible combinations of rows from a and b.
+
+===============================================================================
+

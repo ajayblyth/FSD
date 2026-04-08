@@ -1,0 +1,160 @@
+==================== MYSQL PRACTICE QUERIES ====================
+
+-- USE DATABASE
+USE practice_db;
+
+
+==================== TABLES ====================
+
+-- Customers Table
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    city VARCHAR(50),
+    signup_date DATE
+);
+
+-- Orders Table
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    product_name VARCHAR(100),
+    amount DECIMAL(10,2),
+    order_date DATETIME,
+    CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+
+==================== INSERT DATA ====================
+
+-- Customers
+INSERT INTO customers (name, email, city, signup_date) VALUES
+('Rahul Sharma', 'rahul@gmail.com', 'Bangalore', '2023-01-10'),
+('Priya Verma', 'priya@gmail.com', 'Delhi', '2023-02-15'),
+('Amit Patel', 'amit@gmail.com', 'Mumbai', '2023-03-20'),
+('Sneha Reddy', 'sneha@gmail.com', 'Hyderabad', '2023-04-05'),
+('Vikram Singh', 'vikram@gmail.com', 'Chennai', '2023-05-18'),
+('Anjali Mehta', 'anjali@gmail.com', 'Pune', '2023-06-22');
+
+-- Orders
+INSERT INTO orders (customer_id, product_name, amount, order_date) VALUES
+(1, 'iPhone 14', 79999, '2023-07-01 10:30:00'),
+(1, 'AirPods Pro', 24999, '2023-07-05 12:00:00'),
+(2, 'Samsung TV', 55999, '2023-07-03 14:20:00'),
+(3, 'MacBook Air', 99999, '2023-07-10 09:00:00'),
+(4, 'Gaming Mouse', 1999, '2023-07-11 18:45:00'),
+(4, 'Mechanical Keyboard', 4999, '2023-07-12 20:10:00'),
+(5, 'Smart Watch', 14999, '2023-07-15 16:30:00'),
+(2, 'Bluetooth Speaker', 2999, '2023-07-18 11:15:00');
+
+
+==================== BASIC SELECT ====================
+
+-- All orders
+SELECT * FROM orders;
+
+-- Join customers with orders
+SELECT c.name, o.product_name
+FROM customers c 
+INNER JOIN orders o 
+ON c.customer_id = o.customer_id;
+
+
+==================== CASE STATEMENT ====================
+
+-- Categorize order amount
+SELECT product_name, amount,
+CASE
+    WHEN amount >= 20000 THEN 'High'
+    ELSE 'Low'
+END AS result_category
+FROM orders;
+
+
+-- Categorize customers based on total spending
+SELECT c.name, SUM(o.amount) AS total_spending,
+CASE 
+    WHEN SUM(o.amount) <= 100000 THEN 'High Spender'
+    ELSE 'Low Spender'
+END AS customer_category
+FROM customers c
+LEFT JOIN orders o 
+ON c.customer_id = o.customer_id
+GROUP BY c.name;
+
+
+==================== AGGREGATIONS ====================
+
+-- Count total orders per customer
+SELECT c.name, COUNT(o.order_id) AS total_orders
+FROM customers c
+LEFT JOIN orders o 
+ON c.customer_id = o.customer_id
+GROUP BY c.name;
+
+-- Customers who ordered multiple products
+SELECT c.name
+FROM customers c
+JOIN orders o 
+ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.name
+HAVING COUNT(o.product_name) > 1;
+
+
+==================== DATE FILTERS ====================
+
+-- Customers with orders in July 2023
+SELECT DISTINCT c.customer_id, c.name
+FROM customers c
+JOIN orders o 
+ON c.customer_id = o.customer_id
+WHERE MONTH(o.order_date) = 7;
+
+-- Alternative July filter
+SELECT c.name
+FROM customers c
+INNER JOIN orders o 
+ON c.customer_id = o.customer_id
+WHERE o.order_date >= '2023-07-01' AND o.order_date < '2023-08-01';
+
+
+==================== ADVANCED QUERIES ====================
+
+-- Customers who never ordered twice in the same day
+SELECT c.name
+FROM customers c
+JOIN orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.name, o.order_date
+HAVING COUNT(o.order_id) = 1;
+
+
+-- Customers with no orders in last 7 days
+SELECT c.name
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+AND o.order_date >= NOW() - INTERVAL 7 DAY
+WHERE o.order_id IS NULL;
+
+
+-- Categorize customers by total spending (example)
+SELECT c.customer_id, SUM(o.amount) AS total_spent,
+CASE
+    WHEN SUM(o.amount) >= 100000 THEN 'High'
+    WHEN SUM(o.amount) BETWEEN 50000 AND 99999 THEN 'Medium'
+    ELSE 'Low'
+END AS order_category
+FROM orders o
+JOIN customers c ON c.customer_id = o.customer_id
+GROUP BY c.customer_id;
+
+
+==================== DISTINCT PRODUCT COUNT ====================
+
+-- Count distinct products per customer
+SELECT c.name, COUNT(DISTINCT o.product_name) AS distinct_products
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.name;

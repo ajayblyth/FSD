@@ -247,6 +247,7 @@ task1((err,data)=>{
 4) HARD TO MANAGE MULTIPLE ASYNC OPERATIONS
    - Running multiple asynchronous tasks in sequence or parallel
      was complicated with plain callbacks.
+     
 =====================================================================
 PROMISES IN JAVASCRIPT
 =====================================================================
@@ -464,6 +465,7 @@ KEY METHODS OF PROMISE
 .then()     → handles success  
 .catch()    → handles failure  
 .finally()  → runs regardless of result
+
 =====================================================================
 ADDITIONAL PROMISE CONCEPTS
 =====================================================================
@@ -631,7 +633,6 @@ CORE IDEA
 
 Promises help manage asynchronous code in a structured way,
 avoiding deeply nested callbacks and improving readability.
-============================
 =====================================================================
 ASYNC / AWAIT - JAVASCRIPT
 =====================================================================
@@ -953,220 +954,445 @@ INTERVIEW LINE
 "Using async/await with Promises allows clean sequential execution
 of asynchronous operations while handling errors gracefully with
 try/catch, even when some Promises may fail randomly."
-
 ======================================================================
-                                API
-======================================================================
-
-DEFINITION
-----------------------------------------------------------------------
-• API = Application Programming Interface
-• It is a set of rules and protocols that allows one software
-  application to communicate with another.
-• Acts as a “bridge” between different applications, systems, or 
-  services.
-
-
-KEY POINTS
-----------------------------------------------------------------------
-1. Provides **functions, methods, and endpoints** that developers
-   can use without knowing the internal workings.
-2. Can be **web-based (REST, SOAP), library-based, or OS-based**.
-3. Allows applications to **request and exchange data** in a 
-   standardized way.
-4. Ensures **abstraction**, so users only need to know what the API 
-   does, not how it works internally.
-
-EXAMPLES
-----------------------------------------------------------------------
-1. Web APIs:
-   • REST API: `GET https://api.example.com/users/1`
-   • Returns JSON data about user 1.
-2. Library APIs:
-   • `Math.sqrt(25)` → returns 5.
-3. OS APIs:
-   • Windows API to create a file: `CreateFile()`
-
-INTERVIEW LINE
-----------------------------------------------------------------------
-"An API is a contract between two software components, allowing 
-them to communicate and exchange data without exposing internal 
-implementation details."
-
-======================================================================
-======================================================================
-                               JSON - JAVASCRIPT OBJECT NOTATION
+               ASYNC JS EVOLUTION: CALLBACK → PROMISE → ASYNC/AWAIT
 ======================================================================
 
-DEFINITION
+1. CALLBACK HELL (OLD WAY)
 ----------------------------------------------------------------------
-• JSON = JavaScript Object Notation
-• Lightweight data-interchange format.
-• Easy for humans to read and write.
-• Easy for machines to parse and generate.
-• Used widely for client-server communication (REST APIs, config files, etc.)
+fetchUser(1, function(user) {
+    fetchPosts(user.id, function(posts) {
+        fetchComments(posts[0].id, function(comments) {
+            console.log(comments);
+        });
+    });
+});
 
-BASIC SYNTAX
-----------------------------------------------------------------------
-1. Data is in **key-value pairs**.
-2. Keys are always **strings** in double quotes.
-3. Values can be:
-   - String → "Hello"
-   - Number → 123, 3.14
-   - Boolean → true / false
-   - Array → [1, 2, 3]
-   - Object → {"name": "Ajay"}
-   - null → null
+PROBLEMS:
+• Nested callbacks → hard to read
+• Difficult error handling
+• Hard to maintain
 
-EXAMPLE
 ----------------------------------------------------------------------
-{
-    "name": "Ajay",
-    "age": 25,
-    "isStudent": false,
-    "skills": ["Java", "JS", "SQL"],
-    "address": {
-        "city": "Sivaram",
-        "state": "Jammu & Kashmir"
-    },
-    "projects": null
+2. PROMISE CHAINING
+----------------------------------------------------------------------
+fetchUser(1)
+.then(user => fetchPosts(user.id))
+.then(posts => fetchComments(posts[0].id))
+.then(comments => console.log(comments))
+.catch(err => console.log(err));
+
+BENEFITS:
+• Flat structure
+• Better error handling with .catch()
+• Sequential async flow
+
+----------------------------------------------------------------------
+3. ASYNC / AWAIT (MODERN WAY)
+----------------------------------------------------------------------
+async function showComments() {
+    try {
+        let user = await fetchUser(1);
+        let posts = await fetchPosts(user.id);
+        let comments = await fetchComments(posts[0].id);
+        console.log(comments);
+    } catch(err) {
+        console.log(err);
+    }
 }
 
-----------------------------------------------------------------------
-ACCESSING JSON IN JAVASCRIPT
-----------------------------------------------------------------------
-
-// JSON object
-let data = {
-    "name": "Ajay",
-    "age": 25
-};
-
-// Access keys
-console.log(data.name);       // Ajay
-console.log(data["age"]);     // 25
-
-// Modify values
-data.age = 26;
-
-// Add new key
-data.email = "ajay@example.com";
+BENEFITS:
+• Looks like synchronous code
+• Very readable
+• Easy to debug and maintain
+• Works seamlessly with try/catch
 
 ----------------------------------------------------------------------
-JSON STRINGIFY & PARSE
+VISUAL SUMMARY
 ----------------------------------------------------------------------
+CALLBACK HELL:        Nested →   📦📦📦
+PROMISE CHAINING:      → Flat   🔗🔗🔗
+ASYNC/AWAIT:           → Sync-like ✅✅✅
 
-// Convert JS object to JSON string
-let jsonString = JSON.stringify(data);
+==========================
+==============================================================================
+ASYNC / AWAIT (COMPLETE NOTES)
+==============================================================================
 
-// Convert JSON string to JS object
-let jsonObj = JSON.parse(jsonString);
+DEFINITION
+------------------------------------------------------------------------------
+• async/await is used to handle asynchronous operations
+• Makes async code look like synchronous (easy to read)
 
-----------------------------------------------------------------------
-JSON IN AJAX / API
-----------------------------------------------------------------------
-// Sending JSON in a fetch request
-fetch("https://api.example.com/users", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        name: "Ajay",
-        age: 25
-    })
-})
-.then(res => res.json())
+------------------------------------------------------------------------------
+WHY USE
+------------------------------------------------------------------------------
+• Avoid callback hell
+• Better readability than Promises (.then)
+• Easier error handling
+
+------------------------------------------------------------------------------
+1. ASYNC KEYWORD
+------------------------------------------------------------------------------
+• Makes a function return a Promise
+
+Example:
+async function test() {
+    return "Hello";
+}
+
+→ Actually returns: Promise("Hello")
+
+------------------------------------------------------------------------------
+2. AWAIT KEYWORD
+------------------------------------------------------------------------------
+• Waits for a Promise to resolve
+• Can be used only inside async function
+
+Example:
+let result = await promise;
+
+→ Pauses execution until promise resolves
+
+------------------------------------------------------------------------------
+3. BASIC EXAMPLE
+------------------------------------------------------------------------------
+function getData() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Data received"), 2000);
+    });
+}
+
+async function fetchData() {
+    let data = await getData();
+    console.log(data);
+}
+
+fetchData();
+
+------------------------------------------------------------------------------
+4. ERROR HANDLING
+------------------------------------------------------------------------------
+Use try-catch
+
+async function fetchData() {
+    try {
+        let data = await getData();
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+------------------------------------------------------------------------------
+5. WITHOUT ASYNC/AWAIT (PROMISE STYLE)
+------------------------------------------------------------------------------
+getData()
 .then(data => console.log(data))
 .catch(err => console.log(err));
 
-----------------------------------------------------------------------
-KEY POINTS / BEST PRACTICES
-----------------------------------------------------------------------
-1. Always use **double quotes** for keys and string values.
-2. JSON does **not allow functions** or undefined.
-3. Arrays can store multiple objects.
-4. Nested objects are allowed.
-5. Use JSON.stringify() before sending data over network.
-6. Use JSON.parse() to convert received JSON string into JS object.
+------------------------------------------------------------------------------
+6. MULTIPLE AWAIT
+------------------------------------------------------------------------------
+async function load() {
+    let a = await task1();
+    let b = await task2();
+}
+
+→ Runs sequentially
+
+------------------------------------------------------------------------------
+7. PARALLEL EXECUTION
+------------------------------------------------------------------------------
+async function load() {
+    let [a, b] = await Promise.all([task1(), task2()]);
+}
+
+→ Runs in parallel (faster)
+
+------------------------------------------------------------------------------
+8. IMPORTANT POINTS
+------------------------------------------------------------------------------
+• async → always returns Promise
+• await → waits for Promise
+• Only inside async function
+• Use try-catch for errors
+• Improves readability
+
+------------------------------------------------------------------------------
+9. REAL USE CASES
+------------------------------------------------------------------------------
+• API calls (fetch/axios)
+• Database queries
+• File operations
+• Network requests
+
+------------------------------------------------------------------------------
+10. INTERVIEW DIFFERENCE (PROMISE vs ASYNC/AWAIT)
+------------------------------------------------------------------------------
+PROMISE (.then)           ASYNC/AWAIT
+---------------------------------------------
+Chained                  Cleaner syntax
+Harder to read           Easy to read
+Callback style           Looks synchronous
+Manual error handling    try-catch
+
+------------------------------------------------------------------------------
+INTERVIEW LINE
+------------------------------------------------------------------------------
+"async/await is syntactic sugar over Promises that makes asynchronous
+code easier to write, read, and handle errors."
+------------------------------------------------------------------------------
+
+======================================================================
+=====================================================================
+API (APPLICATION PROGRAMMING INTERFACE)
+=====================================================================
+
+DEFINITION
+--------------------------------------------------------------------------------
+• An API is a set of rules and protocols that allows one software application 
+  to communicate with another.
+• It defines methods, inputs, outputs, and data formats for integration.
+• APIs enable functionality sharing without exposing internal code.
+
+KEY POINTS
+--------------------------------------------------------------------------------
+1. Acts as a bridge between applications.
+2. Can be web-based (HTTP/HTTPS) or local (library-based).
+3. Promotes modularity and reuse of code.
+4. Enables automation, third-party integrations, and microservices architecture.
+
+TYPES OF API
+--------------------------------------------------------------------------------
+1. **Open/Public API**  → Available to any developer. Example: Twitter API.
+2. **Private API**      → Internal use only, not exposed publicly.
+3. **Partner API**      → Shared with business partners, requires authorization.
+4. **Composite API**    → Combines multiple APIs into one call.
+
+WEB API
+--------------------------------------------------------------------------------
+• Operates over HTTP/HTTPS.
+• Commonly uses REST, SOAP, or GraphQL standards.
+
+1. **REST API**  
+   - Stateless, resource-based, uses HTTP methods: GET, POST, PUT, DELETE.  
+   - Example: GET /users → fetch all users.
+
+2. **SOAP API**  
+   - XML-based, supports strict messaging standards.  
+   - Used in enterprise systems requiring high security.
+
+3. **GraphQL API**  
+   - Query language for APIs, allows clients to request exactly the data needed.
+
+HTTP METHODS
+--------------------------------------------------------------------------------
+• GET    → Read data from server
+• POST   → Create new data
+• PUT    → Update existing data
+• PATCH  → Partial update
+• DELETE → Remove data
+
+API REQUEST STRUCTURE
+--------------------------------------------------------------------------------
+1. **Endpoint / URL**   → https://api.example.com/users
+2. **HTTP Method**      → GET / POST / PUT / DELETE
+3. **Headers**          → Metadata (e.g., Authorization, Content-Type)
+4. **Query Parameters** → Optional filters (?id=123)
+5. **Request Body**     → Data sent for POST/PUT/PATCH (usually JSON)
+
+API RESPONSE STRUCTURE
+--------------------------------------------------------------------------------
+1. **Status Code**      → 200, 404, 500 etc.
+2. **Headers**          → Metadata about response
+3. **Body**             → Actual data (JSON/XML)
+
+EXAMPLE (REST API REQUEST)
+--------------------------------------------------------------------------------
+GET https://api.example.com/users/1
+Headers:
+    Authorization: Bearer <token>
+Response:
+{
+    "id": 1,
+    "name": "Ajay Sharma",
+    "email": "ajay@example.com",
+    "city": "Jammu"
+}
+
+ERROR HANDLING
+--------------------------------------------------------------------------------
+• Use HTTP status codes:  
+  - 2xx → Success  
+  - 4xx → Client error (e.g., 404 Not Found, 401 Unauthorized)  
+  - 5xx → Server error  
+• Include error messages in response body for clarity.
 
 INTERVIEW LINE
-----------------------------------------------------------------------
-"JSON is a lightweight, human-readable format to represent structured
-data as key-value pairs, widely used in web APIs and configuration files."
+--------------------------------------------------------------------------------
+"API allows applications to communicate by exposing functions and data 
+through standardized protocols without sharing internal code."
 
-======================================================================
-======================================================================
-              JSON RULES VS NORMAL JAVASCRIPT OBJECTS
-======================================================================
+=====================================================================
+JSON (JAVA SCRIPT OBJECT NOTATION)
+=====================================================================
 
-1. KEYS
-----------------------------------------------------------------------
-JSON:
-• Keys must be **strings in double quotes**.
-• Example: {"name": "Ajay"}
+DEFINITION
+--------------------------------------------------------------------------------
+• JSON is a lightweight format for exchanging data between client and server.
+• Human-readable and easy for machines to parse.
+• Mostly used with web APIs to send/receive structured data.
 
-JS Object:
-• Keys can be unquoted if valid identifiers.
-• Example: {name: "Ajay"} is valid
-• Can also use quotes: {"name": "Ajay"}
+DATA TYPES
+--------------------------------------------------------------------------------
+1. String   → "Hello World"
+2. Number   → 123 or 12.5
+3. Boolean  → true / false
+4. Null     → null
+5. Array    → [1,2,3], ["a","b","c"]
+6. Object   → {"key":"value"}
 
-2. VALUES
-----------------------------------------------------------------------
-JSON:
-• Allowed: string, number, boolean, null, array, object
-• Not allowed: functions, undefined, symbols
-• Example invalid: {"age": undefined}
+JSON STRUCTURE
+--------------------------------------------------------------------------------
+1. **Objects** → Key-value pairs inside curly braces {}
+{
+    "id": 1,
+    "name": "Ajay Sharma",
+    "email": "ajay@example.com"
+}
 
-JS Object:
-• Values can be anything: string, number, boolean, null, object,
-  array, function, undefined, symbol
-• Example: {age: undefined, greet: function(){}} is valid
+2. **Arrays** → Ordered list inside square brackets []
+[
+    {"id":1,"name":"Ajay"},
+    {"id":2,"name":"Priya"}
+]
 
-3. STRINGS
-----------------------------------------------------------------------
-JSON:
-• Must use **double quotes** for strings.
-• Single quotes not allowed.
-• Example: {"city": "Sivaram"} ✅
+3. **Nested Objects**
+{
+    "id": 1,
+    "name": "Ajay Sharma",
+    "address": {
+        "city": "Jammu",
+        "state": "J&K",
+        "pin": "180001"
+    }
+}
 
-JS Object:
-• Strings can use single or double quotes.
-• Example: {city: 'Sivaram'} ✅
+4. **Nested Arrays**
+{
+    "id": 1,
+    "name": "Ajay Sharma",
+    "skills": ["JavaScript", "Java", "SQL"]
+}
 
-4. COMMENTS
-----------------------------------------------------------------------
-JSON:
-• **No comments allowed**.
-• Example: {"name":"Ajay"} // comment ❌ invalid
+EXAMPLE JSON RESPONSE (FROM API)
+--------------------------------------------------------------------------------
+{
+    "status": "success",
+    "data": {
+        "users": [
+            {"id":1, "name":"Ajay", "email":"ajay@example.com"},
+            {"id":2, "name":"Priya", "email":"priya@example.com"}
+        ]
+    }
+}
 
-JS Object:
-• Comments are allowed.
-• Example: {name: "Ajay"} // This is a comment ✅
+PARSING JSON IN JAVASCRIPT
+--------------------------------------------------------------------------------
+// Convert JSON string to JS object
+let obj = JSON.parse(jsonString);
 
-5. TRAILING COMMAS
-----------------------------------------------------------------------
-JSON:
-• Trailing commas **not allowed**.
-• Example invalid: {"name":"Ajay",} ❌
+// Convert JS object to JSON string
+let jsonStr = JSON.stringify(obj);
 
-JS Object:
-• Trailing commas are allowed in modern JS.
-• Example: {name:"Ajay",} ✅
-
-6. USE CASES
-----------------------------------------------------------------------
-JSON:
-• Data interchange format, sent over network.
-• Must be strict and standardized.
-
-JS Object:
-• Used in code for variables, functions, logic.
-• More flexible but not directly transferable as JSON.
+ADVANTAGES OF JSON
+--------------------------------------------------------------------------------
+1. Lightweight and faster than XML.
+2. Easy to read and write.
+3. Supported by almost all programming languages.
+4. Perfect for web APIs and AJAX calls.
 
 INTERVIEW LINE
-----------------------------------------------------------------------
-"JSON is stricter than JS objects: keys must be double-quoted strings,
-values limited to serializable types, no comments or functions, and 
-no trailing commas."
-======================================================================
+--------------------------------------------------------------------------------
+"JSON is a lightweight, language-independent data format used for exchanging 
+structured data between client and server in APIs."
+
+=====================================================================
+RULES OF JSON OBJECT
+=====================================================================
+
+1. JSON objects are enclosed in **curly braces { }**.
+   Example:
+   {
+       "key": "value"
+   }
+
+2. Each key must be a **string** enclosed in double quotes "".
+   Correct:  "name": "Ajay"
+   Incorrect: name: "Ajay"      // missing quotes
+
+3. Keys must be **unique** within the same object.
+   {
+       "id": 1,
+       "id": 2   // ❌ invalid
+   }
+
+4. Values can be:
+   - String  → "Hello"
+   - Number  → 123, 12.5
+   - Boolean → true / false
+   - Null    → null
+   - Object  → {"nestedKey":"nestedValue"}
+   - Array   → [1,2,3], ["a","b","c"]
+
+5. Key-value pairs are separated by **colon :**.
+   {
+       "name": "Ajay"
+   }
+
+6. Multiple key-value pairs are separated by **comma ,**.
+   {
+       "name": "Ajay",
+       "age": 25,
+       "city": "Jammu"
+   }
+
+7. **Strings must be in double quotes ""** (single quotes ' ' are invalid in standard JSON).
+   Correct:  "city": "Jammu"
+   Incorrect: 'city': 'Jammu'
+
+8. JSON objects **cannot have functions, undefined, or comments**.
+   ❌ Invalid:
+   {
+       "func": function(){},
+       "data": undefined,
+       // comment
+   }
+
+9. JSON can be **nested**, but must follow all rules for each nested object.
+   {
+       "user": {
+           "id": 1,
+           "name": "Ajay"
+       }
+   }
+
+10. Arrays inside JSON can contain **objects, strings, numbers, booleans, or null**, but must follow JSON syntax rules.
+    {
+        "users": [
+            {"id":1, "name":"Ajay"},
+            {"id":2, "name":"Priya"}
+        ]
+    }
+
+11. JSON is **case-sensitive** (keys and string values must match exactly).
+    Correct: "Name": "Ajay"
+    Incorrect: "name" != "Name" (treated differently)
+
+12. Whitespace (spaces, tabs, newlines) is **ignored** and used only for readability.
+
+INTERVIEW LINE
+--------------------------------------------------------------------------------
+"JSON objects are collections of key-value pairs with unique string keys, 
+enclosed in curly braces, following strict syntax rules including double 
+quotes, valid data types, and no functions or comments."
