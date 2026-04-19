@@ -1,23 +1,28 @@
-const express = require('express');
-const mysql = require("mysql2");
+const express = require('express'); // import express framework
+const mysql = require("mysql2"); // import mysql2 for DB connection
 
-const app = express();
-const port = 3000;
+const app = express(); // create express app
+const port = 3000; // define server port
+
+const methodOverride = require("method-override"); // to use PATCH/DELETE from forms
+
+app.use(express.urlencoded({ extended: true })); // to read form data (req.body)
+app.use(methodOverride("_method")); // enables PATCH using ?_method=PATCH
 
 // middleware for ejs (if using templates)
-app.set("view engine", "ejs");
+app.set("view engine", "ejs"); // set ejs as template engine
 
 // create database connection
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'demo_app',
-    password: 'nithin@061',
+    host: 'localhost', // database host
+    user: 'root', // DB username
+    database: 'practice_db', // database name
+    password: 'test', // DB password
 });
 
 // start server
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port}`); // server start message
 });
 
 
@@ -26,16 +31,16 @@ app.listen(port, () => {
 // COUNT USERS
 app.get("/", (req, res) => {
 
-    let q = "SELECT COUNT(*) AS count FROM user";
+    let q = "SELECT COUNT(*) AS count FROM users"; // count total users
 
     connection.query(q, (err, result) => {
         if (err) {
-            res.send("Some error occurred with database");
+            res.send("Some error occurred with database"); // error message
             return;
         }
 
-        let count = result[0].count;
-        res.send(`successful ${count}`);
+        let count = result[0].count; // extract count value
+        res.send(`successful ${count}`); // send response to browser
     });
 });
 
@@ -43,24 +48,57 @@ app.get("/", (req, res) => {
 // GET ALL USERS
 app.get("/users", (req, res) => {
 
-    let q = "SELECT * FROM user";
+    let q = "SELECT * FROM users"; // get all users data
 
     connection.query(q, (err, result) => {
         if (err) {
-            res.status(500).send("Some error occurred");
+            console.log(err); // print error in terminal
+            res.send(err.message); // show real error in browser
             return;
         }
 
-        console.log(result);
+        console.log(result); // log DB result
 
-        // if using EJS frontend
-        res.render("users", { result });
+        res.render("users", { result }); // send data to ejs file
     });
 });
 
-// 🧠 THEORY (IMPORTANT — DO NOT SKIP)
-// ❓ Why is response written inside connection.query() callback?
-// ✅ Answer:
+
+// EDIT PAGE (SHOW FORM)
+app.get("/users/:id/edit", (req, res) => {
+    let { id } = req.params; // get user id from URL
+
+    let q = "SELECT * FROM users WHERE id = ?"; // get single user
+
+    connection.query(q, [id], (err, result) => {
+        if (err) {
+            return res.send("Error fetching user"); // error handling
+        }
+
+        let user = result[0]; // extract single user object
+        res.render("edit", { user }); // send data to edit.ejs
+    });
+});
+
+
+// UPDATE USER (SAVE CHANGES)
+app.patch("/users/:id", (req, res) => {
+    let { id } = req.params; // get user id
+    let { username, email } = req.body; // get updated values from form
+
+    let q = "UPDATE users SET username = ?, email = ? WHERE id = ?"; // update query
+
+    connection.query(q, [username, email, id], (err, result) => {
+        if (err) {
+            return res.send("Error updating"); // error message
+        }
+
+        res.redirect("/users"); // redirect back to users list
+    });
+});
+//  THEORY (IMPORTANT — DO NOT SKIP)
+// Why is response written inside connection.query() callback?
+// 
 
 // Because connection.query() is asynchronous (non-blocking).
 
