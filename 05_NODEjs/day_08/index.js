@@ -6,13 +6,13 @@ const port = 3000;
 
 const methodOverride = require("method-override"); // to use PATCH/DELETE from forms
 
-app.use(express.urlencoded({ extended: true })); // to read form data (req.body)
+app.use(express.urlencoded({ extended: true })); // to read form data (req.body), encoded by default 
 app.use(methodOverride("_method")); // enables PATCH using ?_method=PATCH
 
 // middleware for ejs (if using templates)
 app.set("view engine", "ejs"); // set ejs as template engine
 
-// create database connection
+
 const connection = mysql.createConnection({
     host: 'localhost', 
     user: 'root', 
@@ -20,7 +20,7 @@ const connection = mysql.createConnection({
     password: 'test', 
 });
 
-// start server
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`); 
 });
@@ -80,7 +80,8 @@ app.get("/users/:id/edit", (req, res) => {
 });
 
 
-// UPDATE USER and save changes 
+// UPDATE user and save changes 
+
 app.patch("/users/:id", (req, res) => {
     let { id } = req.params; 
     let { username, email } = req.body; 
