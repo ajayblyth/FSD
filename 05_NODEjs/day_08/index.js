@@ -22,11 +22,11 @@ const connection = mysql.createConnection({
 
 // start server
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`); // server start message
+    console.log(`Server is running on port ${port}`); 
 });
 
 
-// ---------------------- ROUTES ----------------------
+
 
 app.get("/", (req, res) => {
 
@@ -80,19 +80,19 @@ app.get("/users/:id/edit", (req, res) => {
 });
 
 
-// UPDATE USER (SAVE CHANGES)
+// UPDATE USER and save changes 
 app.patch("/users/:id", (req, res) => {
     let { id } = req.params; 
     let { username, email } = req.body; 
 
-    let q = "UPDATE users SET username = ?, email = ? WHERE id = ?"; // update query
+    let q = "UPDATE users SET username = ?, email = ? WHERE id = ?"; // update query using placeholder
 
     connection.query(q, [username, email, id], (err, result) => {
         if (err) {
-            return res.send("Error updating"); // error message
+            return res.send("Error updating"); 
         }
 
-        res.redirect("/users"); // redirect back to users list
+        res.redirect("/users"); 
     });
 });
 
@@ -108,7 +108,7 @@ app.patch("/users/:id", (req, res) => {
 // hard to maintain
 
 
-//  THEORY (IMPORTANT — DO NOT SKIP)
+//  THEORY (IMPORTANT)
 // Why is response written inside connection.query() callback?
 // 
 
