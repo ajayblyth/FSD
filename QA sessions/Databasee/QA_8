@@ -1,0 +1,130 @@
+===================
+CREATE TABLE transactions (
+    txn_id INT AUTO_INCREMENT PRIMARY KEY,
+    from_account INT,
+    to_account INT,
+    amount DECIMAL(10,2),
+    txn_type VARCHAR(20),      -- TRANSFER / DEPOSIT / WITHDRAW
+    status VARCHAR(20),        -- SUCCESS / FAILED
+    txn_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO transactions (from_account, to_account, amount, txn_type, status)
+VALUES
+(1, 2, 1000.00, 'TRANSFER', 'SUCCESS'),
+(2, 3, 500.00, 'TRANSFER', 'SUCCESS'),
+(1, NULL, 200.00, 'WITHDRAW', 'SUCCESS'),
+(NULL, 3, 1500.00, 'DEPOSIT', 'SUCCESS'),
+(3, 1, 7000.00, 'TRANSFER', 'FAILED'),
+(2, NULL, 300.00, 'WITHDRAW', 'FAILED');
+
+=======================================================
+Bank Transfer (TCL, ACID, Stored Procedure)** **Scenario:** 
+Write a MySQL Stored Procedure to transfer funds from one account to another. 
+It must ensure ACID properties—if an account lacks funds, or if the update fails, 
+the entire transaction must roll back.......
+
+use tcl 
+validate balance of sender 
+perform debit/credit
+if fails rollback else commit.....
+first table , accounts with id, holder , balance...
+second table = transactions, id, from , to , date,status
+
+
+===========================
+DROP TABLE IF EXISTS accounts;
+
+CREATE TABLE accounts (
+    account_id INT PRIMARY KEY,
+    account_holder_name VARCHAR(100),
+    balance DECIMAL(10,2) NOT NULL CHECK (balance >= 0),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO accounts (account_id, account_holder_name, balance)
+VALUES
+(101, 'Ajay', 50000.00),
+(102, 'Vinay', 30000.00),
+(103, 'Gajendra', 15000.00),
+(104, 'Satya', 8000.00),
+(105, 'Shiva', 120000.00);
+
+-- task= Bank Transfer (TCL, ACID, Stored Procedure)** **Scenario:** 
+-- Write a MySQL Stored Procedure to transfer funds from one account to another. 
+-- It must ensure ACID properties—if an account lacks funds, or if the update fails, 
+-- the entire transaction must roll back.......
+SELECT * FROM accounts;
+
+DELIMITER $$
+CREATE PROCEDURE bank_transfer( IN from_acc Int, IN to_acc INT,
+ IN amt DECIMAL(10,2))
+BEGIN
+
+START TRANSACTION;
+
+UPDATE accounts
+SET balance = balance- amt
+WHERE account_id = from_acc
+AND balance >= amt ; -- if amount less than deducting amount
+
+UPDATE accounts
+SET balance = balance +amt
+WHERE account_id = to_acc;
+
+COMMIT;
+
+END $$
+DELIMITER ;
+
+==================
+GAJENDRA ANSWER
+DELIMITER //
+
+CREATE PROCEDURE TransferFunds(
+    IN sender_id INT, 
+    IN receiver_id INT, 
+    IN amount DECIMAL(10,2)
+)
+BEGIN
+    -- Declare variables to hold current balance and handle errors
+    DECLARE current_balance DECIMAL(10,2);
+    DECLARE sql_error INT DEFAULT 0;
+    
+    -- Declare an exception handler for any SQL errors
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET sql_error = 1;
+
+    -- Start the transaction (Ensures Atomicity)
+    START TRANSACTION;
+
+    -- Lock the sender's row for update to prevent race conditions (Ensures Isolation)
+    SELECT balance INTO current_balance 
+    FROM accounts 
+    WHERE account_id = sender_id FOR UPDATE;
+
+    -- Check if sender has enough funds (Ensures Consistency)
+    IF current_balance < amount THEN
+        ROLLBACK;
+        SELECT 'Insufficient funds' AS Status;
+    ELSE
+        -- Deduct from sender
+        UPDATE accounts SET balance = balance - amount WHERE account_id = sender_id;
+        
+        -- Add to receiver
+        UPDATE accounts SET balance = balance + amount WHERE account_id = receiver_id;
+
+        -- Check if any error occurred during updates
+        IF sql_error = 1 THEN
+            ROLLBACK;
+            SELECT 'Transaction failed due to system error' AS Status;
+        ELSE
+            COMMIT; -- Ensures Durability
+            SELECT 'Transfer successful' AS Status;
+        END IF;
+    END IF;
+END //
+
+DELIMITER ;
+========================
+FOR MONDAY CALLBACK, PROMISES, ASYNC AWAIT, DOM STRUCTURE///PARALLE

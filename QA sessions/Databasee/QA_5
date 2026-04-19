@@ -136,3 +136,7 @@ SELECT * FROM tech_inventory a, tech_inventory b;
 
 ===============================================================================
 
+Find customers who never ordered twice in same day
+
+
+Find customers with no orders in last 7 days

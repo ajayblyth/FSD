@@ -1,4 +1,6 @@
-==================== MYSQL PRACTICE QUERIES ====================
+=============================================================================
+MYSQL PRACTICE QUERIES (FINAL FIXED & INTERVIEW READY)
+=============================================================================
 
 -- USE DATABASE
 USE practice_db;
@@ -72,10 +74,10 @@ END AS result_category
 FROM orders;
 
 
--- Categorize customers based on total spending
+-- Categorize customers based on total spending (FIXED)
 SELECT c.name, SUM(o.amount) AS total_spending,
 CASE 
-    WHEN SUM(o.amount) <= 100000 THEN 'High Spender'
+    WHEN SUM(o.amount) >= 100000 THEN 'High Spender'
     ELSE 'Low Spender'
 END AS customer_category
 FROM customers c
@@ -93,41 +95,38 @@ LEFT JOIN orders o
 ON c.customer_id = o.customer_id
 GROUP BY c.name;
 
--- Customers who ordered multiple products
+-- Customers who ordered multiple products (IMPROVED)
 SELECT c.name
 FROM customers c
 JOIN orders o 
 ON c.customer_id = o.customer_id
 GROUP BY c.customer_id, c.name
-HAVING COUNT(o.product_name) > 1;
+HAVING COUNT(DISTINCT o.product_name) > 1;
 
 
 ==================== DATE FILTERS ====================
 
--- Customers with orders in July 2023
+-- Customers with orders in July (BEST PRACTICE)
 SELECT DISTINCT c.customer_id, c.name
 FROM customers c
 JOIN orders o 
 ON c.customer_id = o.customer_id
-WHERE MONTH(o.order_date) = 7;
+WHERE o.order_date >= '2023-07-01'
+AND o.order_date < '2023-08-01';
 
--- Alternative July filter
-SELECT c.name
-FROM customers c
-INNER JOIN orders o 
-ON c.customer_id = o.customer_id
-WHERE o.order_date >= '2023-07-01' AND o.order_date < '2023-08-01';
+-- Alternative (less efficient)
+-- WHERE MONTH(o.order_date) = 7;
 
 
 ==================== ADVANCED QUERIES ====================
 
--- Customers who never ordered twice in the same day
+-- Customers who never ordered twice in same day (FIXED)
 SELECT c.name
 FROM customers c
 JOIN orders o
 ON c.customer_id = o.customer_id
-GROUP BY c.name, o.order_date
-HAVING COUNT(o.order_id) = 1;
+GROUP BY c.customer_id, DATE(o.order_date)
+HAVING COUNT(*) = 1;
 
 
 -- Customers with no orders in last 7 days
@@ -139,7 +138,7 @@ AND o.order_date >= NOW() - INTERVAL 7 DAY
 WHERE o.order_id IS NULL;
 
 
--- Categorize customers by total spending (example)
+-- Categorize customers by total spending (INTERVIEW STYLE)
 SELECT c.customer_id, SUM(o.amount) AS total_spent,
 CASE
     WHEN SUM(o.amount) >= 100000 THEN 'High'
@@ -156,5 +155,17 @@ GROUP BY c.customer_id;
 -- Count distinct products per customer
 SELECT c.name, COUNT(DISTINCT o.product_name) AS distinct_products
 FROM customers c
-JOIN orders o ON c.customer_id = o.customer_id
+JOIN orders o 
+ON c.customer_id = o.customer_id
 GROUP BY c.name;
+
+
+==================== IMPORTANT POINTS ====================
+
+• Always use SUM(o.amount) inside CASE when using GROUP BY
+• Use DISTINCT to avoid duplicate counts
+• Use DATE(o.order_date) to ignore time part
+• LEFT JOIN + NULL → find missing records
+• Prefer date range over MONTH() for performance
+
+=============================================================================

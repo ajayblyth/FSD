@@ -1,0 +1,216 @@
+=============================================================================
+MYSQL PRACTICE (CLEAN STRUCTURED VERSION)
+=============================================================================
+
+========================
+1. CREATE DATABASE
+========================
+USE practice_db;
+
+
+=============================================================================
+2. TABLE CREATION (CUSTOMERS + ORDERS)
+=============================================================================
+
+-- CUSTOMERS TABLE
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    city VARCHAR(50),
+    signup_date DATE
+);
+
+-- ORDERS TABLE
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    product_name VARCHAR(100),
+    amount DECIMAL(10,2),
+    order_date DATETIME,
+    CONSTRAINT fk_customer
+    FOREIGN KEY (customer_id)
+    REFERENCES customers(customer_id)
+);
+
+
+=============================================================================
+3. INSERT DATA
+=============================================================================
+
+-- CUSTOMERS
+INSERT INTO customers (name, email, city, signup_date) VALUES
+('Rahul Sharma', 'rahul@gmail.com', 'Bangalore', '2023-01-10'),
+('Priya Verma', 'priya@gmail.com', 'Delhi', '2023-02-15'),
+('Amit Patel', 'amit@gmail.com', 'Mumbai', '2023-03-20'),
+('Sneha Reddy', 'sneha@gmail.com', 'Hyderabad', '2023-04-05'),
+('Vikram Singh', 'vikram@gmail.com', 'Chennai', '2023-05-18'),
+('Anjali Mehta', 'anjali@gmail.com', 'Pune', '2023-06-22');
+
+-- ORDERS
+INSERT INTO orders (customer_id, product_name, amount, order_date) VALUES
+(1, 'iPhone 14', 79999, '2023-07-01 10:30:00'),
+(1, 'AirPods Pro', 24999, '2023-07-05 12:00:00'),
+(2, 'Samsung TV', 55999, '2023-07-03 14:20:00'),
+(3, 'MacBook Air', 99999, '2023-07-10 09:00:00'),
+(4, 'Gaming Mouse', 1999, '2023-07-11 18:45:00'),
+(4, 'Mechanical Keyboard', 4999, '2023-07-12 20:10:00'),
+(5, 'Smart Watch', 14999, '2023-07-15 16:30:00'),
+(2, 'Bluetooth Speaker', 2999, '2023-07-18 11:15:00');
+
+
+=============================================================================
+4. BASIC QUERIES
+=============================================================================
+
+-- all orders
+SELECT * FROM orders;
+
+-- join
+SELECT c.name, o.product_name
+FROM customers c
+JOIN orders o
+ON c.customer_id = o.customer_id;
+
+
+=============================================================================
+5. CASE + AGGREGATION QUERIES
+=============================================================================
+
+-- product category
+SELECT product_name, amount,
+CASE
+    WHEN amount >= 20000 THEN 'High'
+    ELSE 'Low'
+END AS category
+FROM orders;
+
+
+-- customer spending category
+SELECT c.name, SUM(o.amount) AS total_spent,
+CASE
+    WHEN SUM(o.amount) >= 100000 THEN 'High Spender'
+    ELSE 'Low Spender'
+END AS category
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.name;
+
+
+=============================================================================
+6. ADVANCED FILTERING
+=============================================================================
+
+-- July orders
+SELECT DISTINCT c.customer_id, c.name
+FROM customers c
+JOIN orders o
+ON c.customer_id = o.customer_id
+WHERE o.order_date >= '2023-07-01'
+AND o.order_date < '2023-08-01';
+
+
+-- no orders in last 7 days
+SELECT c.name
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+AND o.order_date >= NOW() - INTERVAL 7 DAY
+WHERE o.order_id IS NULL;
+
+
+=============================================================================
+7. DROP AND RECREATE NEW TABLE (WINDOW FUNCTION PRACTICE)
+=============================================================================
+
+DROP TABLE IF EXISTS orders;
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    product_category VARCHAR(50),
+    amount DECIMAL(10,2)
+);
+
+INSERT INTO orders VALUES
+(1, 101, '2023-01-01', 'Electronics', 5000),
+(2, 102, '2023-01-02', 'Clothing', 2000),
+(3, 101, '2023-01-05', 'Electronics', 7000),
+(4, 103, '2023-01-07', 'Groceries', 1500),
+(5, 102, '2023-01-10', 'Clothing', 3000),
+(6, 101, '2023-01-12', 'Furniture', 10000),
+(7, 103, '2023-01-15', 'Groceries', 2000),
+(8, 104, '2023-01-18', 'Electronics', 8000),
+(9, 102, '2023-01-20', 'Furniture', 12000),
+(10, 104, '2023-01-22', 'Clothing', 2500),
+(11, 101, '2023-01-25', 'Electronics', 6000),
+(12, 103, '2023-01-28', 'Groceries', 1800);
+
+
+=============================================================================
+8. WINDOW FUNCTIONS (IMPORTANT)
+=============================================================================
+
+-- row number
+SELECT *,
+ROW_NUMBER() OVER(ORDER BY order_date) AS row_num
+FROM orders;
+
+
+-- dense rank
+SELECT *,
+DENSE_RANK() OVER(ORDER BY amount) AS rnk
+FROM orders;
+
+
+-- max amount
+SELECT *,
+MAX(amount) OVER() AS max_amount
+FROM orders;
+
+
+-- min per category
+SELECT *,
+MIN(amount) OVER(PARTITION BY product_category) AS min_amount
+FROM orders;
+
+
+-- difference from max
+SELECT *,
+(MAX(amount) OVER() - amount) AS diff
+FROM orders;
+
+
+-- previous order
+SELECT *,
+LAG(amount) OVER(PARTITION BY customer_id ORDER BY order_date)
+AS prev_amount
+FROM orders;
+
+
+-- first order per customer
+SELECT * FROM (
+    SELECT *,
+    ROW_NUMBER() OVER(PARTITION BY customer_id ORDER BY order_date) AS rn
+    FROM orders
+) t
+WHERE rn = 1;
+
+
+-- top 2 per category
+SELECT * FROM (
+    SELECT *,
+    ROW_NUMBER() OVER(PARTITION BY product_category ORDER BY amount DESC) AS rn
+    FROM orders
+) t
+WHERE rn <= 2;
+
+
+-- percentage contribution
+SELECT *,
+ROUND(100 * amount / SUM(amount) OVER(PARTITION BY product_category), 2)
+AS percent_contribution
+FROM orders;
+
