@@ -1,8 +1,8 @@
-const express = require('express'); // import express framework
-const mysql = require("mysql2"); // import mysql2 for DB connection
+const express = require('express');
+const mysql = require("mysql2"); 
 
-const app = express(); // create express app
-const port = 3000; // define server port
+const app = express();
+const port = 3000; 
 
 const methodOverride = require("method-override"); // to use PATCH/DELETE from forms
 
@@ -14,10 +14,10 @@ app.set("view engine", "ejs"); // set ejs as template engine
 
 // create database connection
 const connection = mysql.createConnection({
-    host: 'localhost', // database host
-    user: 'root', // DB username
-    database: 'practice_db', // database name
-    password: 'test', // DB password
+    host: 'localhost', 
+    user: 'root', 
+    database: 'practice_db', 
+    password: 'test', 
 });
 
 // start server
@@ -28,19 +28,18 @@ app.listen(port, () => {
 
 // ---------------------- ROUTES ----------------------
 
-// COUNT USERS
 app.get("/", (req, res) => {
 
-    let q = "SELECT COUNT(*) AS count FROM users"; // count total users
+    let q = "SELECT COUNT(*) AS count FROM users"; 
 
     connection.query(q, (err, result) => {
         if (err) {
-            res.send("Some error occurred with database"); // error message
+            res.send("Some error occurred with database"); 
             return;
         }
 
-        let count = result[0].count; // extract count value
-        res.send(`successful ${count}`); // send response to browser
+        let count = result[0].count; 
+        res.send(`successful ${count}`); 
     });
 });
 
@@ -48,31 +47,31 @@ app.get("/", (req, res) => {
 // GET ALL USERS
 app.get("/users", (req, res) => {
 
-    let q = "SELECT * FROM users"; // get all users data
+    let q = "SELECT * FROM users"; 
 
     connection.query(q, (err, result) => {
         if (err) {
-            console.log(err); // print error in terminal
-            res.send(err.message); // show real error in browser
+            console.log(err); 
+            res.send(err.message); 
             return;
         }
 
-        console.log(result); // log DB result
+        console.log(result); 
 
-        res.render("users", { result }); // send data to ejs file
+        res.render("users", { result }); 
     });
 });
 
 
 // EDIT PAGE (SHOW FORM)
 app.get("/users/:id/edit", (req, res) => {
-    let { id } = req.params; // get user id from URL
+    let { id } = req.params; 
 
-    let q = "SELECT * FROM users WHERE id = ?"; // get single user
+    let q = "SELECT * FROM users WHERE id = ?"; 
 
     connection.query(q, [id], (err, result) => {
         if (err) {
-            return res.send("Error fetching user"); // error handling
+            return res.send("Error fetching user"); 
         }
 
         let user = result[0]; // extract single user object
@@ -83,8 +82,8 @@ app.get("/users/:id/edit", (req, res) => {
 
 // UPDATE USER (SAVE CHANGES)
 app.patch("/users/:id", (req, res) => {
-    let { id } = req.params; // get user id
-    let { username, email } = req.body; // get updated values from form
+    let { id } = req.params; 
+    let { username, email } = req.body; 
 
     let q = "UPDATE users SET username = ?, email = ? WHERE id = ?"; // update query
 
@@ -96,6 +95,19 @@ app.patch("/users/:id", (req, res) => {
         res.redirect("/users"); // redirect back to users list
     });
 });
+
+
+// ⚡ Why we use ? (IMPORTANT)
+// ❌ Without ? (bad way)
+// let q = "UPDATE users SET username = '" + username + "' WHERE id = " + id;
+
+// Problems:
+
+// SQL injection risk 🔥
+// messy code
+// hard to maintain
+
+
 //  THEORY (IMPORTANT — DO NOT SKIP)
 // Why is response written inside connection.query() callback?
 // 
