@@ -2,8 +2,6 @@
 INFINITE LOOP – FOR LOOP (JavaScript)
 ============================================================================================================================
 
-Definition: A loop that never stops because condition always remains TRUE.
-
 Basic Structure (Compact View)
 --------------------------------------------------------------------------------------------------------------
 Syntax                                   | Example
