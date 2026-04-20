@@ -6,13 +6,13 @@ const port = 3000;
 
 const methodOverride = require("method-override"); // to use PATCH/DELETE from forms
 
-app.use(express.urlencoded({ extended: true })); // to read form data (req.body)
+app.use(express.urlencoded({ extended: true })); // to read form data (req.body), encoded by default 
 app.use(methodOverride("_method")); // enables PATCH using ?_method=PATCH
 
 // middleware for ejs (if using templates)
 app.set("view engine", "ejs"); // set ejs as template engine
 
-// create database connection
+
 const connection = mysql.createConnection({
     host: 'localhost', 
     user: 'root', 
@@ -20,13 +20,13 @@ const connection = mysql.createConnection({
     password: 'test', 
 });
 
-// start server
+
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`); // server start message
+    console.log(`Server is running on port ${port}`); 
 });
 
 
-// ---------------------- ROUTES ----------------------
+
 
 app.get("/", (req, res) => {
 
@@ -80,19 +80,20 @@ app.get("/users/:id/edit", (req, res) => {
 });
 
 
-// UPDATE USER (SAVE CHANGES)
+// UPDATE user and save changes 
+
 app.patch("/users/:id", (req, res) => {
     let { id } = req.params; 
     let { username, email } = req.body; 
 
-    let q = "UPDATE users SET username = ?, email = ? WHERE id = ?"; // update query
+    let q = "UPDATE users SET username = ?, email = ? WHERE id = ?"; // update query using placeholder
 
     connection.query(q, [username, email, id], (err, result) => {
         if (err) {
-            return res.send("Error updating"); // error message
+            return res.send("Error updating"); 
         }
 
-        res.redirect("/users"); // redirect back to users list
+        res.redirect("/users"); 
     });
 });
 
@@ -108,7 +109,7 @@ app.patch("/users/:id", (req, res) => {
 // hard to maintain
 
 
-//  THEORY (IMPORTANT — DO NOT SKIP)
+//  THEORY (IMPORTANT)
 // Why is response written inside connection.query() callback?
 // 
 
