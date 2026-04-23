@@ -204,8 +204,11 @@ res.render() → sends data to view | <% %> → logic | <%= %> → output | EJS 
 
 app.get("/users/:id/edit", (req, res) => { // handle GET request with dynamic id
     let { id } = req.params; // extract id from URL (/users/5/edit → id=5)
+
     let q = "SELECT * FROM users WHERE id = ?"; // SQL: fetch specific user using placeholder
+
     connection.query(q, [id], (err, result) => { // execute query, [id] replaces ? safely
+    
         if (err) { return res.send("Error fetching user"); } // if DB error
         let user = result[0]; // result is array → take first row (single user)
         res.render("edit", { user }); // render edit.ejs and pass user object
