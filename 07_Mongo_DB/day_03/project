@@ -1,0 +1,3 @@
+creating project
+npm init -y
+npm i mongoose

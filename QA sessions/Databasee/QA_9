@@ -1,0 +1,130 @@
+DOM + JavaScript CORE CONCEPTS
+🔹 1. DOM (Document Object Model)
+🔸 Definition
+
+DOM is a tree-like structure created by browser that represents HTML elements as objects, allowing JavaScript to access and manipulate web pages dynamically.
+
+🔸 Key Points
+HTML → converted into DOM tree
+Each element = node (object)
+JS can:
+change content
+change style
+add/remove elements
+handle events
+🔹 2. append() vs appendChild()
+Feature	appendChild()	append()
+Add multiple elements	❌	✅
+Add text	❌	✅
+Return value	returns node	nothing
+Flexibility	low	high
+
+👉 append() is modern and flexible.
+
+🔹 3. Event Listener
+🔸 Definition
+
+Used to attach an event (click, focus, etc.) to an element.
+
+element.addEventListener("click", function() {
+});
+🔸 Key Points
+Supports multiple events
+Better than inline onclick
+🔹 4. this in Event Listener
+🔸 Rule:
+In normal function → this = element
+In arrow function → this = outer lexical scope (window)
+🔸 MCQ Answer:
+
+👉 B) window / lexical scope
+
+🔹 5. Event Bubbling
+🔸 Definition
+
+Event moves from child → parent → root
+
+🔸 Stop propagation
+event.stopPropagation();
+🔹 6. Event Delegation
+🔸 Definition
+
+Using one parent event listener to handle child elements using event.target.
+
+🔸 Advantage
+better performance
+works for dynamic elements
+🔹 7. DOM Selection
+Method	Type
+getElementsByClassName	live HTMLCollection ❌ static
+getElementsByTagName	live HTMLCollection ❌ static
+querySelectorAll	static NodeList ✅
+
+👉 Correct answer: querySelectorAll
+
+🔹 8. Create & Append Element
+🔸 Task
+
+Create <li> and append to <ul id="myList">
+
+let li = document.createElement("li");
+li.textContent = "New Item";
+
+let ul = document.getElementById("myList");
+ul.append(li);
+🔹 9. Focus Event (Input Highlight)
+input.addEventListener("focus", function() {
+    this.style.border = "2px solid blue";
+});
+🔹 10. Destructuring Basics
+🔸 Example
+const [a, , b] = [1, 2, 3, 4];
+
+👉 b = 3
+
+🔸 Rule
+comma skips elements
+🔹 11. Spread Operator
+[..."hello"]
+
+👉 Result:
+
+["h","e","l","l","o"]
+🔹 12. style vs cssText
+Feature	style	cssText
+Type	individual property	full string
+overwrite	no	yes
+usage	small changes	bulk styling
+🔹 13. getAttribute() vs .href
+Feature	getAttribute	.href
+value	raw HTML	full URL
+resolution	no	yes
+🔹 14. Destructuring null/undefined
+const { name } = null;
+
+👉 ❌ TypeError
+
+🔸 Fix
+const { name } = null || {};
+🔹 15. Rest Parameter Rule
+const [a, ...b, c] = [1,2,3,4];
+
+👉 ❌ Not allowed
+
+🔸 Rule:
+Rest must be last element only
+🔹 FINAL QUICK REVISION
+DOM = structure of webpage
+append = flexible, appendChild = strict
+bubbling = child → parent
+delegation = parent handles child
+querySelectorAll = static NodeList
+spread = expand
+rest = collect
+destructuring = unpack values
+arrow function this = lexical scope
+cssText = bulk styles
+style = individual styles
+
+==============================
+next QA class= 16-21

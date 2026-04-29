@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("includes/head.ejs") %>
+<body>
+    <h1>All Chats</h1>
+    <div>
+        <a href="/chats/new"><button>
+            New Chat
+        </button></a>
+    </div>
+<br>
+<% for(let chat of result) { %>
+<div class="chat">
+<p>From: <%= chat.from %> </p>
+<p>To: <%= chat.to %> </p>
+<div class="msg">
+<p><%= chat.msg %> </p>
+</div>
+<a href="/chats/<%= chat.id %>/edit"><button>Edit</button></a>
+<hr>
+<p>Created at: <%= chat.created_at %> </p>
+</div>
+<br>
+<% } %>
+    
+</body>
+</html>

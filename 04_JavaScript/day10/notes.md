@@ -5,141 +5,94 @@ OBJECTS IN JAVASCRIPT – COMPLETE MASTER NOTES
 Definition:
 Object is a collection of key–value pairs.
 Used to store related data and functionality together.
-
 ============================================================================================================================
 CREATING OBJECT
 ============================================================================================================================
 
-Syntax:
-let objName = {
-    key1: value1,
-    key2: value2
-};
+SYNTAX                           EXAMPLE
+------                           -------
+let objName = {                 let ajay = {
+    key1: value1,                  name: "Ajay",
+    key2: value2                   age: 25,
+};                                 city: "Delhi"
+                                };
 
-Example:
-let ajay = {
-    name: "Ajay",
-    age: 25,
-    city: "Delhi"
-};
+ACCESSING VALUES (OBJECTS)
+--------------------------
 
--ACCESSING VALUES (2 WAYS in objects)
+1) DOT NOTATION
+ajay.name;           // "Ajay"
 
-1) Dot Notation
-ajay.name;              // "Ajay"
+2) BRACKET NOTATION
+ajay["name"];        // "Ajay"
 
-2) Bracket Notation
-ajay["name"];           // "Ajay"
 
-When to use Bracket notation
+WHEN TO USE BRACKET
+------------------
+✔ Key stored in variable
+✔ Key has spaces
 
-Use it when the key is stored in a variable.
 
-Example
-let ajay = {
+EXAMPLE (VARIABLE KEY)
+----------------------
+let key = "name";
+ajay[key];           // Ajay
+ajay.key;            // undefined (looks for "key")
+
+
+EXAMPLE (SPACE IN KEY)
+----------------------
+let person = { "full name": "Ajay Sharma" };
+person["full name"]; // Ajay Sharma
+person.full name     // ❌ error
+
+
+RULES
+-----
+obj.name    → fixed key
+obj["name"] → string key
+obj[key]    → variable/dynamic key
+
+------------------------------------------------
+
+ADD / UPDATE / DELETE IN OBJECTS
+--------------------------------
+
+OBJECT (REFERENCE)
+------------------
+let obj = {
   name: "Ajay",
   age: 25,
   city: "Delhi"
 };
 
-let key = "name";
-
-console.log(ajay[key]);   // Ajay
-
-If you write:
-console.log(ajay.key);
-
-Output will be undefined, because it looks for a key literally called "key".
-
-Another situation (keys with spaces)
-
-Dot notation cannot work.
-
-let person = {
-  "full name": "Ajay Sharma"
-};
-
-console.log(person["full name"]); // Ajay Sharma
-
-Dot notation would fail:
-
-person.full name  // ❌ error
-
-✅ Simple rule
-
-object.name → when key is fixed
-
-object[key] → when key comes from variable / dynamic / spaces.
-
-✅ Rule
-obj["name"] → string key
-
-obj[key] → variable containing the key
-
-obj.name → dot notation (direct key)
-==============================================
-Note: ACCESSING ARRAY VALUES
-
-Array values are accessed using INDEX.
-
-Example:
-
-let arr = ["Apple", "Banana", "Mango"];
-
-arr[0]   → Apple
-arr[1]   → Banana
-arr[2]   → Mango
-
-Rule:
-Array indexing starts from 0.
-====================================================
-ADD / UPDATE / DELETE IN OBJECTS
-====================================================
 
 ADD PROPERTY
-----------------------------------------------------
-ajay.country = "India";
+------------
+obj.country = "India";
 
 ✔ Adds new key–value pair
-✔ If key doesn't exist → it gets created
+✔ If key doesn't exist → created
 
 
 UPDATE PROPERTY
-----------------------------------------------------
-ajay.age = 26;
+---------------
+obj.age = 26;
 
-✔ If key already exists → value is updated
+✔ If key exists → value updated
 
 
 DELETE PROPERTY
-----------------------------------------------------
-delete ajay.city;
+---------------
+delete obj.city;
 
-✔ Removes property from object
+✔ Removes property completely from object
+✔ delete is a JS operator
 
-✔ delete is a JavaScript operator.
-
-It works on:
+Works on:
 - Object properties
 - Array elements
-- Variables (with limitations)
-
-
-====================================================
-HOW IT WORKS
-====================================================
-
-let obj = { a: 10, b: 20 };
-
-delete obj.a;
-
-console.log(obj);
-// { b: 20 }
-
-
-delete → removes property completely
-         from the object
-
+- Variables (with limits)
 
 ============================================================================================================================
 NESTED OBJECTS
@@ -187,7 +140,6 @@ Reuse functionality
 Same object can call the method whenever needed.
 
 Work directly with object data using this
-
 
 ================================================================================
 THIS KEYWORD (JavaScript) – INTERVIEW POINTS
@@ -297,20 +249,21 @@ LOOPING OBJECT (FOR...IN)
 let obj = { a:1, b:2 };
 
 for(let key in obj){
-    console.log(key, obj[key]);
+    console.log(key, obj[key]); //key n value
 }
-
 
 ============================================================================================================================
 OBJECT BUILT-IN METHODS
 ============================================================================================================================
 
-let user = { name:"Ajay", age:25 };
+let user = { 
+    name:"Ajay",
+     age:25 
+     };
 
 Object.keys(user);       // ["name","age"]
 Object.values(user);     // ["Ajay",25]
 Object.entries(user);    // [["name","Ajay"],["age",25]]
-
 
 Check property:
 "name" in user;                   // true

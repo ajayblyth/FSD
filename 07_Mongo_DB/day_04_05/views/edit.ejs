@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("includes/head.ejs") %>
+<body>
+    <h2>Edit Chat</h2>
+
+<form action="/chats/<%= chat._id %>/edit/?_method=PATCH" method="post">
+
+    <label for="from">From:</label>
+    <input type="text" name="from" id="from" value="<%= chat.from %>" disabled>
+    <br><br>
+
+    <label for="to">To:</label>
+    <input type="text" name="to" id="to" value="<%= chat.to %>" disabled>
+    <br><br>
+
+    <label for="msg">Message:</label>
+    <textarea name="message" id="msg"><%= chat.message %></textarea>
+    <br><br>
+
+    <button type="submit">send</button>
+
+</form>
+</body>
+</html>

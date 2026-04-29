@@ -90,8 +90,7 @@ EVENT DELEGATION – NOTES
 
 DEFINITION
 --------------------------------------------------------------------------------
-Event Delegation is a technique where we attach 
-a single event listener to a parent element 
+Event Delegation is a technique where we attach a single event listener to a parent element 
 to handle events for its child elements.
 
 It works because of Event Bubbling.

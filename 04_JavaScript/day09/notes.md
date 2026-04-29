@@ -2,37 +2,61 @@
 FUNCTION EXPRESSIONS
 ============================================================================================================================
 
-Definition: Function stored in a variable. 
-- they are usually Anonymous, Because the variable name already acts as the function name.
+DEFINITION
+----------
+- Function stored inside a variable
+- Usually anonymous (no name)
+  because variable name acts as identifier
 
-const variableName = function(arg1,arg2){
+SYNTAX
+------
+const variableName = function(arg1, arg2) {
     // logic
     return val;
 };
 
-const sum = function(a,b){ return a+b; };  // returns addition
-sum(2,3);  // 5
+EXAMPLE
+-------
+const sum = function(a, b) {
+    return a + b;
+};
 
-Important Notes:
-- Stored inside variable
-- Anonymous function
-- Cannot be called before definition
+sum(2, 3);  // 5
 
-🚀 Why Storing in Variable Is More Powerful
-1️⃣ Can Change at Runtime
-let action = function() { 
-    console.log("Run");
+
+----------------------------------------------------------------
+
+WHY FUNCTION EXPRESSIONS ARE POWERFUL
+----------------------------------------------------------------
+
+1️⃣ CAN CHANGE AT RUNTIME (REASSIGNMENT)
+----------------------------------------
+let action = function() {
+    console.log("start");
 };
 
 action = function() {
-    console.log("Stop");
+    console.log("stop");
 };
 
-action(); // Stop
+action();  // stop
 
-You cannot reassign a function declaration like this easily.
+👉 Explanation:
+- Variables store function reference
+- Reassignment changes the reference (pointer)
+- Old function is replaced, not stored multiple times
 
-2️⃣ Can Create Functions Conditionally
+
+NOTE:
+-----
+- Function declarations cannot be reassigned like this safely
+- Function expressions can be changed dynamically
+
+
+----------------------------------------------------------------
+
+2️⃣ DYNAMIC BEHAVIOR (CONDITIONAL FUNCTIONS)
+--------------------------------------------
 let action;
 
 if (true) {
@@ -41,8 +65,53 @@ if (true) {
     action = function() { console.log("B"); };
 }
 
-You cannot declare two function action() inside blocks safely.
+👉 Based on condition, different function is assigned
 
+
+EXAMPLE
+-------
+let mode = "dark";
+
+let action;
+
+if (mode === "dark") {
+    action = () => console.log("Dark mode");
+} else {
+    action = () => console.log("Light mode");
+}
+
+action();
+
+
+----------------------------------------------------------------
+
+USE CASES
+---------
+
+✔ EVENT HANDLING
+- Change behavior based on events (click, input, submit)
+- Example: button click → different function runs
+
+✔ CALLBACKS
+- Function passed into another function
+- Runs later when task completes (async)
+
+✔ DYNAMIC BEHAVIOR
+- Same variable can point to different functions
+- Behavior changes at runtime based on condition
+
+✔ STATE-BASED LOGIC (React, Node, APIs)
+- Same variable → different behavior based on state/data
+- Used in real apps for switching logic dynamically
+
+👉 Same variable, different behavior at runtime
+
+
+----------------------------------------------------------------
+
+🧠 ONE-LINE
+-----------
+action does not store multiple functions — it only points to the latest assigned function
 
 ============================================================================================================================
 HIGHER ORDER FUNCTIONS (HOF)
@@ -81,16 +150,79 @@ function oddEvenTest(request){
     else { console.log("wrong request"); }
 }
 
-let checkOdd = oddEvenTest("odd");
-checkOdd(5);   // true (odd)
+let checkOdd = oddEvenTest("odd"); //oddEvenTest("odd") RETURNS a FUNCTION, so now checkodd has function in it(like function expressions)
+
+checkOdd(5);   // true (odd)...here we passing value in function which was returned in checkodd
 
 let checkEven = oddEvenTest("even");
 checkEven(10); // true (even)
+
+FINAL FLOW
+--------------------------------------------------
+oddEvenTest("odd") → returns function
+checkOdd           → stores returned function
+checkOdd(5)        → executes stored function with 5
+
+
+--------------------------------------------------
+KEY POINT
+--------------------------------------------------
+✔ Variable is NOT storing a value
+✔ Variable is storing a FUNCTION reference
+✔ That function is executed later
 
 Important Points:
 - Functions can be passed or returned
 - Returned function remembers outer variables (closure)
 
+-------------------------------------------------------------
+EXAMPLE HOF and callback difference
+----------------------------------
+
+function processUser(name, callback) {
+  console.log("Processing user: " + name);
+  callback();
+}
+
+function sayHello() {
+  console.log("Hello!");
+}
+
+processUser("Ajay", sayHello);
+
+
+--------------------------------------------------
+IDENTIFICATION
+--------------------------------------------------
+
+👉 processUser = HOF
+   (because it takes a function as argument)
+
+👉 sayHello = CALLBACK
+   (because it is passed into another function)
+
+
+--------------------------------------------------
+WHY?
+--------------------------------------------------
+
+- processUser accepts a function → so it is HOF
+- sayHello is passed into processUser → so it is callback
+
+
+--------------------------------------------------
+DIFFERENCE (THEORY)
+--------------------------------------------------
+
+CALLBACK
+--------
+- Function passed into another function
+- Used to execute later
+
+HOF (Higher Order Function)
+---------------------------
+- Function that accepts a function OR returns a function
+- Controls execution of callback
 
 ============================================================================================================================
 METHODS IN JAVASCRIPT
@@ -101,18 +233,16 @@ Definition: Function stored inside an object. Defines object actions.
 const calculator = {
     add: function(a,b){ 
         return a+b; 
-        },  // normal syntax
+        },  // normal syntax,looks like a function inside add variable but with a colon
+
     sub(a,b){ 
         return a-b; 
         },            // shorthand syntax
-    mul: function(a,b){ 
-        return a*b; 
-        }   // normal syntax
+
 };
 
 calculator.add(5,3);   // 8
 calculator.sub(10,4);  // 6
-calculator.mul(2,6);   // 12
 
 // Built-in Array methods
 [1,2,3];                // [1,2,3]
@@ -127,52 +257,316 @@ Important Points:
 - Many built-in objects have methods
 
 
-============================================================================================================================
-THIS KEYWORD
-============================================================================================================================
+THIS KEYWORD (JavaScript)
+-------------------------
 
-Definition: - "this" refers to calling object.
+DEFINITION
+----------
+- "this" refers to the object that is currently executing the function
+- "this" refers to calling object
 
-Its value depends on how the function is called, not where it is defined.
+👉 In object methods:
+obj.method() → this = obj
 
-In an object method, this refers to that object.
+Better definition
 
-In regular functions (non-strict mode), this refers to the global object (window in browser); in strict mode, it is undefined.
+this is a runtime keyword that points to the object that invokes the function.
 
-Arrow functions inherit this from outer/ surrounding (lexical) scope.
+🔹 Why “runtime” keyword?
+Because this is NOT decided when you write the code ❌
+It is decided only when the function is executed ✅
 
--- this depends on how the function is called (the caller).
+Example:
+this (runtime)
+function show() {
+  console.log(this);
+}
+
+👉 At this point, JS does NOT know:
+
+who will call show()
+🔹 Now depends on HOW it is called
+Case 1
+obj.show();
+
+👉 this = obj
+
+Case 2
+show();
+
+👉 this = window (or undefined in strict mode)
+
+--------------------------------------------------
+
+GLOBAL CONTEXT
+--------------
+console.log(this);
+
+👉 Browser: window
+👉 Node.js: global / {}
+
+In regular functions:
+- Non-strict mode → this = global object (window in browser)
+- Strict mode → this = undefined
+
+
+--------------------------------------------------
+
+STRICT vs NON-STRICT MODE
+-------------------------
+
+| STRICT MODE ("use strict")        | NON-STRICT MODE (default JS)     |
+|-----------------------------------|----------------------------------|
+| Safer JS                          | Flexible JS                      |
+| Shows errors                      | Hides some errors               |
+| this = undefined (functions)      | this = window (browser)         |
+| No auto global variables          | Allows accidental globals       |
+| Prevents bad practices            | Older relaxed behavior          |
+
+KEY DIFFERENCE
+--------------
+Strict → safe + errors visible
+Non-strict → flexible + risky
+
+ONE-LINE
+--------
+Strict = safe JS rules, Non-strict = relaxed JS behavior
+
+
+--------------------------------------------------
+
+ARROW FUNCTION (this behavior)
+------------------------------
+- Arrow functions do NOT have their own this
+- They take this from surrounding (lexical) scope
+
+Example:
 const obj = {
   name: "Ajay",
-  greet() { console.log(this.name); }
+  show: () => {
+    console.log(this.name);
+  }
 };
 
-obj.greet();   // "Ajay" → called as object method, so this = obj
+👉 this is NOT obj
+👉 this comes from outer scope
 
-👉 If called as obj.greet(), this = obj.
-👉 If called as normal greet(), this = global object (or undefined in strict mode).
 
+--------------------------------------------------
+
+THIS DEPENDS ON HOW FUNCTION IS CALLED
+--------------------------------------
+
+Example:
+const obj = {
+  name: "Ajay",
+  greet() {
+    console.log(this.name);
+  }
+};
+
+obj.greet();  
+👉 this = obj (called as method)
+
+If called normally:
+greet();  
+👉 this = global object (or undefined in strict mode)
+
+
+--------------------------------------------------
+
+PRACTICAL EXAMPLE
+-----------------
 const student = {
-    name: "nithin",
-    age: 23,
-    eng: 95,
-    math: 93,
-    phy: 97,
+  name: "nithin",
+  age: 23,
+  eng: 95,
+  math: 93,
+  phy: 97,
 
-    getAvg(){
-        let avg = (this.eng + this.math + this.phy)/3;
-        console.log(avg);
-    }
+  getAvg() {
+    let avg = (this.eng + this.math + this.phy) / 3;
+    console.log(avg);
+  }
 };
 
-student.getAvg();  // this → student object
-
-Important Points:
-- "this" refers to calling object
-- Accesses object properties
-- Mostly used inside object methods
+student.getAvg();
+👉 this = student object
 
 
+--------------------------------------------------
+
+EVENT HANDLER
+-------------
+button.onclick = function() {
+  console.log(this);
+};
+
+👉 this = button element
+
+
+--------------------------------------------------
+
+KEY RULES
+---------
+✔ this depends on HOW function is called
+✔ NOT where function is written
+
+
+--------------------------------------------------
+
+ONE-LINE SUMMARY
+----------------
+this = object that is calling the function
+-------------------------------------------------------------
+THIS KEYWORD - COMPLETE PRACTICE SET
+------------------------------------
+
+Q1
+--
+const obj = {
+  name: "Ajay",
+  show: function () {
+    console.log(this);
+  }
+};
+
+obj.show();
+
+
+Q2
+--
+function test() {
+  console.log(this);
+}
+
+test();
+
+
+Q3
+--
+const obj = {
+  name: "Ajay",
+  show: () => {
+    console.log(this);
+  }
+};
+
+obj.show();
+
+
+Q4
+--
+const obj = {
+  name: "Ajay",
+  show() {
+    function inner() {
+      console.log(this);
+    }
+    inner();
+  }
+};
+
+obj.show();
+
+
+Q5
+--
+button.onclick = function () {
+  console.log(this);
+};
+
+
+Q6
+--
+function show() {
+  console.log(this);
+}
+
+const obj = { name: "Ajay" };
+
+show.call(obj);
+
+
+Q7
+--
+const obj = {
+  name: "Ajay",
+  show() {
+    setTimeout(function () {
+      console.log(this);
+    }, 1000);
+  }
+};
+
+obj.show();
+
+
+Q8
+--
+const obj = {
+  name: "Ajay",
+  show() {
+    setTimeout(() => {
+      console.log(this.name);
+    }, 1000);
+  }
+};
+
+obj.show();
+
+
+--------------------------------------------------
+
+ANSWERS + EXPLANATION
+--------------------------------------------------
+
+Q1
+--
+this = obj
+👉 called as obj.show()
+
+
+Q2
+--
+this = window / undefined (strict mode)
+👉 normal function call, no object
+
+
+Q3
+--
+this = window (or outer scope)
+👉 arrow function has no own this
+
+
+Q4
+--
+this = window / undefined
+👉 inner() is normal function, called directly
+
+
+Q5
+--
+this = button element
+👉 event handler sets this to DOM element
+
+
+Q6
+--
+this = obj
+👉 call() explicitly sets this
+
+
+Q7
+--
+this = window / undefined
+👉 setTimeout callback is normal function, loses object context
+
+
+Q8
+--
+this = obj
+👉 arrow function inherits lexical this from show()
 ============================================================================================================================
 TRY & CATCH
 ============================================================================================================================

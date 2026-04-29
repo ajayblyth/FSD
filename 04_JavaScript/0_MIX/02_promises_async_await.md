@@ -2,6 +2,145 @@
 
 ==================== PROMISE (JavaScript) ====================
 
+BRO code
+PROMISE NOTES + CHAINING (ORGANISED)
+-----------------------------------
+
+
+🔹 PROMISE BASICS
+----------------
+- Promise = object that handles async operations
+- "I promise to return a value"
+
+States:
+- PENDING → RESOLVED (success)
+- PENDING → REJECTED (failure)
+
+Syntax:
+new Promise((resolve, reject) => {
+  // async code
+});
+
+
+🔹 TASK FLOW (SEQUENTIAL)
+------------------------
+1. Walk the dog
+2. Clean the kitchen
+3. Take out the trash
+
+
+
+🔹 FUNCTIONS (WITH PROMISES)
+---------------------------
+
+// 1. WALK DOG
+function walkDog() {
+  return new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+
+      const dogWalked = false;
+
+      if (dogWalked) {
+        resolve("You walked the dog 🐕");
+      } else {
+        reject("You DIDN'T walk the dog ❌");
+      }
+
+    }, 1500);
+
+  });
+}
+
+
+// 2. CLEAN KITCHEN
+function cleanKitchen() {
+  return new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+
+      const kitchenCleaned = true;
+
+      if (kitchenCleaned) {
+        resolve("You cleaned the kitchen 🍽️");
+      } else {
+        reject("You DIDN'T clean the kitchen ❌");
+      }
+
+    }, 2500);
+
+  });
+}
+
+
+// 3. TAKE OUT TRASH
+function takeOutTrash() {
+  return new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+
+      const trashTakenOut = false;
+
+      if (trashTakenOut) {
+        resolve("You took out the trash 🗑️");
+      } else {
+        reject("You DIDN'T take out the trash ❌");
+      }
+
+    }, 500);
+
+  });
+}
+
+
+
+🔹 PROMISE CHAINING
+------------------
+walkDog()
+  .then(value => {
+    console.log(value);
+    return cleanKitchen();
+  })
+  .then(value => {
+    console.log(value);
+    return takeOutTrash();
+  })
+  .then(value => {
+    console.log(value);
+    console.log("You finished all chores 🎉");
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
+
+🔹 FLOW
+-------
+- Each .then() waits for previous task
+- If any task fails → jumps to .catch()
+
+flow in detail
+🔹 1. Start
+walkDog()
+Function runs → returns a Promise
+Timer starts (1500 ms)
+Code does NOT block (async)
+🔹 2. First .then()
+.then(value => {
+  console.log(value);
+  return cleanKitchen();
+})
+Waits until walkDog() finishes
+If resolved:
+value = result (e.g. "You walked the dog")
+Prints it
+Calls cleanKitchen()
+IMPORTANT: returns its Promise → chain continues
+If rejected:
+Skips ALL .then()
+Goes directly to .catch()
+==========================================================
+
 🔹 1. WHAT IS A PROMISE?
 ------------------------------------------------------------
 A Promise is an object that represents the future result of an
@@ -131,6 +270,8 @@ doSomething()
 
 
 ============================================================
+
+
 ==================== ASYNC / AWAIT ==========================
 ============================================================
 
@@ -226,6 +367,87 @@ Start
 User Data
 End
 
+example 2:
+
+ASYNC / AWAIT (CHORES EXAMPLE)
+------------------------------
+
+// same promise functions (unchanged)
+function walkDog() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const dogWalked = true;
+
+      if (dogWalked) {
+        resolve("You walked the dog 🐕");
+      } else {
+        reject("You DIDN'T walk the dog ❌");
+      }
+    }, 1500);
+  });
+}
+
+function cleanKitchen() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const kitchenCleaned = true;
+
+      if (kitchenCleaned) {
+        resolve("You cleaned the kitchen 🍽️");
+      } else {
+        reject("You DIDN'T clean the kitchen ❌");
+      }
+    }, 2500);
+  });
+}
+
+function takeOutTrash() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const trashTakenOut = true;
+
+      if (trashTakenOut) {
+        resolve("You took out the trash 🗑️");
+      } else {
+        reject("You DIDN'T take out the trash ❌");
+      }
+    }, 500);
+  });
+}
+
+
+// ASYNC FUNCTION
+async function doChores() {  //async function returns a promise
+  try {
+    const res1 = await walkDog();        // wait for task 1
+    console.log(res1);
+
+    const res2 = await cleanKitchen();  // wait for task 2
+    console.log(res2);
+
+    const res3 = await takeOutTrash();  // wait for task 3
+    console.log(res3);
+
+    console.log("You finished all chores 🎉");
+
+  } catch (err) {
+    console.error(err);                 // handles any failure
+  }
+}
+
+
+// CALL FUNCTION
+doChores();
+
+🔹 HOW FLOW WORKS
+await = pause here until promise finishes
+Code runs top → bottom (like normal code)
+No .then() chaining needed
+🔹 SAME LOGIC AS PROMISE CHAIN
+.then() chain  ≈  async/await
+
+.then()        →   await
+.catch()       →   try...catch
 
 ============================================================
 🔹 6. ERROR HANDLING
@@ -608,3 +830,13 @@ Async/Await → “Wait here until result comes, then continue”
 ✔ Removes .then() chaining complexity
 ✔ Uses try/catch for error handling
 ✔ Improves readability and structure
+
+
+let li = document.createElement("li") 
+ li.textcontent = "new item"; 
+  let ul = document.getElementByID("myList"); 
+  ul.appendChild(li);
+
+  addeventListener("focus", function()){
+    this.style.border = "2px, solid yellow";
+  }

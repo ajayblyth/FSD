@@ -1,0 +1,112 @@
+day_01 project
+===========================
+npm init -y
+npm i express
+npm i ejs
+npm i methodo-override
+npm i mongoose
+
+-------------
+step 1 create database model
+Model: Listing
+
+title       : String
+description : String
+image       : String   // URL
+price       : Number
+location    : String
+country     : String
+place       : String   // apartment, flat, house
+
+---------------------
+routes
+Index Route
+
+GET/lishings > all lstings
+/listings :id
+
+Read : Show Route
+
+GET  /listings/:id -> all data
+
+num.tolocalstring
+
+Ui num= 12345
+
+Create : New & Create Route
+
+GIET
+
+POST
+
+Update : Edit & Update Route
+/ Lishiage Fidfulit
+
+Justing faid
+
+Delete : Delete Route
+
+DELETE
+
+/usting /:id > all data
+
+Form
+
+Submit
+
+/Ustings
+
+O1ET
+
+PUT
+
+edit fon
+
+Subomit
+
+/Listinge /:id
+
+===========================
+dummy data will be given by nithin
+================
+create init folder for data initialisation
+======================
+check at 43 minutes of video, for database creation 
+==========================
+
+What is EJS Mate?
+
+EJS vs EJS-Mate
+
+Main Idea
+
+EJS already allows code reuse using include.
+
+But ejs-mate makes reuse easier by giving a layout system.
+
+Normal EJS
+
+t ejs
+
+<%- include("partials/navbar") %>
+
+<h1>Home Page</h1>
+
+<- include("partials/footer") %>
+
+Here, every page must manually include navbar and footer.
+
+With ejs-mate
+
+t ejs
+
+<% layout("layouts/boilerplate") %>
+
+<h1>Home Page</h1>
+
+The common HTML structure is written once in boile plate.ejs
+
+=============
+at 1:36 , update index.ejs from nithin
+==============
+1:55 , next step for Delete
