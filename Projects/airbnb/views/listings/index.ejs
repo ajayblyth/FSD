@@ -1,0 +1,12 @@
+ <% layout("/layout/boilerplate") %> //this is the boilerplate layout file, which we will use for all our pages, it contains the basic html structure, and we can include our navbar and footer in it, so that we don't have to include them in every page.
+
+ //below this we have the content of our page, which will be injected into the layout file, where we have <%- body -%>
+ <h3> All Listings </h3>
+<a href="/listings/new"><button>New Listing</button></a>
+<ul>
+<% for(let listing of listings) { %>
+<li> <a href="/listings/<%= listing ._ id %>"> <%= listing.title %> </a> </li>
+< } %>
+
+
+    </ul>

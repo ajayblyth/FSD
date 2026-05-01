@@ -110,3 +110,82 @@ The common HTML structure is written once in boile plate.ejs
 at 1:36 , update index.ejs from nithin
 ==============
 1:55 , next step for Delete
+
+==================
+date 5/1/2026
+time 1:18
+What is ejs-mate?
+
+👉 It adds layout support to EJS
+
+So instead of repeating navbar/footer in every file, you do:
+
+one layout file
+pages get injected inside it
+🔥 Why it’s better than <%- include %>
+❌ includes method:
+you manually add navbar in every file
+easy to forget
+repetitive
+✅ ejs-mate:
+one layout (like React template)
+cleaner structure
+professional approach
+🚀 Setup ejs-mate
+🔹 Step 1: Install
+npm i ejs-mate
+🔹 Step 2: Configure in app.js
+const engine = require("ejs-mate");
+
+app.engine("ejs", engine);
+app.set("view engine", "ejs");
+🧱 Step 3: Create layout file
+
+📁 views/layouts/boilerplate.ejs
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airbnb Clone</title>
+</head>
+<body>
+
+    <nav>
+        <a href="/listings">Home</a>
+        <a href="/listings/new">Add Listing</a>
+    </nav>
+
+    <%- body %>
+
+</body>
+</html>
+📄 Step 4: Use layout in pages
+Example: show.ejs
+<% layout('layouts/boilerplate') %>
+
+<h3>Listing Details</h3>
+🧠 How it works
+layout file (boilerplate)
+        ↓
+navbar + structure
+        ↓
+<%- body %> replaced with page content
+⚖️ ejs-mate vs include
+Feature	include	ejs-mate
+Setup	easy	medium
+Clean code	medium	⭐ best
+Scalable	no	yes
+Real projects	less used	widely used
+⚡ Final recommendation for YOU
+
+Since you're building Airbnb clone:
+
+👉 YES use ejs-mate
+because:
+
+you have multiple pages
+layout reuse matters
+cleaner architecture
+🧠 One-line answer
+
+👉 Yes, ejs-mate is better than manual includes for your project.
