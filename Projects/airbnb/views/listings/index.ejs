@@ -1,12 +1,31 @@
- <% layout("/layout/boilerplate") %> //this is the boilerplate layout file, which we will use for all our pages, it contains the basic html structure, and we can include our navbar and footer in it, so that we don't have to include them in every page.
+<% layout("/layout/boilerplate") %>
+<h3> All Listings </h3>
+<div class="row">
 
- //below this we have the content of our page, which will be injected into the layout file, where we have <%- body -%>
- <h3> All Listings </h3>
-<a href="/listings/new"><button>New Listing</button></a>
-<ul>
 <% for(let listing of listings) { %>
-<li> <a href="/listings/<%= listing ._ id %>"> <%= listing.title %> </a> </li>
-< } %>
+<div class="card col" ></div>
+<img src="<%= listing. image %>" class="card-img-top" alt="listing">
+<div class="card-body">
+<p class="card-text">
+<b><%=listing.title %></b> <br>
+&#8377 <%= listing.price.toLocaleString() %> / night
+</p>
+</div>
+</div>
 
+<% } %>
 
-    </ul>
+->
+
+I
+
+<!-- <li> <a href="/listings/<%= listing ._ id %>"> <%= listing.title %> </a> </li> -- >
+
+</div>
+
+<!-- <li> <a href="/listings/<%= listing ._ id %>"> <%= listing.title %> </a> </li> -- >
+    update from 8:00 ... 5/2/2026
+    //read grid system at 8:04 , row and twelve column
+
+    update from 8:12/ 8:18/ 8:21 ... 5/2/2026
+    read at 8:15/8:18

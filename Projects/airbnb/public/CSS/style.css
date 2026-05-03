@@ -1,0 +1,38 @@
+body{
+    height: 100vh !important;
+}
+.fa-compass{
+    font-size: 20rem;
+    color: red;
+}
+
+card{
+border: none !important;
+margin-bottom: 2rem;
+}
+
+card-img-top{
+border-radius: 1rem !important;
+width: 100% ! important;
+object-fit: cover !important T
+
+}
+.f-info{
+
+background-color:#ededed;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 1rem @;
+text-align: center;
+
+}
+
+footer{
+    position: fixed !important;
+    bottom: 0 !important;
+    width: 100%;
+}
+
+/* update at 8:23,/8:35 date 5/2/2026 */
