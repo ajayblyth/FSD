@@ -1,4 +1,4 @@
-body{
+/* body{
     height: 100vh !important;
 }
 .fa-compass{
@@ -6,16 +6,15 @@ body{
     color: red;
 }
 
-card{
+.card{
 border: none !important;
 margin-bottom: 2rem;
 }
 
-card-img-top{
+.card-img-top{
 border-radius: 1rem !important;
-width: 100% ! important;
-object-fit: cover !important T
-
+width: 100% !important;
+object-fit: cover !important;
 }
 .f-info{
 
@@ -24,7 +23,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-padding: 1rem @;
+padding: 1rem;
 text-align: center;
 
 }
@@ -33,6 +32,49 @@ footer{
     position: fixed !important;
     bottom: 0 !important;
     width: 100%;
+} */
+body {
+    /* Changed to min-height so it can grow if you have many listings */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* update at 8:23,/8:35 date 5/2/2026 */
+.fa-compass {
+    /* Reduced from 20rem to a more standard icon size */
+    font-size: 2rem; 
+    color: #fe424d; /* Airbnb-style red is usually closer to this hex */
+}
+
+/* Ensure the main content takes up remaining space so footer stays down */
+main {
+    flex: 1;
+}
+
+.card {
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top {
+    border-radius: 1rem !important;
+    width: 100% !important;
+    aspect-ratio: 1 / 1; /* Keeps images consistent squares/rectangles */
+    object-fit: cover !important;
+}
+
+.f-info {
+    background-color: #ededed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem; /* More breathing room */
+    text-align: center;
+}
+
+footer {
+    /* 'fixed' often overlaps content. 'sticky' or just normal flow is safer */
+    width: 100%;
+    margin-top: auto; /* Pushes footer to bottom if content is short */
+}

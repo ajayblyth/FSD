@@ -8,3 +8,7 @@ DELIMITTER;
 ==================================
 DELIMITTER $$
 CREATE PROCEDURE 
+
+
+http://localhost:3000/listings
+http://localhost:3000/listings/new

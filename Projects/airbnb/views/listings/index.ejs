@@ -1,31 +1,28 @@
 <% layout("/layout/boilerplate") %>
 <h3> All Listings </h3>
-<div class="row">
 
+<div class="row">
 <% for(let listing of listings) { %>
-<div class="card col" ></div>
-<img src="<%= listing. image %>" class="card-img-top" alt="listing">
-<div class="card-body">
-<p class="card-text">
-<b><%=listing.title %></b> <br>
-&#8377 <%= listing.price.toLocaleString() %> / night
-</p>
-</div>
+
+<div class="col-md-4 mb-3">
+    <a href="/listings/<%= listing._id %>" style="text-decoration: none; color: inherit;">
+        <div class="card">
+            <img src="<%= listing.image %>" class="card-img-top" alt="listing">
+            <div class="card-body">
+                <p class="card-text">
+                    <b><%= listing.title %></b> <br>
+                    &#8377; <%= listing.price.toLocaleString() %> / night
+                </p>
+            </div>
+        </div>
+    </a>
 </div>
 
 <% } %>
-
-->
-
-I
-
-<!-- <li> <a href="/listings/<%= listing ._ id %>"> <%= listing.title %> </a> </li> -- >
-
 </div>
 
-<!-- <li> <a href="/listings/<%= listing ._ id %>"> <%= listing.title %> </a> </li> -- >
-    update from 8:00 ... 5/2/2026
-    //read grid system at 8:04 , row and twelve column
+<!-- update from 8:00 ... 5/2/2026 -->
+<!-- read grid system at 8:04 , row and twelve column -->
 
-    update from 8:12/ 8:18/ 8:21 ... 5/2/2026
-    read at 8:15/8:18
+<!-- update from 8:12/ 8:18/ 8:21 ... 5/2/2026 -->
+<!-- read at 8:15/8:18 -->
