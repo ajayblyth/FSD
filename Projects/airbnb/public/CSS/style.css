@@ -35,9 +35,9 @@ footer{
 } */
 body {
     /* Changed to min-height so it can grow if you have many listings */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    min-height: 100vh !important;
+    /* display: flex;
+    flex-direction: column; */
 }
 
 .fa-compass {

@@ -5,8 +5,10 @@ const path = require("path");
 const methodOverride = require("method-override");
 const CustomError = require("./error.js"); //fix at 8:32...5/4/2026
 const engine = require("ejs-mate");
-
+const listingSchema = require("./schema.js");   
 // app setup
+
+//const variables
 
 const app = express();
 const port = 3000;
@@ -42,7 +44,17 @@ main()
 app.get("/", (req, res) => {
     res.send("hello i am up and running");
 });
+function validateListing(req, res, next)
 
+let {error} = listingSchema.validate(req.body);
+if(error)
+
+let msg = error.details.map(el=>el.message).join(",");
+throw new CustomError(msg, 400);
+}
+next();
+
+}
 // //learning error handling
 // app.get("/about", (req, res) => {
 //     let abcd;
@@ -107,7 +119,7 @@ app.get("/listings/:id", async (req, res) => {
         res.render("listings/show.ejs", { listing });
     } catch (err) {
         console.log(err);
-        res.status(500).send("Internal Server Error");
+        next(new CustomError("Listing Not Found", 404));
     }
 });
 
@@ -119,7 +131,7 @@ app.get("/listings/:id/edit", async (req, res) => {
 });
 
 // UPDATE - save changes
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", validateListing, async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body });
     res.redirect("/listings");
@@ -151,14 +163,14 @@ app.delete("/listings/:id", async (req, res) => {
 // // next(err);
 
 
-app.use((err, req, res, next) => {
-    let { statusCode = 500, message = "Something went wrong" } = err;
-    res.status(statusCode).send(message);
+app.all("*splat", (req, res, next)=>{
+next(new CustomError("Page Not Found", 404));
+
+app.use((err, req, res, next)=>{
+let {statusCode = 500, message = "Something went wrong"} = err;
+res.render("error.ejs", {err: {statusCode, message}});
+
 });
-
-
-// start server
-
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
