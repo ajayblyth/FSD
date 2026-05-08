@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Listing = require("./models/listings.js");
+const Review = require("./models/review.js");
 const path = require("path");
 const methodOverride = require("method-override");
 const CustomError = require("./error.js"); //fix at 8:32...5/4/2026
@@ -140,37 +141,35 @@ app.put("/listings/:id", validateListing, async (req, res) => {
 
 // DELETE - remove listing
 
-app.delete("/listings/:id", async (req, res) => {
-    const id = req.params.id;
-    await Listing.findByIdAndDelete(id);
-    res.redirect("/listings");
+app.delete("/listings/:id", async(req, res)=>{
+const id = req.params.id;
+console.log("I am here")
+await Listing.findByIdAndDelete(id);
+
+res.redirect("/listings");
+
+I//checked till below for 5/08/2026, updated
+app.post("/listings/:id/reviews", async (req, res)=>{
+const newreview = new Review(req.body);
+const listing = await Listing.findById(req.params.id);
+listing.reviews.push(newreview);
+await listing.save();
+await newreview.save();
+res.redirect(`/listings/${req.params.id}`);
+
 });
-
-
-
-//manual response to error handler, always put this at the end of all routes, so that if any error is thrown in any route, it will be caught here and handled.
-
-// app.use((err, req, res, next)=>{
-// console.log(err);
-// console.log("I am here in the error handler1");
-// // res.status(500).send("Internal Server Error !");
-// next(err); //can also pass on the error handler which is default error handler
-
-// app.use((err, req, res, next)=>{
-// console.log("I am here in the last error handler2");
-// console.log(err);
-// res.status(500).send("Internal Server Error !");
-// // next(err);
-
 
 app.all("*splat", (req, res, next)=>{
 next(new CustomError("Page Not Found", 404));
+
+})
 
 app.use((err, req, res, next)=>{
 let {statusCode = 500, message = "Something went wrong"} = err;
 res.render("error.ejs", {err: {statusCode, message}});
 
 });
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
