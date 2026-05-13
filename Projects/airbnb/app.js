@@ -6,7 +6,8 @@ const path = require("path");
 const methodOverride = require("method-override");
 const CustomError = require("./error.js"); //fix at 8:32...5/4/2026
 const engine = require("ejs-mate");
-const listingSchema = require("./schema.js");   
+const listingSchema = require("./schema.js");  
+ const flash = require("connect-flash"); 
 // app setup
 
 //const variables
@@ -40,13 +41,30 @@ main()
     .then(() => console.log("Connection to DB successful."))
     .catch((err) => console.log(err));
 
+const sessionOptions = {
+secret: "thisisasecret",
+resave: false,
+saveUninitialized: true,
+cookie:{
+httpOnly: true,
+expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1 week
+maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+}
+};
 
+app.use(session(sessionOptions));
+app.use(flash());
+app.use((req, res, next)=>{
+res.locals.success = req.flash("success");
+res.locals.error = req.flash("error");
+next();
+});
     // dummy route
 app.get("/", (req, res) => {
     res.send("hello i am up and running");
 });
-function validateListing(req, res, next)
-
+function validateListing((req, res, next)=>
+{
 let {error} = listingSchema.validate(req.body);
 if(error)
 
@@ -55,7 +73,22 @@ throw new CustomError(msg, 400);
 }
 next();
 
+});
+const validateReview = (req, res, next) => {
+const { error } = reviewSchema.validate(req.body);
+if(error){
+const msg = error.details.map(el => el.message).join(",");
+throw new CustomError(msg, 400);
+} else {
+next();
 }
+}
+app.use((req, res, next)=>{
+req.responseTime = new Date(Date.now()).toString();
+console.log(req.method, req.path, req.responseTime, req.hostname);
+// res.send("bye")
+next();
+});
 // //learning error handling
 // app.get("/about", (req, res) => {
 //     let abcd;
@@ -159,6 +192,12 @@ res.redirect(`/listings/${req.params.id}`);
 
 });
 
+app.delete("/listings/:id/reviews/:reviewid", async (req, res)=>{
+const {id, reviewid} = req.params;
+await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewid}});
+await Review.findByIdAndDelete(reviewid);
+res.redirect(`/listings/${id}`);
+
 app.all("*splat", (req, res, next)=>{
 next(new CustomError("Page Not Found", 404));
 
@@ -195,3 +234,6 @@ app.listen(port, () => {
 // main().then(()=>{
 // console. log("Connection to DB successful.")
 // }).catch(err=>console.log(err));
+
+
+//update from 7:52... 5/10/2026
