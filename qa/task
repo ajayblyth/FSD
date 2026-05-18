@@ -1,0 +1,54 @@
+CRUD OPERATIONS CODING QUESTION (Node.js + Express)
+Problem Statement
+
+Build a simple User Management REST API using Node.js and Express.js.
+
+Do NOT use:
+
+Database
+Frontend
+MongoDB/MySQL
+
+Store data in an in-memory array.
+
+Requirements
+1. Create User
+Endpoint
+POST /users
+Request Body
+{
+  "name": "Darshan",
+  "email": "darshan@gmail.com"
+}
+Response
+{
+  "message": "User created"
+}
+2. Get All Users
+Endpoint
+GET /users
+Response
+[
+  {
+    "id": 1,
+    "name": "Darshan",
+    "email": "darshan@gmail.com"
+  }
+]
+3. Get Single User by ID
+Endpoint
+GET /users/:id
+
+Example:
+
+/users/1
+4. Update User
+Endpoint
+PATCH /users/:id
+Request Body
+{
+  "name": "Updated Name"
+}
+5. Delete User
+Endpoint
+DELETE /users/:id
