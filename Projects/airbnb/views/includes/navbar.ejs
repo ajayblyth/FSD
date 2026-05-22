@@ -1,15 +1,25 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-<div class="container-fluid">
-<a class="navbar-brand" href="#"><i class="fa-solid fa-compass"></i></a>
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false">
-<span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-<div class="navbar-nav">
-<a class="nav-link active" aria-current="page" href="/">Home</a>
-<a class="nav-link" href="/listings">All listing</a>
-<a class="nav-link" href="/listings/new">Add Listing</a>
-</div>
-</div>
-</div>
+<nav class="navbar navbar-expand-1g bg-body-tertiary border-bottom sticky-top">
+    div class="container-fluid">
+    <a class="navbar-brand" href="#"><i class="fa-solid fa-compass"></i></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup' aria-e>
+<span class=" navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+            <a class="nav-link" href="/listings">All listing</a>
+            <a class="nav-link" href="/listings/new">Add Listing</a>
+        </div>
+
+        <div class="navbar-nav ms-auto"> //ms is margin start auto which pushes the content to the right
+            <% if(!currentUser){ %>
+                <a class="nav-link" href="/signup">Sign Up</a>
+                <a class="nav-link" href="/login">Log In</a>
+                <% } else { %>
+                    <a.class="nav-link" href="/logout">Log Out</a>
+                        <% } %>
+        </div>
+    </div>
+    </div>
 </nav>

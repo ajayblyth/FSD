@@ -1,4 +1,19 @@
-function validateListing(req, res, next)
+const express = require("express");
+const router = express. Router()
+const Listing = require(" .. /models/listings.js")
+const Review = require(" .. /models/review.js");
+const { listingSchema, reviewSchema } = require(" .. /schema.js");
+const CustomError = require(" .. /error.js");
+const asyncWrapper = require(" .. /utils.js");
+const { isLoggedIn, isOwner } = require(" .. /middleware.js");
+const listingController = require(" .. /controllers/listing.js");
+const multer = require("multer");
+const { storage } = require(" .. /cloudinaryAccess.js");
+const upload = multer({ storage });
+
+
+
+function validateListing(req, res, next){
 if(error)
 
 let msg = error.details.map(el=>el.message).join(",");
@@ -6,57 +21,26 @@ throw new CustomError(msg, 400);
 
 next();
 }
+
 // Index route.
-router.get("/", async (req, res)=>{
-try{
-
-// console.log(listings);
-res.locals.message = req.flash("success");
-res.render("listings/index.ejs", {listings});
-}
-catch(err)
-{
-console.log(err);
-res.status(500).json({ error: "Internal Server Error" });
-
-const listings = await Listing.find();
-
-}
+router.get("/", listingController.index);
 
 
-router.post("/new", validateListing, async(req, res)=>{
-try{
-let data = req.body;
-const newListing = new Listing(data);
-await newListing.save();
-req. flash("success", "Successfullly created a new listing")
-res.redirect("/listings");
+// New listing.
+router.get("/new", isLoggedIn, listingController.renderNewForm);
 
-catch(err)
 
-req. flash("error", "Failed to create a new listing")
-res.status(500).json({ error: "Internal Server Error" });
+
+router.post("/new", validateListing, isLoggedIn, listingController.createListing);
 
 // Show a listing.
-router.get("/:id", async (req, res)=>{
-
-
-
-
-
-
+router.get("/:id", listingController.showListing);
 
     //Edit the listing
 
-router.get("/:id/edit", async (req, res)=>{
-const id = req.params.id;
-const listing = await Listing.findById(id);
+router.get("/:id/edit", isLoggedIn, isOwner, );
 
-res.render("listings/edit.ejs", {listing});
-
-});
-
-router.put("/:id", validateListing, async(req, res)=>{
+router.put("/:id", validateListing, isLoggedIn, isOwner, async(req, res)=>{
 const id = req.params.id;
 
 await Listing.findByIdAndUpdate(id, { ... req.body});

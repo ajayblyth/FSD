@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const Review = require("./review");
-
+const Review = require("./review.js");
+const User = require("./user.js");
 const listingSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -19,7 +19,23 @@ const listingSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Review"
         }
-    ]
+    ],
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+
+    geometry: {
+        type: {
+            type: String,
+            enum: ["Point"],
+            default: "Point"
+        },
+        coordinates: {
+            type: [Number],
+
+        },
+    }
 });
 
 const Listing = mongoose.model("listing", listingSchema);

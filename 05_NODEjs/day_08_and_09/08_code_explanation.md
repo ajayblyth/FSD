@@ -40,7 +40,22 @@ app.set("view engine", "ejs");
 <% code %>   → logic (loop/if)
 <% } %>      → close block
 
+-------------------------------------------
+Note: app.set vs express.static
+app.set()
+set(key, value)
 
+Like:
+
+app.set("view engine", "ejs")
+
+express.static()
+static(folderPath)
+
+Because it is middleware function.
+
+Real meaning
+path.join(__dirname, "views")
 📌 DATABASE CONNECTION
 ---------------------------------------------------------------------
 const connection = mysql.createConnection({
