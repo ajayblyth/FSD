@@ -1,38 +1,330 @@
-Project structure:
+till get all users and post using axios
 
-user-management-mongodb/
+---------------------------------------------
+```txt
+==============================================================================
+FOLDER STRUCTURE
+==============================================================================
 
+project/
 │
-├── config/
-│   └── db.js
+├── node_modules/
 │
-├── models/
-│   └── User.js
+├── public/
+│     ├── style.css
+│     └── script.js
 │
-├── routes/
-│   └── userRoutes.js
+├── views/
+│     └── index.ejs
 │
-├── app.js
+├── server.js
 │
 ├── package.json
 │
-└── .gitignore
-1. Install packages
-npm init -y
-npm install express mongoose validator
-npm install --save-dev nodemon
-2. config/db.js
-const mongoose = require("mongoose");
+└── package-lock.json
 
-const connectDB = async () => {
+
+==============================================================================
+WHAT EACH FILE DOES
+==============================================================================
+
+server.js
+→ backend APIs + server
+
+views/index.ejs
+→ frontend UI page
+
+public/style.css
+→ styling
+
+public/script.js
+→ frontend JavaScript + Axios
+
+
+==============================================================================
+STEP 1 → INSTALL PACKAGES
+==============================================================================
+
+npm init -y
+
+npm install express mongoose uuid validator ejs
+
+
+==============================================================================
+STEP 2 → CONFIGURE EJS + STATIC FOLDER
+==============================================================================
+
+Inside server.js
+
+------------------------------------------------------------------------------
+
+const express = require("express");
+const app = express();
+const PORT = 3000;
+
+const path = require("path");
+
+app.use(express.json());
+
+
+// EJS setup
+app.set("view engine", "ejs");
+
+app.set("views", path.join(__dirname, "views"));
+
+
+// Static folder setup
+app.use(express.static(path.join(__dirname, "public")));
+
+------------------------------------------------------------------------------
+
+
+==============================================================================
+WHAT THIS MEANS
+==============================================================================
+
+1.
+
+app.set("view engine", "ejs");
+
+Means:
+
+We will use EJS templates
+
+
+2.
+
+app.set("views", path.join(__dirname, "views"));
+
+Means:
+
+All EJS files are inside views folder
+
+
+3.
+
+app.use(express.static(path.join(__dirname, "public")));
+
+Means:
+
+Frontend can access:
+
+style.css
+script.js
+images
+
+
+==============================================================================
+STEP 3 → CREATE FRONTEND ROUTE
+==============================================================================
+
+Inside server.js
+
+------------------------------------------------------------------------------
+
+app.get("/", (req, res) => {
+
+    res.render("index");
+
+});
+
+------------------------------------------------------------------------------
+
+Meaning
+
+When browser opens "/"
+
+Render views/index.ejs
+
+
+==============================================================================
+STEP 4 → CREATE index.ejs
+==============================================================================
+
+Inside:
+
+views/index.ejs
+
+
+Add:
+
+------------------------------------------------------------------------------
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>User Management</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+
+    <h1>User Management System</h1>
+
+
+    <!-- FORM -->
+
+    <form id="userForm">
+
+        <input
+            type="text"
+            id="name"
+            placeholder="Enter Name"
+        >
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter Email"
+        >
+
+        <input
+            type="number"
+            id="age"
+            placeholder="Enter Age"
+        >
+
+        <button type="submit">
+            Add User
+        </button>
+
+    </form>
+
+
+
+    <!-- TABLE -->
+
+    <table border="1">
+
+        <thead>
+
+            <tr>
+
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="userTableBody">
+
+        </tbody>
+
+    </table>
+
+
+
+    <!-- Axios CDN -->
+
+    <script src=
+"https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js">
+    </script>
+
+
+    <!-- Frontend JS -->
+
+    <script src="/script.js"></script>
+
+</body>
+</html>
+
+------------------------------------------------------------------------------
+
+
+==============================================================================
+WHAT HAPPENED HERE
+==============================================================================
+
+Form
+
+<form id="userForm">
+
+Used for adding users.
+
+
+Table Body
+
+<tbody id="userTableBody">
+
+JavaScript will dynamically insert users here.
+
+
+Axios CDN
+
+<script src=
+"https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js">
+</script>
+
+Makes axios available in browser.
+
+
+script.js
+
+Frontend logic file.
+
+
+==============================================================================
+STEP 5 → CREATE script.js
+==============================================================================
+
+Inside:
+
+public/script.js
+
+
+Add:
+
+------------------------------------------------------------------------------
+
+const form = document.getElementById("userForm");
+
+const tableBody =
+document.getElementById("userTableBody");
+
+
+
+// FETCH ALL USERS
+
+const fetchUsers = async () => {
 
     try {
 
-        await mongoose.connect(
-            "mongodb://127.0.0.1:27017/userManagementDB"
-        );
+        const response = await axios.get("/users");
 
-        console.log("MongoDB connected");
+        const users = response.data;
+
+        tableBody.innerHTML = "";
+
+
+
+        users.forEach((user) => {
+
+            tableBody.innerHTML += `
+
+                <tr>
+
+                    <td>${user.name}</td>
+
+                    <td>${user.email}</td>
+
+                    <td>${user.age}</td>
+
+                </tr>
+
+            `;
+
+        });
 
     }
 
@@ -44,93 +336,34 @@ const connectDB = async () => {
 
 };
 
-module.exports = connectDB;
-3. models/User.js
-const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
 
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
 
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true
-    },
-
-    age: {
-        type: Number,
-        required: true,
-        min: 1
-    }
-
-}, {
-    timestamps: true
-});
-
-module.exports = mongoose.model("User", userSchema);
-4. routes/userRoutes.js
-const express = require("express");
-const router = express.Router();
-
-const validator = require("validator");
-
-const User = require("../models/User");
-
-// ======================================
 // CREATE USER
-// ======================================
 
-router.post("/", async (req, res) => {
+form.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const userData = {
+
+        name: document.getElementById("name").value,
+
+        email: document.getElementById("email").value,
+
+        age: document.getElementById("age").value
+
+    };
+
+
 
     try {
 
-        let { name, email, age } = req.body;
+        await axios.post("/users", userData);
 
-        name = name?.trim();
-        email = email?.trim();
+        form.reset();
 
-        age = parseInt(age);
-
-        if (!name || !email || !age) {
-
-            return res.status(400).json({
-                message: "name, email and age are required"
-            });
-
-        }
-
-        if (!validator.isEmail(email)) {
-
-            return res.status(400).json({
-                message: "invalid email format"
-            });
-
-        }
-
-        if (age < 1) {
-
-            return res.status(400).json({
-                message: "invalid age"
-            });
-
-        }
-
-        const user = await User.create({
-            name,
-            email,
-            age
-        });
-
-        res.status(201).json({
-            message: "user created",
-            user
-        });
+        fetchUsers();
 
     }
 
@@ -138,242 +371,197 @@ router.post("/", async (req, res) => {
 
         console.log(error);
 
-        if (error.code === 11000) {
-
-            return res.status(400).json({
-                message: "email already exists"
-            });
-
-        }
-
-        res.status(500).json({
-            message: "internal server error"
-        });
-
     }
 
 });
 
-// ======================================
-// GET ALL USERS
-// ======================================
 
-router.get("/", async (req, res) => {
 
-    try {
 
-        const users = await User.find();
+// INITIAL FETCH
 
-        res.json(users);
+fetchUsers();
 
-    }
+------------------------------------------------------------------------------
 
-    catch (error) {
 
-        console.log(error);
+==============================================================================
+UNDERSTAND FLOW CAREFULLY
+==============================================================================
 
-        res.status(500).json({
-            message: "internal server error"
-        });
+1. Page Opens
 
-    }
+fetchUsers();
 
-});
+Runs automatically.
 
-// ======================================
-// GET USER BY ID
-// ======================================
 
-router.get("/:id", async (req, res) => {
+2. Axios GET Request
 
-    try {
+axios.get("/users")
 
-        const id = req.params.id;
+Hits backend:
 
-        const user = await User.findById(id);
+app.get("/users")
 
-        if (!user) {
 
-            return res.status(404).json({
-                message: "user not found"
-            });
+3. Backend Sends Users
 
-        }
+res.json(users);
 
-        res.json(user);
 
-    }
+4. Frontend Receives Users
 
-    catch (error) {
+const users = response.data;
 
-        console.log(error);
 
-        res.status(500).json({
-            message: "internal server error"
-        });
+5. Loop Runs
 
-    }
+users.forEach()
 
-});
 
-// ======================================
-// UPDATE USER
-// ======================================
+6. Table Rows Generated
 
-router.patch("/:id", async (req, res) => {
+tableBody.innerHTML +=
 
-    try {
+Dynamically inserts HTML.
 
-        const id = req.params.id;
 
-        let { name, email, age } = req.body;
+==============================================================================
+POST FLOW
+==============================================================================
 
-        name = name?.trim();
-        email = email?.trim();
+User submits form
 
-        if (email && !validator.isEmail(email)) {
+form.addEventListener("submit")
 
-            return res.status(400).json({
-                message: "invalid email format"
-            });
 
-        }
+Prevent page reload
 
-        if (age && age < 1) {
+e.preventDefault();
 
-            return res.status(400).json({
-                message: "invalid age"
-            });
+VERY IMPORTANT.
 
-        }
+Otherwise form refreshes page.
 
-        const updatedUser = await User.findByIdAndUpdate(
 
-            id,
+Collect form data
 
-            req.body,
+const userData = {
 
-            {
-                new: true,
-                runValidators: true
-            }
+    name,
+    email,
+    age
 
-        );
-
-        if (!updatedUser) {
-
-            return res.status(404).json({
-                message: "user not found"
-            });
-
-        }
-
-        res.json({
-            message: "user updated",
-            updatedUser
-        });
-
-    }
-
-    catch (error) {
-
-        console.log(error);
-
-        if (error.code === 11000) {
-
-            return res.status(400).json({
-                message: "email already exists"
-            });
-
-        }
-
-        res.status(500).json({
-            message: "internal server error"
-        });
-
-    }
-
-});
-
-// ======================================
-// DELETE USER
-// ======================================
-
-router.delete("/:id", async (req, res) => {
-
-    try {
-
-        const id = req.params.id;
-
-        const deletedUser =
-            await User.findByIdAndDelete(id);
-
-        if (!deletedUser) {
-
-            return res.status(404).json({
-                message: "user not found"
-            });
-
-        }
-
-        res.json({
-            message: "user deleted"
-        });
-
-    }
-
-    catch (error) {
-
-        console.log(error);
-
-        res.status(500).json({
-            message: "internal server error"
-        });
-
-    }
-
-});
-
-module.exports = router;
-5. app.js
-const express = require("express");
-
-const connectDB = require("./config/db");
-
-const userRoutes = require("./routes/userRoutes");
-
-const app = express();
-
-const PORT = 3000;
-
-app.use(express.json());
-
-// database connection
-
-connectDB();
-
-// routes
-
-app.use("/users", userRoutes);
-
-app.listen(PORT, () => {
-
-    console.log(
-        `server running at port ${PORT}`
-    );
-
-});
-6. package.json scripts
-"scripts": {
-  "start": "node app.js",
-  "dev": "nodemon app.js"
 }
-7. Run MongoDB project
 
-Start MongoDB locally.
 
-Then:
+Send POST request
 
-npm run dev
+axios.post("/users", userData)
 
-“Project”
+
+Backend receives:
+
+req.body
+
+
+Save in MongoDB
+
+await newUser.save()
+
+
+Refresh table
+
+fetchUsers();
+
+New user appears instantly.
+
+
+==============================================================================
+STEP 6 → style.css
+==============================================================================
+
+Inside:
+
+public/style.css
+
+
+Add:
+
+------------------------------------------------------------------------------
+
+body {
+
+    font-family: Arial;
+
+    padding: 20px;
+
+}
+
+form {
+
+    margin-bottom: 20px;
+
+}
+
+input {
+
+    padding: 8px;
+
+    margin-right: 10px;
+
+}
+
+button {
+
+    padding: 8px 15px;
+
+    cursor: pointer;
+
+}
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+th,
+td {
+
+    padding: 10px;
+
+    text-align: center;
+
+}
+
+------------------------------------------------------------------------------
+
+
+==============================================================================
+FINAL FLOW
+==============================================================================
+
+Open localhost:3000
+        ↓
+index.ejs renders
+        ↓
+fetchUsers()
+        ↓
+GET /users
+        ↓
+Table populated
+        ↓
+Fill form
+        ↓
+POST /users
+        ↓
+MongoDB updated
+        ↓
+fetchUsers()
+        ↓
+Updated table shown
+```

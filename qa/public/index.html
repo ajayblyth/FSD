@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>User System</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <h2>User Management</h2>
+
+    <form id="userForm">
+
+        <input type="text" id="name" placeholder="Name">
+        <input type="email" id="email" placeholder="Email">
+        <input type="number" id="age" placeholder="Age">
+
+        <button type="submit">Add User</button>
+
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+
+        <tbody id="userTableBody"></tbody>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="/script.js"></script>
+
+</body>
+
+</html>

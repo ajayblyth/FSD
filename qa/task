@@ -52,3 +52,99 @@ Request Body
 5. Delete User
 Endpoint
 DELETE /users/:id
+
+====================================
+day3
+====================================
+we have to create a form page which will have name email age, will be used for post api, 
+ we will have view table where we show all the user and 4th row on table will be actions(containing delete and edit),
+  then pop up for edit and delete which will take id and delete, then patch, click on edit button , shoul open same form from view, 
+   we have to pre populate the data and send it to the backend
+---------------------------
+   organised instructions
+   -----------------------
+
+   =========================================================
+NEXT INSTRUCTIONS FOR EXISTING CRUD PROJECT
+=========================================================
+
+1. Create a form page containing name, email, age
+  
+   This form will be used to add new users and send data
+   to backend using POST API.
+
+
+2. Create a view page where all users from database
+   will be displayed in table format.
+
+   Table columns:
+   --------------------------------------------------
+   | Name | Email | Age | Actions |
+   --------------------------------------------------
+
+
+3. Inside Actions column, add:
+   - Edit button
+   - Delete button
+
+   for every user row.
+
+
+4. When Delete button is clicked:
+   - Open confirmation popup/modal/alert
+   - Take user id
+   - Send DELETE API request to backend
+   - Delete user from database
+   - Refresh/update table data
+
+
+5. When Edit button is clicked:
+   - Open same form page used for creating user
+   - Existing user data should already be filled
+     inside form fields (pre-populated data)
+
+   Example:
+   --------------------------------------------------
+   Name  → Ajay
+   Email → ajay@gmail.com
+   Age   → 22
+   --------------------------------------------------
+
+
+6. After editing data:
+   - Send PATCH API request using user id
+   - Update user data in database
+   - Refresh/update table with latest data
+
+
+7. Required APIs:
+   - POST    → Create user
+   - GET     → Fetch all users
+   - GET BY ID → Fetch single user for edit
+   - PATCH   → Update user
+   - DELETE  → Delete user
+
+
+8. Frontend should properly:
+   - fetch data from backend
+   - populate table dynamically
+   - pre-fill form during edit
+   - handle delete/edit actions
+   - update UI after operations
+
+
+9. Existing CRUD backend using Mongoose/database
+   should now be connected with frontend pages,
+   forms, table rendering, edit flow, and delete flow.
+
+10. All frontend API calls should be done using Axios.
+
+    Axios will be used to:
+    - Send POST request for creating users
+    - Send GET request for fetching all users
+    - Send GET BY ID request for edit/pre-populate
+    - Send PATCH request for updating users
+    - Send DELETE request for deleting users
+
+    Frontend should communicate with backend APIs
+    completely using Axios instead of normal form actions.

@@ -6,8 +6,26 @@ const path = require("path");
 const methodOverride = require("method-override");
 const CustomError = require("./error.js"); //fix at 8:32...5/4/2026
 const engine = require("ejs-mate");
-const listingSchema = require("./schema.js");  
- const flash = require("connect-flash"); 
+const listingSchema = require("./schema.js"); 
+const userRouter = require("./routes/user.js");
+const reviewRouter = require("./routes/reviews.js"); 
+ const flash = require("connect-flash");
+  const session = require("express-session");
+ 
+ const passport = require("passport");
+ const LocalStrategy = require("passport-local");
+ const User = require("./models/user.js");
+
+ const dbUrl = process.env.ATLAS_DB;
+
+ const MongoStore = require("connect-mongo");
+ const store = MongoStore.create({
+     mongoUrl: dbUrl,
+     crypto: {
+         secret : "thisisasecret"
+     },
+     touchAfter: 24*60*60
+ });
 // app setup
 
 //const variables
@@ -34,7 +52,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // database connection
 
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/airbnbclone");
+    await mongoose.connect(dbUrl);
 }
 
 main()
@@ -42,6 +60,7 @@ main()
     .catch((err) => console.log(err));
 
 const sessionOptions = {
+    store,
 secret: "thisisasecret",
 resave: false,
 saveUninitialized: true,
