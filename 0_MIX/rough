@@ -1,0 +1,27 @@
+Q1 -> Ajay = Normal function inside object gets object's this.
+
+Q2 -> undefined = Arrow function does not create its own this.
+
+Q3 -> Global object (browser: window) = Normal standalone
+ function uses global this (non-strict mode).this decided during calling
+
+Q4 -> Global lexical this = 
+ Arrow takes this from surrounding scope.
+
+Q5 -> Ajay= Arrow inner function inherits this from greet().
+
+Q6 -> undefined = Normal inner function creates its own this.
+
+Q7
+---
+obj.normal() -> 10
+obj.arrow()  -> undefined
+
+Reason:
+Arrow function does not bind object this.
+
+Q8 -> Ajay = Arrow inside setTimeout captures outer this.
+
+Q9 -> undefined = Normal function inside setTimeout gets its own this.
+
+Q10 -> undefined = Both arrows inherit global/surrounding this.
