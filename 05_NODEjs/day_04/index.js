@@ -6,9 +6,8 @@ const port = 3000;
 let data = require("./data.json")
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'))
-
-
+app.set('views', path.join(__dirname, 'views'))// this is used for setting the views folder path
+    
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', (req, res)=>{
@@ -16,10 +15,10 @@ app.get('/', (req, res)=>{
     res.render('home', {greet})
 })
 
-app.get("/instagram/:username/st", (req, res)=>{
+app.get("/instagram/:username", (req, res)=>{
     const username = req.params.username;
     let selectData = data[username]
-    res.render('insta', {selectData})
+    res.render('insta.ejs', {selectData})
 })
 app.listen(port, ()=>{
     console.log(`Server is unning on port ${port}`)

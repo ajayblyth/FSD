@@ -1,5 +1,5 @@
 const express = require('express');
-const app = express();
+const app = express();  //Calling it creates an Express Application Object.
 
 const port = 3000;
 

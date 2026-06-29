@@ -4,6 +4,8 @@ EASY QUESTIONS (1 - 25)
 
 1. Insert one new student: name 'Aditya', city 'Delhi', subject 'Math', marks 88
 
+use school
+
 school> db.students.insertOne({
   name:'Aditya',
   city:'Delhi',
@@ -44,6 +46,7 @@ school> db.students.find({
 
 school> db.students.find({
   marks:{ $gt:80 }
+
 })
 
 
@@ -64,6 +67,7 @@ school> db.students.find({
 
 9. Find all students but show only the name and marks fields,
    hiding the _id
+
 
 school> db.students.find(
   {},
@@ -135,6 +139,7 @@ school> db.students.deleteOne({
 school> db.students.find({
   subject:{ $in:['Math','English'] }
 })
+
 
 For Delhi students:
 
@@ -217,6 +222,8 @@ school> db.students.find({
 
 29. Find students whose name starts with the letter 'R'
 
+^R  r$
+
 school> db.students.find({
   name:{ $regex:'^R', $options:'i' }
 })
@@ -232,6 +239,7 @@ school> db.students.find({
 31. Find students whose name contains 'ar',
     ignoring case
 
+    
 school> db.students.find({
   name:{ $regex:'ar', $options:'i' }
 })
@@ -498,6 +506,7 @@ company> db.employees.aggregate([
   { $count: 'result' }
 ])
 
+result:3 
 
 54. Group employees by city; show average salary and headcount,
     sorted by average salary descending
@@ -576,6 +585,7 @@ company> db.employees.aggregate([
   }
 ])
 
+manager:3 , hr: 5, dev: 7
 
 60. Find students whose subject is Math and whose marks are at least 80
 

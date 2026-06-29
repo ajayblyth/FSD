@@ -12,9 +12,10 @@ let posts = [
 
 
 // GET /posts → render all posts (EJS)
-app.get('/posts', (req, res) => {
+app.get('/', (req, res) => {
     res.render('index', { posts });
 });
+
 
 // POST /posts → create new post
 app.post('/posts', (req, res) => {
