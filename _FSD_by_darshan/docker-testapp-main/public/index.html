@@ -28,14 +28,26 @@
 
     </form>
 
+    //added to fetch all users
+    <button id="getUsersBtn">Show Users</button>
+
+//display fetched users here
+<ul id="usersList"></ul>
+
     <p id="message"></p>
 
     <script>
         const form = document.getElementById("signupForm");
-        const message = document.getElementById("message");
+       const message = document.getElementById("message");
 
+       //swlected new elements
+const getUsersBtn = document.getElementById("getUsersBtn");
+const usersList = document.getElementById("usersList");
+
+//post
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
+
             const formData = new URLSearchParams(new FormData(form));
 
             try {
@@ -51,6 +63,36 @@
                 message.textContent = "Could not reach the server.";
             }
         });
+
+        //get
+        getUsersBtn.addEventListener("click", async () => {
+
+        usersList.innerHTML = "";  
+        //clear old text ,Otherwise every click would keep adding duplicate users.
+
+        try {
+
+            const res = await fetch("/getUsers");  //browser-express-db-db responds- express
+            const users = await res.json();   //back to the browser
+
+            users.forEach(user => {
+
+                const li = document.createElement("li");
+
+                li.textContent = `${user.username} (${user.email})`;
+
+                usersList.appendChild(li);
+
+            });
+
+        } catch (err) {
+
+            usersList.innerHTML = "<li>Unable to fetch users</li>";
+
+        }
+
+    });
+
     </script>
 </body>
 

@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const MongoClient = require("mongodb").MongoClient;
+const MongoClient = require("mongodb").MongoClient;  
+//MongoClient is the class used to connect a Node.js application to a MongoDB server.
 
 const PORT = 5050;
 app.use(express.urlencoded({ extended: true }));
@@ -11,19 +12,43 @@ app.use(express.static("public"));
 //   MONGO_DB_HOST      - host: "localhost" on your machine, "mongo" inside the docker network
 //   MONGO_DB_PORT      - mongo port            (default: 27017)
 // A full MONGO_URL, if provided, overrides all of the above.
+
+/*process.env
+Contains all environment variables.
+process.env.MONGO_DB_USERNAME
+Reads the username from the environment.
+|| "root"
+If no username exists, use "root".
+*/
+
 const MONGO_DB_USERNAME = process.env.MONGO_DB_USERNAME || "root";
 const MONGO_DB_PWD = process.env.MONGO_DB_PWD || "qwert";
 const MONGO_DB_HOST = process.env.MONGO_DB_HOST || "localhost";
 const MONGO_DB_PORT = process.env.MONGO_DB_PORT || "27017";
 
-const MONGO_URL =
-    process.env.MONGO_URL ||
-    `mongodb://${MONGO_DB_USERNAME}:${MONGO_DB_PWD}@${MONGO_DB_HOST}:${MONGO_DB_PORT}/?authSource=admin`;
+const MONGO_URL = process.env.MONGO_URL || `mongodb://${MONGO_DB_USERNAME}:${MONGO_DB_PWD}@${MONGO_DB_HOST}:${MONGO_DB_PORT}/?authSource=admin`;
 
 const DB_NAME = process.env.MONGO_DB_NAME || "OPQ_docker_demo";
 
 const client = new MongoClient(MONGO_URL);
 let db;
+
+/*
+Rule to remember
+
+A variable is available only if:
+
+It is defined for that container.
+Your code reads the same variable name.
+compose.yaml                    server.js
+------------------------------------------------
+MONGO_DB_HOST        --->  process.env.MONGO_DB_HOST   ✅
+DB_HOST              --->  process.env.MONGO_DB_HOST   ❌
+
+So yes, if you want the actual value from compose.yaml, 
+the names must match, and the variable must be defined for the same 
+container that is reading it.
+*/
 
 //GET all users
 app.get("/getUsers", async (req, res) => {
