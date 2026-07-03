@@ -16,4 +16,12 @@ const listingSchema = new mongoose.Schema({
 
 const Listing = mongoose.model("listing", listingSchema);
 
+// Mongoose automatically converts it into a MongoDB collection name.
+
+// Model Name        Collection Name
+// ---------------------------------
+// "listing"   --->  listings
+// "User"      --->  users
+// "Employee"  --->  employees
+
 module.exports = Listing;

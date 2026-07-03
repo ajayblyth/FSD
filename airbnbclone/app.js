@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Listing = require("./models/listings.js");
 const path = require("path");
+
 const methodOverride = require("method-override");
 
 // Const variables.
@@ -11,10 +12,13 @@ const port = 3000;
 
 // Setup app variables and middleware.
 app.set("view engine", "ejs");
+
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
+
 app.use(express.static(path.join(__dirname, "public")));
+
 app.use(methodOverride("_method"));
 
 // Connection to database.
@@ -34,7 +38,7 @@ main()
 
 // Home route.
 app.get("/", (req, res) => {
-    res.send("Hello i am guddu and i am very good boy");
+    res.send("Hello , Welcome to this Page");
 });
 
 // Index route.
@@ -105,8 +109,6 @@ app.get("/listings/:id", async (req, res) => {
 
     try {
 
-        console.log("I am here");
-
         const id = req.params.id;
 
         const listing = await Listing.findById(id);
@@ -128,3 +130,4 @@ app.get("/listings/:id", async (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running @ port: ${port}`);
 });
+
