@@ -24,7 +24,9 @@ const UseEffect_Ex1 = () => {
       setUsers(data);
       setIsError({ status: false, msg: "" });
     } catch (error) {
-      setIsError({ status: true,   msg: error.message,
+      setIsError({
+        status: true,
+        msg: error.message,
       });
     } finally {
       setLoading(false);

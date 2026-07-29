@@ -44,7 +44,7 @@ const CharacterTable = () => {
   }, []);
 
   if (loading) {
-    return <h2>Loading...</h2>;
+     return <h2>Loading...</h2>;
   }
 
   if (isError.status) {
@@ -58,7 +58,7 @@ const CharacterTable = () => {
       <table border="1" cellPadding="10">
         <thead>
           <tr>
-            <th>Image</th>
+           <th>Image</th>
             <th>Name</th>
             <th>Status</th>
             <th>Species</th>
@@ -68,29 +68,22 @@ const CharacterTable = () => {
         </thead>
 
         <tbody>
-          {characters.map((character) => {
-            return (
-              <tr key={character.id}>
-                <td>
-                  <img
-                    src={character.image}
-                    alt={character.name}
-                    width="70"
-                  />
-                </td>
+        {characters.map((character) => {
+  const { id, image, name, status, species, gender, origin } = character;
 
-                <td>{character.name}</td>
-
-                <td>{character.status}</td>
-
-                <td>{character.species}</td>
-
-                <td>{character.gender}</td>
-
-                <td>{character.origin.name}</td>
-              </tr>
-            );
-          })}
+  return (
+    <tr key={id}>
+      <td>
+        <img src={image} alt={name} width="70" />
+      </td>
+      <td>{name}</td>
+      <td>{status}</td>
+      <td>{species}</td>
+      <td>{gender}</td>
+      <td>{origin.name}</td>
+    </tr>
+  );
+})}
         </tbody>
       </table>
     </div>
