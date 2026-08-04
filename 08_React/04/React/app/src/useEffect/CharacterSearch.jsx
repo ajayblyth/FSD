@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-const BASE_URL = "https://rickandmortyapi.com/api/character/?name=";
+const URL = "https://rickandmortyapi.com/api/character/?name=";
 
 const CharacterSearch = () => {
+
   const [searchTerm, setSearchTerm] = useState("");
-
   const [characters, setCharacters] = useState([]);
-
   const [loading, setLoading] = useState(false);
 
   const [isError, setIsError] = useState({
@@ -16,27 +15,6 @@ const CharacterSearch = () => {
 
   const [noResults, setNoResults] = useState(false);
 
-  useEffect(() => {
-    // Do not fetch when input is empty
-    if (searchTerm.trim() === "") {
-      setCharacters([]);
-      setNoResults(false);
-      setIsError({
-        status: false,
-        msg: "",
-      });
-      return;
-    }
-
-    // Delay API request by 500ms
-    const timer = setTimeout(() => {
-      fetchCharacters();
-    }, 500);
-
-    // Cleanup function
-    return () => clearTimeout(timer);
-
-  }, [searchTerm]);
 
   const fetchCharacters = async () => {
     setLoading(true);
@@ -44,16 +22,18 @@ const CharacterSearch = () => {
     try {
       console.log("Searching:", searchTerm);
 
-      const response = await fetch(BASE_URL + searchTerm);
+      const response = await fetch(URL + searchTerm); //API Call
 
-      // API returns 404 when nothing matches
+      // API returns 404 when no character is found
       if (response.status === 404) {
-        setCharacters([]);
+        setCharacters([]);  //Clear Previous Characters
         setNoResults(true);
+
         setIsError({
           status: false,
           msg: "",
         });
+
         return;
       }
 
@@ -61,17 +41,17 @@ const CharacterSearch = () => {
         throw new Error("Request Failed!");
       }
 
-      const data = await response.json();
+      const data = await response.json(); //extracts the JSON body.
 
       setCharacters(data.results);
-
       setNoResults(false);
+      //Suppose the previous search had no results.
+      // Now the current search succeeded.
 
       setIsError({
         status: false,
         msg: "",
       });
-
     } catch (error) {
       setIsError({
         status: true,
@@ -82,9 +62,37 @@ const CharacterSearch = () => {
     }
   };
 
+
+  
+  useEffect(() => {
+    // Don't search when the input is empty
+    if (searchTerm.trim() === "") {
+      setCharacters([]);
+      setNoResults(false);
+
+      setIsError({
+        status: false,
+        msg: "",
+      });
+
+      return;
+    }
+
+    // Debounce API call by 500ms
+    const timer = setTimeout(() => {
+      fetchCharacters();
+    }, 500);
+
+    // Cleanup previous timer
+    return () => clearTimeout(timer);
+
+    
+  }, [searchTerm]);
+
+
+  
   return (
     <div>
-
       <h2>Search Characters</h2>
 
       <input
@@ -96,13 +104,9 @@ const CharacterSearch = () => {
 
       {loading && <h3>Loading...</h3>}
 
-      {isError.status && (
-        <h3>Error: {isError.msg}</h3>
-      )}
+      {isError.status && <h3>Error: {isError.msg}</h3>}
 
-      {noResults && (
-        <h3>No Results Found</h3>
-      )}
+      {noResults && <h3>No Results Found</h3>}
 
       <div
         style={{
@@ -132,26 +136,21 @@ const CharacterSearch = () => {
                 width: "220px",
               }}
             >
-              <img
-                src={image}
-                alt={name}
-                width="150"
-              />
+              <img src={image} alt={name} width="150" />
 
               <h3>{name}</h3>
 
-              <p>Status : {status}</p>
+              <p>Status: {status}</p>
 
-              <p>Species : {species}</p>
+              <p>Species: {species}</p>
 
-              <p>Gender : {gender}</p>
+              <p>Gender: {gender}</p>
 
-              <p>Last Known Location : {location.name}</p>
+              <p>Last Known Location: {location.name}</p>
             </div>
           );
         })}
       </div>
-
     </div>
   );
 };

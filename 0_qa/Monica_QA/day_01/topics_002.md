@@ -13,6 +13,15 @@ But if an inner function still needs those variables, JavaScript keeps them aliv
 
 and that is called a closure.
 
+---
+
+How does a Closure work?
+
+When an inner function is returned it carries a reference to the outer function's variables along with it.
+Even though the outer function has completed execution, the inner function still has access to those variables because JavaScript stores them in a special memory area called a closure.
+
+So, a closure is the combination of a function and the lexical environment in which it was created.
+
 Example 1
 
 function outer() {

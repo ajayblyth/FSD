@@ -5,7 +5,7 @@ JAVASCRIPT (JS)
 Definition
 
 JavaScript (JS) is a high-level, lightweight, interpreted(executed line by line) programming language used to make web pages dynamic & interactive by manipulating the DOM, handling user events, communicating with server.
-Note:html/css alone couldn't change its content or behavior after it loaded without requesting a new page from the server.
+
 
 Why was JavaScript Created?
 
@@ -188,7 +188,7 @@ Hello
 This is possible because of the Event Loop.
 
 ---------------------------------------------------
-Event Loop Execution Order
+Event Loop Execution Order starts with 
 Execute all synchronous code in the Call Stack.
 When the Call Stack is empty, execute all Microtasks.
 Then execute one Macrotask (Task).
@@ -224,10 +224,8 @@ Repeat until there are no more tasks.
 A) Call Stack
 The Call Stack is a data structure that keeps track of which function is currently executing.
 
-Think of it as a stack of plates.
-
 Calling a function → push it onto the stack.
-Function finishes → pop it off the stack.
+Function finishes → pop it off the stack. (LIFO)
 Example
 
 function one() {
@@ -534,7 +532,7 @@ What is a Function?
 A function is a reusable block of code designed to perform a specific task. It executes only when it is called (invoked).
 
 Why use functions?
-Without functions, if the same logic is needed multiple times, we have to write the same code repeatedly. This leads to code duplication, makes the code harder to maintain, and increases the chances of errors. If the logic changes, we must update it in every place where it was written.
+Without functions, if the same logic is needed multiple times, we have to write the same code repeatedly. This leads to code duplication, makes the code difficult to maintain, and increases the chances of errors. If the logic changes, we must update it in every place where it was written.
 
 Functions solve this problem by allowing us to write the logic once and reuse it multiple times with different inputs (parameters). This improves code reusability, readability, maintainability, and modularity.
 
@@ -604,8 +602,7 @@ Difference?
 
 Parameters are variables defined in the function declaration.
 Arguments are actual values passed while calling the function.
-
-Types of Functions
+Ways to Define (Write) Functions in JavaScript
 
 1. Function Declaration
 
@@ -613,23 +610,32 @@ function greet() {
     console.log("Hello");
 }
 
+- Declared using the function keyword.
+- Fully hoisted (can be called before its declaration).
+
+--------------------------------------------------
+
 2. Function Expression
 
 const greet = function () {
     console.log("Hello");
 };
 
-Not fully hoisted.
+- Function assigned to a variable.
+- Not fully hoisted (cannot be called before assignment).
+
+--------------------------------------------------
 
 3. Anonymous Function
-
-No name.Used when a function is needed only once, most commonly as a callback in event listeners, array methods, or asynchronous operations.
 
 const greet = function () {
     console.log("Hello");
 };
 
-Mostly used as callbacks.
+- A function without a name.
+- Commonly used as callbacks in event listeners, array methods, and asynchronous operations.
+
+--------------------------------------------------
 
 4. Named Function Expression
 
@@ -637,7 +643,11 @@ const greet = function sayHello() {
     console.log("Hello");
 };
 
-Rarely used.
+- Function expression with a name.
+- Useful for debugging and recursion.
+- Rarely used in everyday code.
+
+--------------------------------------------------
 
 5. Arrow Function
 
@@ -645,26 +655,27 @@ const greet = () => {
     console.log("Hello");
 };
 
-Used for clean syntax, especially for callbacks and when you want to inherit the surrounding this value (lexical this).
+- Shorter syntax for writing functions.
+- Commonly used for callbacks.
+- Inherits the surrounding `this` (lexical `this`).
 
 Example:
 
 numbers.map(num => num * 2);
 
+--------------------------------------------------
+
 6. Immediately Invoked Function Expression (IIFE)
 
-Runs immediately.
-
 (function () {
-
     console.log("Executed");
-
 })();
 
-Output: Executed
+Output:
+Executed
 
-Used to create private scope.
-
+- Executes immediately after it is defined.
+- Used to create a private scope and avoid polluting the global scope.
 
 ----------------------------------
 Return Keyword
@@ -1259,8 +1270,8 @@ Callback
 
 Definition
 
-A callback is a function passed as an argument to another function, which is executed later after a task is completed.
-Callbacks are primarily used to execute code after a task completes. They are widely used for asynchronous programming but can also be used synchronously(foreach, map) depending on how the function invokes them.
+A callback is a function that is passed as an argument to another function and is executed later, either after a task completes or when an event occurs. In JavaScript, callbacks are commonly used for asynchronous operations such as setTimeout, setInterval, event listeners, and API requests. Browser features like timers and DOM events are handled by Web APIs, not by the JavaScript engine. Once the asynchronous task is complete, the callback is placed in the Callback Queue. The Event Loop continuously checks whether the Call Stack is empty. When it is, the Event Loop moves the callback from the Callback Queue to the Call Stack, where the JavaScript engine executes it. This mechanism allows JavaScript to perform asynchronous tasks while remaining single-threaded.
+
 Example 1
 
 document.getElementById("submitBtn").addEventListener("click", () => {

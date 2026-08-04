@@ -1,4 +1,3 @@
-import './App.css'
 import ContextAPI_class from './components/ContextAPI_class'
 import GlobalContext from './components/GlobalContext'
 import PropDrilling from './components/PropDrilling'

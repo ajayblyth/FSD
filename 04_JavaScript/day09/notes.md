@@ -3,121 +3,211 @@ FUNCTION EXPRESSIONS
 ============================================================================================================================
 
 DEFINITION
-----------
-- Function stored inside a variable
-- Usually anonymous (no name)
-  because variable name acts as identifier
+A function expression is a function stored in a variable.
+After a function expression has been stored in a variable, the variable can be used as a function:
+Function expressions are commonly used to create anonymous functions
+
+
+
+Why use functions as values?
+- Values represent data (number, string, object, etc.).
+- Functions represent behavior (logic/instructions).
+- Passing a function lets JavaScript execute different logic dynamically.
 
 SYNTAX
 ------
 const variableName = function(arg1, arg2) {
     // logic
-    return val;
+    return value;
 };
 
-EXAMPLE
--------
+EXAMPLE (Stored in a Variable)
+------------------------------
 const sum = function(a, b) {
     return a + b;
 };
 
-sum(2, 3);  // 5
+console.log(sum(2, 3));   // 5
 
 
-----------------------------------------------------------------
+OTHER WAYS TO USE FUNCTION EXPRESSIONS
+--------------------------------------
 
-WHY FUNCTION EXPRESSIONS ARE POWERFUL
-----------------------------------------------------------------
+1) Passed as an Argument (Callback)
 
-1️⃣ CAN CHANGE AT RUNTIME (REASSIGNMENT)
-----------------------------------------
-let action = function() {
-    console.log("start");
-};
+arr.map(function(x) {
+    return x * 2;
+});
 
-action = function() {
-    console.log("stop");
-};
-
-action();  // stop
-
-👉 Explanation:
-- Variables store function reference
-- Reassignment changes the reference (pointer)
-- Old function is replaced, not stored multiple times
+// Arrow Function
+arr.map(x => x * 2);
 
 
-NOTE:
------
-- Function declarations cannot be reassigned like this safely
-- Function expressions can be changed dynamically
+2) Returned from Another Function
 
-
-----------------------------------------------------------------
-
-2️⃣ DYNAMIC BEHAVIOR (CONDITIONAL FUNCTIONS)
---------------------------------------------
-let action;
-
-if (true) {
-    action = function() { console.log("A"); };
-} else {
-    action = function() { console.log("B"); };
+function createAdder() {
+    return function(x) {
+        return x + 1;
+    };
 }
 
-👉 Based on condition, different function is assigned
+
+3) Assigned to an Object Property
+
+const person = {
+    greet: function() {
+        console.log("Hi");
+    }
+};
 
 
-EXAMPLE
--------
+----------------------------------------------------------------------------------------------------------------------------
+FIRST-CLASS CITIZENS
+----------------------------------------------------------------------------------------------------------------------------
+
+Functions are first-class citizens, meaning they can be treated like any other value.
+
+They can be:
+✔ Stored in variables
+✔ Passed as arguments
+✔ Returned from functions
+✔ Assigned to object properties
+
+This is why function expressions are so powerful.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+WHY FUNCTION EXPRESSIONS ARE POWERFUL
+----------------------------------------------------------------------------------------------------------------------------
+
+1) REASSIGNMENT (CHANGE FUNCTION AT RUNTIME)
+--------------------------------------------
+
+let login = function() {
+    console.log("Login with Password");
+};
+
+login();
+
+login = function() {
+    console.log("Login with OTP");
+};
+
+login();
+
+Output:
+Login with Password
+Login with OTP
+
+Explanation:
+- `login` stores a reference to a function.
+- Reassigning changes the reference.
+- Only the latest assigned function is executed.
+
+
+2) DYNAMIC BEHAVIOR
+-------------------
+
 let mode = "dark";
 
 let action;
 
 if (mode === "dark") {
-    action = () => console.log("Dark mode");
+    action = () => console.log("Dark Mode");
 } else {
-    action = () => console.log("Light mode");
+    action = () => console.log("Light Mode");
 }
 
 action();
 
+Output:
+Dark Mode
 
-----------------------------------------------------------------
+Explanation:
+- Different functions are assigned based on a condition.
+- The same variable can execute different logic at runtime.
 
-USE CASES
+
+----------------------------------------------------------------------------------------------------------------------------
+REAL-WORLD USE CASES
+----------------------------------------------------------------------------------------------------------------------------
+
+1) Event Handling
+
+button.addEventListener("click", function () {
+    console.log("Button clicked");
+});
+
+✔ Pass the logic to execute when the button is clicked.
+
+
+2) Callbacks
+
+let result = [1,2,3].map(function(x) {
+    return x * 2;
+});
+
+✔ Pass the logic for transforming each element.
+
+
+3) Timers
+
+setTimeout(function () {
+    console.log("Executed after 2 seconds");
+}, 2000);
+
+✔ Pass the logic to execute after a delay.
+
+
+4) Express Middleware
+
+app.use(function(req, res, next) {
+    console.log(req.url);
+    next();
+});
+
+✔ Pass the logic to execute for every incoming request.
+
+
+----------------------------------------------------------------------------------------------------------------------------
+INTERVIEW POINT
+----------------------------------------------------------------------------------------------------------------------------
+
+Why are function expressions powerful?
+
+- Functions are first-class citizens in JavaScript.
+- They can be treated like values.
+- Since they represent behavior (logic), they can be stored, passed, returned, or reassigned dynamically.
+- This enables callbacks, event handling, middleware, timers, and dynamic application behavior.
+
+
+ONE-LINER
 ---------
 
-✔ EVENT HANDLING
-- Change behavior based on events (click, input, submit)
-- Example: button click → different function runs
-
-✔ CALLBACKS
-- Function passed into another function
-- Runs later when task completes (async)
-
-✔ DYNAMIC BEHAVIOR
-- Same variable can point to different functions
-- Behavior changes at runtime based on condition
-
-✔ STATE-BASED LOGIC (React, Node, APIs)
-- Same variable → different behavior based on state/data
-- Used in real apps for switching logic dynamically
-
-👉 Same variable, different behavior at runtime
-
-
-----------------------------------------------------------------
-
-🧠 ONE-LINE
------------
-action does not store multiple functions — it only points to the latest assigned function
+Function expressions are powerful because functions are first-class citizens—they represent behavior, can be treated like values, and enable dynamic, reusable code.
 
 ============================================================================================================================
 HIGHER ORDER FUNCTIONS (HOF)
 ============================================================================================================================
 
-Definition: Function that takes function(s) as argument OR returns a function
+A HOF often uses function expressions (or arrow functions) as arguments.
+
+Example:
+
+arr.map(function(x) {
+    return x * 2;
+});
+function(x) { ... } → Function Expression
+map() → Higher-Order Function (HOF)
+
+Another example:
+
+setTimeout(function() {
+    console.log("Hello");
+}, 1000);
+Anonymous function → Function Expression
+setTimeout() → Higher-Order Function
+
 
 // Passing function as argument
 function multipleGreet(func,n){
