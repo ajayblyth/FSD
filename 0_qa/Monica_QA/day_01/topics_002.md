@@ -446,7 +446,6 @@ Immediately you know:
 "I used the variable before declaring it."
 
 This is because of the Temporal Dead Zone (TDZ).
-=============================================================================
 HOISTING
 =============================================================================
 Definition
@@ -465,6 +464,7 @@ JavaScript scans the entire code and allocates memory.
 var                  → Memory allocated and initialized to undefined.
 let                  → Memory allocated but not initialized.
 const                → Memory allocated but not initialized.
+
 Function declarations→ Entire function stored in memory.
 
 No code is executed in this phase.

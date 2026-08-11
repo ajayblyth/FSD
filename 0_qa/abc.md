@@ -564,4 +564,3 @@ MongoDB updated
 fetchUsers()
         ↓
 Updated table shown
-```

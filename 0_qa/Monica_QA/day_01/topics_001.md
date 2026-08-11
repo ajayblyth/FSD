@@ -16,9 +16,7 @@ Originally, websites were built using only:
 Note:html/css alone couldn't change its content or behavior after it loaded without requesting a new page from the server.
 These websites were static and offered very little user interaction.
 
-JavaScript was introduced to add:
-
-JavaScript can:
+on the other hand JavaScript can:
 • Manipulate the DOM without reloading the page
 • Handle user events (click, input, submit, scroll, etc.)
 • API communication
@@ -34,10 +32,8 @@ JavaScript Nature (Interview Point)
 
 Key Features
 
-• High-level language
-• Lightweight
-• Cross-platform-JavaScript code can run on different operating systems (Windows, Linux, macOS) without modification.
-• Platform-independent
+•• Platform-independent....JavaScript code can run on different operating systems (Windows, Linux, macOS)
+ without modification.
 • Event-driven...JavaScript executes code in response to events like button clicks, keyboard input, timers, or API responses.
 • Asynchronous (Callbacks, Promises, Async/Await)
 • Single-threaded with an Event Loop
@@ -45,8 +41,10 @@ Key Features
 • First-class functions
 • Automatic Garbage Collection
 
-Core Concepts
+Note:"Prototype-based inheritance allows one object to inherit properties and methods from another object through
+the prototype chain. JavaScript uses this mechanism to enable code reuse and inheritance."
 
+Core Concepts
 JavaScript supports:
 • Variables
 • Functions
@@ -531,10 +529,10 @@ What is a Function?
 
 A function is a reusable block of code designed to perform a specific task. It executes only when it is called (invoked).
 
-Why use functions?
+Why do we need functions?
 Without functions, if the same logic is needed multiple times, we have to write the same code repeatedly. This leads to code duplication, makes the code difficult to maintain, and increases the chances of errors. If the logic changes, we must update it in every place where it was written.
 
-Functions solve this problem by allowing us to write the logic once and reuse it multiple times with different inputs (parameters). This improves code reusability, readability, maintainability, and modularity.
+Functions solve this problem by allowing us to write the logic once and reuse it multiple times with different inputs (parameters). This improves code  readability, maintainability and allows us to use the logic again.
 
 console.log(10 + 20);
 console.log(50 + 60);
@@ -768,255 +766,307 @@ x → Global    y → Local
 
 -------------------------------------
 
-Depends on how it's called.
+5. this Keyword
+this refers to the object that is executing the function.
+Its value depends on how the function is called, not where it is defined.
+In a regular function, this can change based on the caller.
+In the global scope (non-strict mode), this refers to the global object (window in browsers).
 
-Arrow Function
+Example:
 
-Does not have its own this.
+const person = {
+  name: "Ajay",
+  greet() {
+    console.log(this.name);
+  }
+};
 
-It inherits from the surrounding scope.
+person.greet(); // Ajay
 
-Function Methods
+6. Arrow Function
+Introduced in ES6 as a shorter syntax for writing functions.
+Arrow functions do not have their own this.
+They inherit this from the surrounding (lexical) scope.
+Commonly used in callbacks, array methods (map, filter, forEach), and React.
 
-call()    apply()    bind()
+Example:
 
-Very important interview topic.
+const person = {
+  name: "Ajay",
+  greet() {
+    const say = () => console.log(this.name);
+    say();
+  }
+};
 
-First-Class Functions
+person.greet(); // Ajay
 
-Functions are values.
+7. Function Methods (call(), apply(), bind())
+These methods are used to explicitly set the value of this for a function.
+call() invokes the function immediately and accepts arguments individually.
+apply() invokes the function immediately but accepts arguments as an array.
+bind() does not invoke the function immediately; it returns a new function with this permanently bound.
 
-Can be:
+Example:
 
-Stored: let f=function(){};
+function greet(city) {
+  console.log(this.name + " from " + city);
+}
 
-Passed: test(f);
+const person = { name: "Ajay" };
 
-Returned: return f;
+greet.call(person, "Bangalore");        // Ajay from Bangalore
+greet.apply(person, ["Hyderabad"]);     // Ajay from Hyderabad
 
-Stored inside object: obj.sayHello=function(){}
+const fn = greet.bind(person);
+fn("Delhi");                            // Ajay from Delhi
+8. First-Class Functions
+In JavaScript, functions are first-class citizens, meaning they are treated like any other value.
+Functions can be assigned to variables, passed as arguments, returned from other functions, and stored in objects or arrays.
+This makes JavaScript powerful for callbacks, event handling, promises, and functional programming.
+
+Examples:
+
+// Stored in a variable
+const greet = function () {
+  console.log("Hello");
+};
+
+// Passed as an argument
+function execute(fn) {
+  fn();
+}
+execute(greet);
+
+// Returned from another function
+function getFunction() {
+  return greet;
+}
+getFunction()();
+
+// Stored inside an object
+const obj = {
+  sayHello: greet
+};
+obj.sayHello();
 
 Interview Function Definition
 
 A function is a reusable block of code that performs a specific task. In JavaScript, functions are first-class objects, meaning they can be assigned to variables, passed as arguments, returned from other functions, and stored inside objects. Functions support parameters, return values, closures, callbacks, and higher-order programming, making them a fundamental building block of JavaScript applications.
 
 
-
 JAVASCRIPT OBJECTS
 ====================================================================================================
+
 1. What is an Object?
 
-An object is a collection of key-value pairs used to represent real-world entities.
+An object is a collection of key-value pairs used to represent a single entity(employee, product) by grouping
+its related data  and behavior together, making code easier to organize,
+read, maintain, and pass between functions.
 
-It groups related data into a single unit.
+data -> property
+behaviour -> methods
+
+Example
+const person = {
+    name: "Ajay",
+    age: 30,
+    city: "Delhi"
+};
+
+Objects are reference types in JavaScript. Variables do not store the actual object; 
+they store a reference (memory address) to the object. 
+If two variables reference the same object, a change made through one variable is visible 
+through the other because both point to the same object in memory.
+
+const obj1 = {
+    name: "Ajay"
+};
+
+const obj2 = obj1;
+
+obj2.name = "Rahul";
+
+console.log(obj1.name); // Rahul
+
+2. Why do we use Objects?
+
+Objects help group related data into a single unit, making code easier to organize,
+read, maintain, and pass between functions.
+
+Instead of creating multiple variables, we store everything inside one object.
+• Better organization of related data.
+• Improves readability and maintainability.
+
+====================================================================================================
+
+3. Object Structure
+An object consists of properties (key-value pairs). A property stores information,
+while a method is simply a function stored inside an object.
+
+Interview Points
+• Key = Property name.
+• Value = Data or function.
+• Methods are functions inside objects.
 
 Example
 
-let person = {
-    name: "Ajay",
-    age: 30,
-    city: "Delhi"
-};
-
-Here,
-
-Key        Value
--------------------------
-name   ->  "Ajay"
-age    ->  30
-city   ->  "Delhi"
-
-
-2. Why Objects?
-
-Without Object
-
-let name = "Ajay";
-let age = 30;
-let city = "Delhi";
-
-Data is scattered and difficult to manage.
-
-With Object
-
-let person = {
-    name: "Ajay",
-    age: 30,
-    city: "Delhi"
-};
-
-All related data belongs together.
-
-3. Object Structure
-
-let student = {
+const student = {
     name: "Ajay",
     age: 30,
     marks: 95
 };
 
-Visual Representation
-
-student
-│
-├── name  → "Ajay"
-├── age   → 30
-└── marks → 95
-
+====================================================================================================
 
 4. Creating Objects
 
-1. Object Literal (Most Common)
+JavaScript provides multiple ways to create objects.
+
+Interview Points
+
+1. Object Literal
+• Simplest and most commonly used.
+• Preferred in almost every project.
 
 const student = {
-    name: "Ajay",
-    age: 30
+    name: "Ajay"
 };
 
-2. Using new Object()
+------------------------------------------------------------
+
+2. new Object()
+
+• Creates an empty object using the Object constructor.
+• Less commonly used.
 
 const student = new Object();
-student.name = "Ajay";
+
+------------------------------------------------------------
 
 3. Object.create()
 
-Here you're saying:
-"Create a new object whose prototype is this object."
-
-const person = Object.create({});
-person.name = "Ajay";
-
-
-const animal = {
-    sound() {
-        console.log("Some sound");
-    }
-};
+• Creates a new object that inherits from another object's prototype.
+• Mainly used for prototype-based inheritance.
 
 const dog = Object.create(animal);
 
-dog.name = "Tommy";
+====================================================================================================
 
-dog.sound();
 5. Accessing Properties
 
-A) Dot Notation
+Properties can be accessed using dot notation or bracket notation.
+
+Interview Points
+
+Dot Notation
+• Used when the property name is known.
 
 student.name
 
-console.log(student.name);
+------------------------------------------------------------
 
-B) Bracket Notation
+Bracket Notation
+• Used when the property name is dynamic.
+• Also works with spaces or special characters.
 
 student["name"]
 
-console.log(student["name"]);
-
-Use bracket notation when:
-• Property name is dynamic
-• Property contains spaces or special characters
-
-Example
-
-const key = "name";
-
-console.log(student[key]);
+====================================================================================================
 
 6. Add, Update & Delete Properties
 
-Add
+Objects are mutable, so properties can be added, modified, or removed.
 
-student.city = "Delhi";
+Interview Points
+• Add → object.newProperty
+• Update → object.property = value
+• Delete → delete object.property
 
-Update
-
-student.age = 31;
-
-Delete
-
-delete student.city;
+====================================================================================================
 
 7. Object Methods
 
-Functions inside an object are called methods.
+A method is simply a function stored inside an object.
+
+Methods usually operate on the object's own data.
+
+Interview Points
+• Method = Function inside an object.
+• Invoked using object.method().
+
+Example
 
 const person = {
-    name: "Ajay",
-
     greet() {
         console.log("Hello");
     }
 };
 
-person.greet();
-
-Output
-
-Hello
+====================================================================================================
 
 8. Nested Objects
 
-Objects can contain other objects.
+Objects can contain other objects, allowing complex data structures.
 
-const student = {
-    name: "Ajay",
+Interview Points
+• Access nested properties using multiple dots.
+• Common in API responses.
 
-    address: {
-        city: "Delhi",
-        pincode: 110001
-    }
-};
-
-Access Nested Property
+Example
 
 student.address.city
 
-Output
-
-Delhi
-
-9. Built-in Object Methods
 ====================================================================================================
+9. Built-in Object Methods
 
 --------------------------------------------------------------------------------
 Object.keys()
 --------------------------------------------------------------------------------
 
-Returns an array of property names (keys).
+Returns an array containing all property names (keys).
+
+Interview Point
+Mostly used for looping through object properties.
+
+Syntax / Example
+
+const student = { name: "Ajay", age: 30 };
 
 Object.keys(student);
-
-Output
-
-["name", "age", "city"]
+// ["name", "age"]
 
 --------------------------------------------------------------------------------
 Object.values()
 --------------------------------------------------------------------------------
 
-Returns an array of property values.
+Returns an array containing all property values.
+
+Interview Point
+Useful when only values are required.
+
+Syntax / Example
+
+const student = { name: "Ajay", age: 30 };
 
 Object.values(student);
-
-Output
-
-["Ajay", 30, "Delhi"]
+// ["Ajay", 30]
 
 --------------------------------------------------------------------------------
 Object.entries()
 --------------------------------------------------------------------------------
 
-Returns key-value pairs as arrays.
+Returns an array of key-value pairs.
+
+Interview Point
+Commonly used with for...of loops.
+
+Syntax / Example
+
+const student = { name: "Ajay", age: 30 };
 
 Object.entries(student);
-
-Output
-
-[
-  ["name", "Ajay"],
-  ["age", 30],
-  ["city", "Delhi"]
-]
+// [["name", "Ajay"], ["age", 30]]
 
 --------------------------------------------------------------------------------
 Object.assign()
@@ -1024,140 +1074,151 @@ Object.assign()
 
 Copies properties from one object to another.
 
-const copy = Object.assign({}, student);
+Interview Point
+Used to create shallow copies or merge objects.
 
-console.log(copy);
+Syntax / Example
+
+const student = { name: "Ajay", age: 30 };
+
+const copy = Object.assign({}, student);
+// Creates a shallow copy
+
+const merged = Object.assign({}, student, { city: "Delhi" });
+// Merges objects
 
 --------------------------------------------------------------------------------
 Object.freeze()
 --------------------------------------------------------------------------------
 
-Makes an object completely immutable.
+Makes an object immutable.
+
+Interview Points
+• Cannot add properties.
+• Cannot update properties.
+• Cannot delete properties.
+
+Syntax / Example
+
+const student = { name: "Ajay" };
 
 Object.freeze(student);
 
-student.age = 31;      // Ignored
-student.city = "Delhi";// Ignored
-delete student.name;   // Ignored
-
-console.log(student);
+student.name = "Rahul";   // Ignored
+student.city = "Delhi";   // Ignored
 
 --------------------------------------------------------------------------------
 Object.seal()
 --------------------------------------------------------------------------------
 
-Allows updating existing properties.
+Allows updating existing properties only.
 
-Does NOT allow:
-• Adding new properties
-• Deleting properties
+Interview Points
+• Update ✔
+• Add ✘
+• Delete ✘
 
-const emp = {
-    name: "Rahul",
-    salary: 50000
-};
+Syntax / Example
 
-Object.seal(emp);
+const student = { name: "Ajay", age: 30 };
 
-emp.salary = 60000;     // ✅ Allowed
-emp.city = "Mumbai";    // ❌ Not Added
-delete emp.name;        // ❌ Not Deleted
+Object.seal(student);
 
-console.log(emp);
+student.age = 31;         // ✔ Allowed
+student.city = "Delhi";   // ✘ Not Added
+delete student.name;      // ✘ Not Deleted
 
 --------------------------------------------------------------------------------
 Object.hasOwn()
 --------------------------------------------------------------------------------
 
-Checks whether an object owns a property.
+Checks whether an object directly owns a property.
 
-Object.hasOwn(student, "name");
+Interview Point
+Returns true or false.
 
-Output
+Syntax / Example
 
-true
+const student = { name: "Ajay" };
 
-Object.hasOwn(student, "phone");
-
-Output
-
-false
-
+Object.hasOwn(student, "name");   // true
+Object.hasOwn(student, "age");    // false
 
 10. Spread Operator (...)
 
-
 Used to copy or merge objects.
 
-const person = {
-    name: "Ajay"
-};
+Interview Points
+• Creates a shallow copy.
+• Commonly used in React state updates.
+• Does not deep copy nested objects.
+
+Example
 
 const employee = {
     ...person,
     salary: 50000
 };
 
-Result
-
-{
-    name: "Ajay",
-    salary: 50000
-}
+====================================================================================================
 
 11. Object Destructuring
 
-Extract properties into variables.
+Extracts object properties into separate variables.
 
-const student = {
-    name: "Ajay",
-    age: 30
-};
+Interview Points
+• Makes code cleaner.
+• Very common in React props and state.
+
+Example
 
 const { name, age } = student;
 
-console.log(name);
-
-Output
-
-Ajay
+====================================================================================================
 
 12. Shallow Copy
 
-Creates a new object.
+Creates a new object, but nested objects are still shared.
 
-Nested objects are still shared.
+Interview Points
+• Top-level properties are copied.
+• Nested objects remain referenced.
 
-const copy = {
-    ...student
-};
+Ways
+• Spread operator (...)
+• Object.assign()
 
-OR
 
-const copy = Object.assign({}, student);
+Note:
+Spread (...)  = Expands things out.
+                1 object → many properties
+                1 array  → many elements
+
+Rest (...)    = Collects things together.
+                Many values → 1 array/object
+
+====================================================================================================
 
 13. Object Reference
 
+Objects are stored by reference, not by value.
 
-Objects are stored by reference.
+When two variables reference the same object, changes made through one variable
+are reflected in the other.
 
-const obj1 = {
-    a: 10
-};
+Interview Points
+• Variables store object references.
+• Both variables point to the same memory location.
+
+Example
 
 const obj2 = obj1;
 
 obj2.a = 20;
 
-console.log(obj1.a);
+console.log(obj1.a); // 20
 
-Output
-
-20
-
-Reason
-
-obj1 and obj2 point to the SAME object in memory.
+Memory
 
 obj1 ───────┐
             ▼
@@ -1270,7 +1331,7 @@ Callback
 
 Definition
 
-A callback is a function that is passed as an argument to another function and is executed later, either after a task completes or when an event occurs. In JavaScript, callbacks are commonly used for asynchronous operations such as setTimeout, setInterval, event listeners, and API requests. Browser features like timers and DOM events are handled by Web APIs, not by the JavaScript engine. Once the asynchronous task is complete, the callback is placed in the Callback Queue. The Event Loop continuously checks whether the Call Stack is empty. When it is, the Event Loop moves the callback from the Callback Queue to the Call Stack, where the JavaScript engine executes it. This mechanism allows JavaScript to perform asynchronous tasks while remaining single-threaded.
+A callback is a function that is passed as an argument to another function and is executed later, either after a task completes or when an event occurs. In JavaScript, callbacks are commonly used for asynchronous operations such as setTimeout, setInterval, event listeners, and API requests. Once the asynchronous task is complete, the callback is placed in the Callback Queue. The Event Loop continuously checks whether the Call Stack is empty. When it is, the Event Loop moves the callback from the Callback Queue to the Call Stack, where the JavaScript engine executes it. This mechanism allows JavaScript to perform asynchronous tasks while remaining single-threaded.
 
 Example 1
 
@@ -1405,7 +1466,7 @@ Promise States
 
 Task is still running.
 
-2. Fulfilled (Resolved)
+2. Fulfilled (success)
 
 Task completed successfully.
 
@@ -1415,7 +1476,7 @@ Task failed.
 
 Creating a Promise
 
-const promise = new Promise((resolve, reject) => {
+const promise = new Promise((resolve, reject) => {  //
 
     let success = true;
 
