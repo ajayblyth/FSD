@@ -1,8 +1,7 @@
 ==================== DOM (Document Object Model) ====================
 
 -------------------- 1) DEFINITION --------------------
-The DOM represents an HTML document as a logical tree structure.(This structure exists in memory and not physical → so it's logical)
-It converts HTML elements into objects that JavaScript can access and modify.
+The DOM (Document Object Model) represents an HTML document as a tree of objects (nodes). Every HTML element becomes a node, allowing JavaScript to access and manipulate the page.
 We make dynamic changes in HTML using DOM.
 
 👉 Dynamic change = changing the webpage AFTER it has loaded (using JavaScript)
@@ -12,10 +11,6 @@ document.getElementById("title").innerText = "Hello Ajay";
 
 ✔ Text changed without reloading page
 ✔ This is called dynamic
-
-🧠 Simple meaning:
-
-👉 Dynamic = runtime change (not fixed/static HTML)
 
 -------------------- 2) PURPOSE --------------------
 • Access HTML elements
@@ -29,15 +24,19 @@ In simple words: DOM allows JavaScript to control and update the webpage dynamic
 ==================== 3) DOM TREE STRUCTURE ====================
 Every webpage is structured like a tree:
 
-document
- └── html
-      └── body
-           ├── div
-           │    └── h1
-           └── ul
-                ├── li
-                ├── li
-                └── li
+Document
+│
+└── html
+    ├── head
+    │   └── title
+    │       └── "My Page"   (Text Node)
+    │
+    └── body
+        ├── h1
+        │   └── "Hello"     (Text Node)
+        │
+        └── p
+            └── "Welcome"   (Text Node)
 
 • document → top level object
 • html → child of document
@@ -50,16 +49,21 @@ This is called a hierarchical structure.
 "In DOM, document is the top-level object and html is its root element (documentElement), followed by body and other elements in a hierarchical structure."
 
 ==================== 4) HTML EXAMPLE ====================
+<!DOCTYPE html>   //"This document is written in HTML5." It is not an HTML tag. It is an instruction to the browser.
+<html>
+<head>
+  <title>My Page</title>
+</head>
 <body>
-    <div>
-        <h1>Todo</h1>
-    </div>
-    <ul>
-        <li>Eat</li>
-        <li>Code</li>
-        <li>Sleep</li>
-    </ul>
+  <h1>Hello</h1>
+  <p>Welcome</p>
 </body>
+</html>
+
+Note: <!DOCTYPE html> is a declaration that tells the browser the document is an HTML5 document. 
+It is not an HTML tag.It should be the first line of the HTML file and ensures the browser renders
+the page in Standards Mode instead of Quirks Mode(where they render the page like very old browsers) 
+providing consistent HTML and CSS behavior.
 
 ==================== 5) IMPORTANT DOM TERMS ====================
 Parent  → An element that contains other elements (e.g., <ul> is parent of <li>)
@@ -69,8 +73,8 @@ Node    → Every element, text, or comment in HTML
 
 ==================== 6) HOW JAVASCRIPT USES DOM ====================
 JavaScript can:
-• Select elements        → document.querySelector("h1")
 • Create elements        → document.createElement("li")
+• Select elements        → document.querySelector("h1")
 • Remove elements        → element.remove()
 • Change text            → element.innerText = "New Text"
 • Change style           → element.style.color = "red"
@@ -90,10 +94,23 @@ It is a TWO-STEP process:
 STEP 1: SELECTION
 --------------------
 1) getElementById("id")   → Returns single element (ID must be unique)
-2) querySelector("cssSelector")  → Returns the first element matching CSS selector
-3) querySelectorAll("cssSelector") → Returns all matching elements (NodeList - static)
-4) getElementsByClassName("className") → Returns HTMLCollection (live)
-5) getElementsByTagName("tagName")     → Returns HTMLCollection (live)
+2) getElementsByClassName("className") → Returns HTMLCollection (live)
+3) getElementsByTagName("tagName")     → Returns HTMLCollection (live)
+4) querySelector("cssSelector")  → Returns the first element matching CSS selector
+5) querySelectorAll("cssSelector") → Returns all matching elements (NodeList - static)
+
+live:means if elements are added or removed, the collection reflects the changes without calling the method again.
+Which is preferred: Live or Static? (Interview Style)
+
+Preferred: ✅ Static (querySelectorAll())
+
+Why is Static preferred?
+✅ More predictable (doesn't change unexpectedly).
+✅ Better performance in most cases.
+✅ Easier to debug.
+✅ Used more commonly in modern JavaScript.
+Why not Live?
+A live collection changes automatically when the DOM changes, which can sometimes cause unexpected behavior.
 
 Example:
 <body>
@@ -129,7 +146,7 @@ Example:
   const newP = document.createElement("p");
   newP.className = "highlight";
   newP.textContent = "Paragraph 3";
-  document.body.appendChild(newP);
+  document.body.appendChild(newP);  //adds the element as the last child of the parent element.
   console.log(highlightsCollection);  // now includes new paragraph (live)
   console.log(allHighlights);         // NodeList remains same (static)
 </script>
@@ -150,6 +167,8 @@ Updates automatically         | NO (static snapshot)           | YES (live colle
 Example                       | document.querySelectorAll(".highlight") | document.getElementsByClassName("highlight")
 Adding new element with class | NodeList remains same          | HTMLCollection updates automatically
 
+querySelector() / querySelectorAll() → Accept any CSS selector (#id, .class, tag, tag.class, div span, input[type="text"], etc.).
+getElementsByClassName() → Accepts only a class name (without the .). 
 ==================================================================
 
 STEP 2: MANIPULATION
@@ -509,8 +528,8 @@ let heading = document.querySelector("h1")
 heading.style.color = "purple"
 heading.style.backgroundColor = "green"
 
-Modify multiple elements:
-let links = document.querySelectorAll(".box a")
+Modify multiple elements within a class:
+let links = document.querySelectorAll(".box a") //Select all <a> elements that are inside an element with class box.
 for (let link of links) {
     link.style.color = "purple"
 }

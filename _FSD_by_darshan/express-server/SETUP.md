@@ -7,7 +7,6 @@ npm init -y
 npm install express
 npm install --save-dev typescript ts-node nodemon @types/express @types/node
 npx tsc --init
-```
 
 **Why `@types/*`?** Express ships without TypeScript types. The `@types/*`
 packages (from DefinitelyTyped) add them on top — `@types/express` types
@@ -27,7 +26,6 @@ Rule of thumb: install `@types/<lib>` alongside any plain-JS library.
   "watch":    "nodemon --exec ts-node src/server.ts", // auto-restart on save (TS)
   "watch:js": "nodemon dist/server.js"                // auto-restart compiled JS
 }
-```
 
 **Why `nodemon`?** It watches your files and auto-restarts the server on every
 save — no manual Ctrl+C and re-run. `watch` re-runs the TS source via ts-node
@@ -58,7 +56,6 @@ npm run watch      # dev loop (recommended) — re-runs .ts on every save
 npm run dev        # run .ts once, no auto-restart
 npm run build      # tsc → dist/server.js
 npm start          # node dist/server.js
-```
 
 Expect: `Server on 3000`
 
@@ -74,4 +71,3 @@ curl http://localhost:3000/
 
 curl -X POST http://localhost:3000/users -H "Content-Type: application/json" -d '{ "name": "Aarav", "age": 25 }'
 # → {"message":"Created Aarav, age 25"}
-```

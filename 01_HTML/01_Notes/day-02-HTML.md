@@ -5,7 +5,9 @@ DAY 1–2 : HTML (HYPERTEXT MARKUP LANGUAGE)
 
 HTML INTRODUCTION
 --------------------------------------------------------------------------------
-“HTML (HyperText Markup Language) is the standard markup language used to create and structure web pages and their content.”
+“HTML stands for HyperText Markup Language, and we mainly use it to structure the content of a web page. It defines things like headings, paragraphs, forms, buttons, images, links, and other elements that make up the page.”
+
+“HTML itself is not a programming language because it doesn't contain programming logic. It is a markup language that tells the browser how the content is structured.”
 
 -- Web Page
  "A web page is a single document written in HTML that is displayed in a web browser and can contain text, images, links, 
@@ -46,7 +48,7 @@ IMPORTANT HTML ELEMENTS (ONE-LINE EXPLANATION)
 <header>   → Intro or top section of a page or section
 <nav>      → Contains navigation links
 <main>     → Holds the primary, unique content of the page (only one)
-<section>  → Groups related content under a theme
+<section>  → Groups related content under a theme, like about us section 
 <article>  → Independent, reusable content block
 <aside>    → Side or additional related information
 <footer>   → Bottom section with copyright or extra links
@@ -73,6 +75,14 @@ Purpose:
 <span>     → Non-semantic inline container (no meaning)
 <br>       → Line break
 <hr>       → Horizontal line separator
+
+
+Semantic vs Non-Semantic HTML — Interview Style
+
+“Semantic HTML means using HTML elements that clearly describe what their content represents. For example, we use <header>, <nav>, <section>, <article>, and <footer> based on the purpose of the content. This makes the structure easier to understand for developers, search engines, and accessibility tools.”
+
+“Non-semantic elements don't tell us much about the meaning of their content. The most common examples are <div> and <span>. We mainly use them as generic containers when there isn't a more meaningful semantic element available.”
+
 
 --------------------------------------------------------------------------------
 HTML TAG

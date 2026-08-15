@@ -29,14 +29,12 @@ https://hub.docker.com/r/ajayblyth/testapp
 
 ## Project Structure
 
-```
 .
 ├── app.js
 ├── package.json
 ├── Dockerfile
 ├── compose.yaml
 └── README.md
-```
 
 ---
 
@@ -49,7 +47,6 @@ Verify installation:
 ```bash
 docker -v
 docker compose version
-```
 
 ---
 
@@ -59,7 +56,6 @@ docker compose version
 git clone https://github.com/ajayblyth/docker-testapp.git
 
 cd docker-testapp
-```
 
 ---
 
@@ -69,7 +65,6 @@ Start all services:
 
 ```bash
 docker compose up -d
-```
 
 This will start:
 
@@ -110,19 +105,16 @@ http://localhost:8081
 
 ```http
 GET /
-```
 
 ### Get All Users
 
 ```http
 GET /users
-```
 
 ### Create User
 
 ```http
 POST /users
-```
 
 Example Request Body:
 
@@ -131,7 +123,6 @@ Example Request Body:
   "name": "Ajay",
   "email": "ajay@example.com"
 }
-```
 
 ---
 
