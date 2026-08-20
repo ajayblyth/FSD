@@ -1,7 +1,10 @@
 
+“Sure. I’m a software developer with over 3 years of experience in backend development, and recently I’ve been working extensively with the MERN stack. My main focus has been building REST APIs, implementing business logic, working with databases, and integrating frontend and backend applications.
+
+On the backend, I work with Node.js, Express.js, MongoDB, and REST APIs, and on the frontend I work with React, JavaScript, HTML, and CSS. I’m comfortable with concepts like authentication and authorization, JWT, CRUD operations, API integration, React Hooks, and state management.
+
+In my projects, we mainly use a combination of React on the frontend and Node.js with Express on the backend, where the frontend communicates with the backend through REST APIs. I’m now looking for an opportunity where I can work on real-world MERN applications, take more ownership, and continue growing as a full-stack developer.”
 JavaScript Functions (Detailed)
-
-
 
 JAVASCRIPT OBJECTS
 ====================================================================================================

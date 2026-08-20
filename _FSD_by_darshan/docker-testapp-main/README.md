@@ -44,7 +44,6 @@ https://hub.docker.com/r/ajayblyth/testapp
 
 Verify installation:
 
-```bash
 docker -v
 docker compose version
 
@@ -52,7 +51,6 @@ docker compose version
 
 ## Clone the Repository
 
-```bash
 git clone https://github.com/ajayblyth/docker-testapp.git
 
 cd docker-testapp
@@ -63,7 +61,6 @@ cd docker-testapp
 
 Start all services:
 
-```bash
 docker compose up -d
 
 This will start:

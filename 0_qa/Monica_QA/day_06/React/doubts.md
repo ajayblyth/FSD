@@ -137,7 +137,6 @@ setCount(prev => prev + 1);
 
 Think:
 
-```text
 New state depends on old state?
         ↓
       YES

@@ -18,14 +18,12 @@ E2E_demo_app/
 
 Create the database and table using the provided schema. From MySQL (local, or RDS):
 
-```bash
 mysql -h <DB_HOST> -u <DB_USER> -p < server/schema.sql
 
 Or paste the contents of [server/schema.sql](server/schema.sql) into a MySQL client.
 
 ## 2. Run the backend
 
-```bash
 cd server
 npm install
 cp .env.example .env     # then edit .env with your DB values
@@ -38,7 +36,6 @@ Test it: `http://localhost:5000/api/health` should return `OK`.
 
 In a second terminal:
 
-```bash
 cd client
 npm install
 cp .env.example .env     # defaults to http://localhost:5000

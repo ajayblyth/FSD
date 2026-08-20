@@ -576,6 +576,7 @@ link from an object to its prototype."
 localStorage is a browser storage mechanism used to store data as key-value pairs on the user's device.
 
 The important point is that the data stays even after the browser is closed, and it remains there until we explicitly remove it or the user clears the browser data.
+- Commonly used for non-sensitive client-side data such as theme preferences or simple application state.
 
 Example:
 
@@ -610,6 +611,7 @@ Interview Answer:
 sessionStorage is a browser-based storage mechanism that stores data as key-value pairs, but the data is associated with a particular browser tab or window session.
 
 The main difference from localStorage is that sessionStorage data is removed when that tab or window is closed.
+- Different tabs have separate sessionStorage areas.
 
 Example:
 
@@ -643,7 +645,8 @@ Interview Answer:
 
 Cookies are small pieces of data stored by the browser and associated with a website.
 
-The important difference is that cookies can be automatically sent with HTTP requests to the server when their domain and path rules match.
+The important difference is that cookies can be automatically sent with HTTP requests to the server 
+when their domain and path rules match.
 
 For example, a server can send:
 

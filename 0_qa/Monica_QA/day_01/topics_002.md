@@ -11,7 +11,9 @@ Normally, when a function finishes executing, its local variables should be dest
 
 But if an inner function still needs those variables, JavaScript keeps them alive.
 
-and that is called a closure.
+and that is called a closure. 
+So, a closure is the combination of a function and the lexical environment in which it was created.
+
 
 ---
 
@@ -19,8 +21,6 @@ How does a Closure work?
 
 When an inner function is returned it carries a reference to the outer function's variables along with it.
 Even though the outer function has completed execution, the inner function still has access to those variables because JavaScript stores them in a special memory area called a closure.
-
-So, a closure is the combination of a function and the lexical environment in which it was created.
 
 Example 1
 
@@ -345,9 +345,7 @@ let                  → Memory allocated but not initialized.
 const                → Memory allocated but not initialized.
 
 Function declarations→ Entire function stored in memory.
-
 No code is executed in this phase.
-
 Phase 2: Execution Phase
 
 JavaScript executes the code line by line.
