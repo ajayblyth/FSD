@@ -21,7 +21,7 @@ Consider:
 
 const fs = require("fs");
 
-console.log("Start");
+console.log("Start");a
 
 fs.readFile("data.txt", "utf8", (err, data) => {
 console.log("File completed");
@@ -103,7 +103,7 @@ Node.js
 
 ---
 
-# Does every async operation use the Thread Pool?
+.# Does every async operation use the Thread Pool?
 Async operation
       │
       ├──→ OS / Kernel asynchronous mechanisms
@@ -131,7 +131,7 @@ So don't say:
 
 ---
 
-# Event Loop and Microtasks
+#. Event Loop and Microtasks
 
 Your existing understanding is useful here.
 
@@ -174,7 +174,7 @@ You don't need those detailed phases right now.
 
 ---
 
-# Why is Event Loop important for Node.js?
+#. Why is Event Loop important for Node.js?
 
 Because Node.js doesn't create a new JavaScript thread for every incoming request.
 
@@ -217,7 +217,7 @@ That's the **main reason the Event Loop is so important to Node.js**.
 
 ---
 
-# One important limitation
+#. One important limitation
 
 The Event Loop doesn't magically make CPU-heavy JavaScript asynchronous.
 
@@ -241,7 +241,7 @@ That's why Node.js is particularly good for **I/O-heavy applications**, while CP
 
 ---
 
-# Interview Questions
+#. Interview Questions
 
 ### Q: What is the Event Loop?
 
@@ -282,7 +282,7 @@ Node.js Event Loop
 
 
 
-2. Buffers in Node.js
+# 2. Buffers in Node.js
 
 
 A Buffer is a Node.js object used to work with raw binary data directly in memory. It is commonly used when handling files, network data, streams, and other data that isn't necessarily in text format.
@@ -330,6 +330,8 @@ So:
 Buffer
    ↓
 Binary bytes
+
+
 Creating a Buffer
 From a string
 const buffer = Buffer.from("Hello");
@@ -360,10 +362,10 @@ Represents text	Represents raw binary data
 Human-readable	Byte-based
 "Hello"	<Buffer 48 65...>
 Good for text	Good for files/network/binary data
+
 Important interview point
 
 Is Buffer part of JavaScript?
-
 No. Buffer is provided by Node.js.
 
 It is a Node.js-specific API for handling binary data.
@@ -393,7 +395,7 @@ That relationship is the main reason we learned Buffers before Streams.
 
 ===============================
 
-3. Streams in Node.js
+# 3. Streams in Node.js
 
 Streams are an important Node.js concept because they allow us to work with large amounts of data efficiently.
 
@@ -456,6 +458,7 @@ Chunks
 Buffer
     ↓
 Process
+
 4. Types of Streams
 
 This is important for interviews.
@@ -520,6 +523,8 @@ Data
 Writable Stream
  ↓
 File
+
+
 3. Duplex Stream
 
 A Duplex stream can both read and write.
@@ -537,8 +542,8 @@ It can:
 receive data
     +
 send data
-4. Transform Stream
 
+4. Transform Stream
 A Transform stream can read data, modify/transform it, and output the transformed data.
 
 Input
@@ -583,6 +588,18 @@ pipe()
 Writable Stream
     ↓
 output.txt
+
+or instagram upload example
+
+Network request
+      ↓
+Readable Stream
+      ↓
+Instagram server
+      ↓
+Writable Stream
+      ↓
+Storage
 
 Instead of manually handling every chunk, pipe() connects the streams and manages the flow.
 
@@ -653,6 +670,7 @@ Think:
 
 Stream = conveyor belt
 Buffer = one box of data on the belt
+
 9. Streams in HTTP
 
 Streams are heavily used in Node.js HTTP communication.
@@ -1447,6 +1465,7 @@ Express
    ↓
 Node.js
    ↓
+   
 Database
 3. Basic Express Server
 

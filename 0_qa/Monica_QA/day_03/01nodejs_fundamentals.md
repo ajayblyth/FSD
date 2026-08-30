@@ -77,6 +77,7 @@ Instead of continuously waiting for an operation, Node.js reacts to the event wh
 
 
 What each part means
+
 Node.js
 │
 ├── V8 Engine
@@ -136,7 +137,7 @@ Node.js also provides APIs for things that browser JavaScript normally doesn't p
 
 ---
 
-# 2. What does "runtime environment" mean?
+## 2. What does "runtime environment" mean?
 
 This is important because interviewers may ask:
 
@@ -184,7 +185,7 @@ It provides an environment in which JavaScript can execute and interact with the
 
 ---
 
-# 3. Is Node.js a programming language?
+## 3. Is Node.js a programming language?
 
 ### Interview answer
 
@@ -201,7 +202,7 @@ Here:
 
 ---
 
-# 4. Is Node.js a framework?
+## 4. Is Node.js a framework?
 
 ### Interview answer
 
@@ -249,7 +250,7 @@ This is one reason Node.js became very popular.
 
 ---
 
-# 6. JavaScript vs Node.js
+## 6. JavaScript vs Node.js
 
 This is a very common interview question.
 
@@ -278,7 +279,7 @@ which can interact with the **file system**.
 
 ---
 
-# 7. Node.js vs Browser JavaScript
+## 7. Node.js vs Browser JavaScript
 
 This distinction is important.
 
@@ -327,7 +328,7 @@ console.log(process);
 
 ---
 
-# 8. What is V8?
+## 8. What is V8?
 
 This is one of the most important fundamentals.
 
@@ -337,6 +338,7 @@ It parses, compiles, and executes JavaScript code, converting it into optimized 
 In Node.js, V8 handles JavaScript execution, while Node.js provides additional APIs such as fs, http, streams, and other runtime features.
 
 Parsing → V8 reads and analyzes your JavaScript code to understand its structure and check syntax.
+
 Compilation → V8 converts that understood code into executable machine code (more precisely, V8 uses multiple execution/optimization stages rather than simply compiling everything straight to machine code).
 ### Simplified
 
@@ -410,7 +412,7 @@ Examples:
 
 ---
 
-# 10. What does I/O mean?
+## 10. What does I/O mean?
 
 You'll hear this constantly when learning Node.js architecture.
 
@@ -437,7 +439,7 @@ Node.js is particularly good at handling applications that perform a lot of thes
 
 ---
 
-# 11. Why is Node.js good for I/O-heavy applications?
+## 11. Why is Node.js good for I/O-heavy applications?
 
 Suppose a request requires reading data from a database.
 
@@ -477,7 +479,7 @@ This is one of the key ideas behind Node.js architecture.
 
 ---
 
-# 12. Is Node.js single-threaded?
+## 12. Is Node.js single-threaded?
 
 Very common interview question.
 
@@ -487,19 +489,19 @@ Node.js executes JavaScript code primarily on a **single main thread**. However,
 
 So don't answer:
 
-> ❌ **"Node.js has only one thread."**
+ ❌ **"Node.js has only one thread."**
 
 That's not accurate.
 
 Better:
 
-> **The JavaScript execution model is single-threaded, while Node.js can use additional threads for certain background operations.**
+ **The JavaScript execution model is single-threaded, while Node.js can use additional threads for certain background operations.**
 
 We'll go deep into this in **Node.js Architecture**.
 
 ---
 
-# 13. Simple Node.js program
+## 13. Simple Node.js program
 
 Create:
 
@@ -519,15 +521,14 @@ Hello Ajay
 
 Notice that you didn't need:
 
-<script>
+< script > 
 
 and you didn't need a browser.
 
 Node.js directly executes the JavaScript file.
 
----
 
-# 14. First important interview summary
+## 14. First important interview summary
 
 If the interviewer asks:
 
@@ -624,7 +625,7 @@ End
 
 ---
 
-# 2. Asynchronous
+## 2. Asynchronous
 
 ### Interview definition
 
@@ -674,7 +675,7 @@ Callback executes
 
 ---
 
-# 3. Synchronous vs Asynchronous
+## 3. Synchronous vs Asynchronous
 
 | Synchronous           | Asynchronous                                    |
 | --------------------- | ----------------------------------------------- |
@@ -686,7 +687,7 @@ Callback executes
 
 ---
 
-# 4. Important: Asynchronous does NOT mean "runs simultaneously"
+## 4. Important: Asynchronous does NOT mean "runs simultaneously"
 
 This is a common misunderstanding.
 
@@ -722,7 +723,7 @@ The exact mechanism behind this involves the **Event Loop**, which we'll study s
 
 ---
 
-# 5. Blocking vs Non-blocking
+## 5. Blocking vs Non-blocking
 
 These terms are closely related.
 
@@ -766,7 +767,7 @@ Handle result
 
 ---
 
-# 6. Why is this important in Node.js?
+## 6. Why is this important in Node.js?
 
 Imagine a server receives 1,000 requests.
 
@@ -800,7 +801,7 @@ This is a major reason Node.js works well for applications with lots of:
 
 ---
 
-# 7. One important distinction
+## 7. One important distinction
 
 Don't say:
 
@@ -818,7 +819,7 @@ In Node.js, asynchronous APIs are generally designed to provide **non-blocking I
 
 ---
 
-# Interview Questions
+## Interview Questions
 
 ### Q: What is synchronous execution?
 
@@ -857,7 +858,7 @@ Don't wait
 Continue other work
 ↓
 Handle result later
-============================
+
 3. Event-Driven Architecture
 
 This is one of the core concepts of Node.js and directly connects to the Event Loop.
@@ -900,33 +901,28 @@ Response sent
 An event handler is the function that runs when a particular event occurs.
 
 Example:
+n Node.js, the purpose of EventEmitter is to let different parts of your application communicate using events.
 
+Think of it as:
+
+"When something happens, notify whoever is interested."
+
+Simple example
 const EventEmitter = require("events");
 
 const emitter = new EventEmitter();
 
-emitter.on("login", () => {
-    console.log("User logged in");
+// Listen for an event
+emitter.on("login", (username) => {
+    console.log(`${username} logged in`);
 });
 
-emitter.emit("login");
+// Trigger the event
+emitter.emit("login", "John");
 
 Output:
 
-User logged in
-
-What's happening?
-
-emitter.on("login", handler)
-        ↓
-Register handler
-
-emitter.emit("login")
-        ↓
-"login" event occurs
-        ↓
-Handler executes
-Important methods
+John logged in
 
 on() → listens for/registers an event.
 
@@ -937,6 +933,27 @@ emit() → triggers the event.
 emitter.emit("login");
 
 You don't need to memorize EventEmitter deeply yet; we'll cover it as a Node.js API later.
+
+
+placeOrder()
+    ↓
+sendEmail()
+    ↓
+updateInventory()
+    ↓
+createInvoice()
+    ↓
+sendNotification()
+
+emitter.on("orderPlaced", sendEmail);
+emitter.on("orderPlaced", updateInventory);
+emitter.on("orderPlaced", createInvoice);
+
+EventEmitter
+     |
+     ├── on()    → "I'm interested in this event"
+     |
+     └── emit()  → "This event just happened!"
 
 4. Why is Node.js event-driven?
 
@@ -1075,7 +1092,7 @@ Event/result becomes available
 Event Loop
      ↓
 Callback/handler executes
-=======================================
+
 
 # 4. Node.js Modules
 
@@ -1083,7 +1100,7 @@ Callback/handler executes
 
 ---
 
-## 1. What is a Module?
+#. What is a Module?
 
 ### Interview answer
 
@@ -1106,7 +1123,7 @@ Then import only what we need.
 
 ---
 
-# 2. Why do we use modules?
+.# 2. Why do we use modules?
 
 Main reasons:
 
@@ -1128,7 +1145,7 @@ A module can expose only the functionality that other files need.
 
 ---
 
-# 3. Simple Example
+#. 3. Simple Example
 
 ### `math.js`
 
@@ -1162,7 +1179,7 @@ uses add()
 
 ---
 
-# 4. `module.exports`
+#. 4. `module.exports`
 
 This is an important Node.js concept.
 
@@ -1188,7 +1205,7 @@ module.exports
 
 ---
 
-# 5. Exporting Multiple Things
+#. 5. Exporting Multiple Things
 
 You can export multiple functions as an object.
 
@@ -1227,7 +1244,7 @@ const { add, subtract } = require("./math");
 
 ---
 
-# 6. What is `require()`?
+#. 6. What is `require()`?
 
 ### Interview answer
 
@@ -1245,7 +1262,7 @@ Then we can use whatever that module exported.
 
 ---
 
-# 7. Built-in Modules
+#.. 7. Built-in Modules
 
 Node.js comes with many built-in modules.
 
@@ -1273,7 +1290,7 @@ File system functionality
 
 ---
 
-# 8. User-defined Modules
+#. 8. User-defined Modules
 
 Modules we create ourselves are called user-defined/custom modules.
 
@@ -1310,7 +1327,7 @@ require("./calculator");
 
 ---
 
-# 9. Types of Node.js Modules
+#. 9. Types of Node.js Modules
 
 For interviews, know these three categories:
 
@@ -1344,7 +1361,7 @@ We'll discuss npm separately.
 
 ---
 
-# 10. CommonJS vs ES Modules
+#. 10. CommonJS vs ES Modules
 
 This is important in modern Node.js.
 
@@ -1415,7 +1432,7 @@ console.log(add(2, 3));
 
 ---
 
-# 11. Important Interview Question
+#. 11. Important Interview Question
 
 ### Q: What is a module in Node.js?
 
@@ -1453,6 +1470,7 @@ module.exports
 ↓
 Defines what the module exposes
 =====================================
+
 # 5. npm, package.json & Dependencies
 
 These three concepts are closely related, so we'll learn them together.
@@ -1511,7 +1529,7 @@ const express = require("express");
 
 ---
 
-# 4. What is `package.json`?
+#/ 4. What is `package.json`?
 
 This is one of the **most important Node.js fundamentals**.
 
@@ -1536,7 +1554,7 @@ Think of `package.json` as the **identity and configuration file of your project
 
 ---
 
-# 5. How do we create `package.json`?
+#. 5. How do we create `package.json`?
 
 Run:
 
@@ -1554,7 +1572,7 @@ This creates `package.json` with default values.
 
 ---
 
-# 6. What are dependencies?
+#. 6. What are dependencies?
 
 Suppose your application uses Express:
 
@@ -1580,7 +1598,7 @@ npm install package-name
 
 ---
 
-# 7. What are devDependencies?
+#. 7. What are devDependencies?
 
 Some packages are needed only during development, testing, or building.
 
@@ -1612,7 +1630,7 @@ They appear under:
 
 ---
 
-# 8. What are npm scripts?
+#. 8. What are npm scripts?
 
 `package.json` can contain scripts:
 
@@ -1641,7 +1659,7 @@ npm run dev
 
 ---
 
-# 9. What is `package-lock.json`?
+#. 9. What is `package-lock.json`?
 
 When you install packages, npm creates:
 
@@ -1670,7 +1688,7 @@ npm can reproduce the dependency tree more consistently.
 
 ---
 
-# 10. `package.json` vs `package-lock.json`
+#/ 10. `package.json` vs `package-lock.json`
 
 Very common interview question.
 
@@ -1698,7 +1716,7 @@ package-lock.json
 
 ---
 
-# 11. What is `node_modules`?
+#. 11. What is `node_modules`?
 
 When you run:
 
@@ -1735,7 +1753,7 @@ to recreate `node_modules`.
 
 ---
 
-# 12. `npm install` vs `npm install package`
+/# 12. `npm install` vs `npm install package`
 
 This distinction is useful.
 
@@ -1794,7 +1812,7 @@ Now our project knows:
 
 ---
 
-# Interview Questions
+#. Interview Questions
 
 ### Q: What is npm?
 

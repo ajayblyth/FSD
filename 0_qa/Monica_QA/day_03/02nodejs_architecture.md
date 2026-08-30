@@ -1,4 +1,5 @@
 Node.js Architecture — Complete Picture
+
 Interview answer
 
 Node.js follows an event-driven, non-blocking I/O architecture. JavaScript runs primarily on a single main thread using the V8 engine. The Event Loop, provided by libuv, coordinates asynchronous operations. Operations that require background processing may use libuv's thread pool or the operating system's asynchronous I/O facilities. Once an operation completes, its callback is scheduled and eventually executed on the main JavaScript thread.
@@ -141,7 +142,7 @@ Important interview point
 
 JavaScript execution happens on the Call Stack, which is primarily a single stack/thread in Node.js.
 
-5. What is libuv?
+# 5. What is libuv?
 Interview answer
 
 libuv is a  library used by Node.js to provide asynchronous I/O capabilities. It provides the Event Loop and manages a thread pool for certain operations.

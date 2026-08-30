@@ -13,6 +13,7 @@ Syntax:
 let arr = [value1, value2, value3];
 
 - inefficient way to add values one by one:
+
 let num1=10;
 let num2=20;
 let num3=30;
@@ -97,7 +98,7 @@ Example: [1,2].concat([3,4]); // [1,2,3,4]
 - Reverses array in place. 
 Example: [1,2,3].reverse(); // [3,2,1]
 
-9. slice(start,end) → Extracts part
+9. slice(start,end) → Extracts part of array, gives subarray
    nums.slice(0,2); // [10,20]
 
 10. splice(start,count) → Add/Remove elements
@@ -442,6 +443,8 @@ let result = arr.map(x => x * 2);  // multiply each element
 console.log(result);  // [2, 4, 6]
 
 To modify original array:
+
+to convert array to react elements .jsx
 
 1. Assign the result back (Recommended)
 let arr = [1, 2, 3];
