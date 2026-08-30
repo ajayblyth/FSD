@@ -792,7 +792,7 @@ A frontend doesn't directly need to access the database. It communicates with th
 
 ---
 
-# 2. What is a REST API?
+# 2. What is a REST API?.
 
 ### Interview answer
 
@@ -815,7 +815,7 @@ DELETE /users/10
 
 ---
 
-# 3. How does a REST API work?
+#. 3. How does a REST API work?
 
 Suppose a frontend wants user #10.
 
@@ -841,7 +841,7 @@ The client and server communicate using **HTTP requests and responses**.
 
 ---
 
-# 4. HTTP Request
+#. 4. HTTP Request
 
 An HTTP request generally contains:
 
@@ -869,7 +869,7 @@ Here:
 
 ---
 
-# 5. HTTP Response
+#. 5. HTTP Response
 
 The server sends a response containing things such as:
 
@@ -894,7 +894,7 @@ So:
 
 ---
 
-# 6. HTTP Methods
+#. 6. HTTP Methods
 
 These are essential for REST APIs.
 
@@ -972,7 +972,7 @@ DELETE /users/10
 
 ---
 
-# 7. REST Endpoint
+#. 7. REST Endpoint
 
 An **endpoint** is a specific URL + HTTP method through which an API provides functionality.
 
@@ -993,7 +993,7 @@ POST /users → create
 
 ---
 
-# 8. URL Parameters
+#. 8. URL Parameters
 
 Suppose:
 
@@ -1023,7 +1023,7 @@ req.params.id → "25"
 
 ---
 
-# 9. Query Parameters
+#. 9. Query Parameters
 
 Query parameters are used to provide additional information to the server, commonly for filtering, searching, sorting, or pagination.
 
@@ -1060,7 +1060,7 @@ additional/filtering information
 
 ---
 
-# 10. Request Body
+#. 10. Request Body
 
 The body contains data sent to the server, commonly with `POST`, `PUT`, or `PATCH`.
 
@@ -1085,7 +1085,7 @@ req.body
 
 ---
 
-# 11. HTTP Headers
+#. .11. HTTP Headers
 
 Headers contain additional information about the request or response.
 
@@ -1115,7 +1115,7 @@ Tells the server what response format the client prefers.
 
 ---
 
-# 12. HTTP Status Codes
+#. 12. HTTP Status Codes
 
 You should know these very well for interviews.
 
@@ -1171,7 +1171,7 @@ Simple way to remember:
 
 ---
 
-# 13. 401 vs 403 — Important Interview Question
+.# 13. 401 vs 403 — Important Interview Question
 
 ### 401
 
@@ -1202,7 +1202,7 @@ User → tries admin-only operation
 
 ---
 
-# 14. REST API in Node.js using Express
+.# 14. REST API in Node.js using Express
 
 Node.js provides the runtime, while **Express is commonly used to simplify HTTP server and REST API development**.
 
@@ -1241,7 +1241,7 @@ console.log("Server running on port 3000");
 
 ---
 
-# 15. What happens when we call `GET /users`?
+.# 15. What happens when we call `GET /users`?
 
 Browser/Postman
 ↓
@@ -1261,7 +1261,7 @@ Client
 
 ---
 
-# 16. What is Routing?
+#. 16. What is Routing?
 
 ### Interview answer
 
@@ -1278,7 +1278,7 @@ Each route handles a different request.
 
 ---
 
-# 17. Middleware in REST APIs
+#. 17. Middleware in REST APIs
 
 Middleware sits between the request and the final route handler.
 

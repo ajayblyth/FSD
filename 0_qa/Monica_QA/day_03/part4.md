@@ -1,4 +1,4 @@
-5. Authentication in Node.js
+# 5. Authentication in Node.js
 
 Authentication is an important REST API topic. We'll focus on the concepts you actually need for interviews and understand JWT-based authentication, which is very common in Node.js APIs.
 
@@ -33,6 +33,7 @@ Easy way to remember:
 
 Authentication → Who are you?
 Authorization  → What can you do?
+
 2. Basic Authentication Flow
 
 Suppose a user logs in:
@@ -58,6 +59,7 @@ For subsequent requests:
 Client
    ↓
 Request + authentication information
+
    ↓
 Server
    ↓
@@ -79,7 +81,8 @@ Interview answer
 
 JWT is a compact, self-contained token format commonly used for stateless authentication. After successful login, the server generates a token and sends it to the client. The client sends that token with subsequent requests, allowing the server to verify the user's identity.
 
-When a user logs in, the server verifies the credentials and generates a signed JWT containing appropriate claims. The client sends this token with subsequent requests, usually through the Authorization Bearer header. Authentication middleware extracts and verifies the token. If valid, the decoded user information is attached to the request and execution continues to the protected route. Authorization can then check the user's roles or permissions before allowing the operation.
+When a user logs in, the server verifies the credentials and generates a signed JWT containing appropriate claims.
+The client sends this token with subsequent requests, usually through the Authorization Bearer header. Authentication middleware extracts and verifies the token. If valid, the decoded user information is attached to the request and execution continues to the protected route. Authorization can then check the user's roles or permissions before allowing the operation.
 
 
 Typical flow:
@@ -104,6 +107,7 @@ Authorization: Bearer <JWT>
 Server verifies JWT
   ↓
 Request allowed
+
 5. JWT Structure
 
 A JWT looks roughly like:
@@ -144,6 +148,7 @@ Header + Payload
 Signing process + secret/private key
        ↓
 Signature
+
 6. Important: JWT Payload is NOT encrypted
 
 This is a very common interview question.
@@ -372,7 +377,8 @@ OAuth/OpenID Connect for certain delegated/federated authentication scenarios
 For your Node.js fundamentals, JWT is the important one to understand well.
 
 13. Session vs JWT — Basic Difference
-Session-based
+
+## Session-based
 Login
  ↓
 Server creates session
@@ -384,7 +390,9 @@ Client gets session identifier
 Client sends it later
  ↓
 Server looks up session
-JWT
+
+
+## JWT
 Login
  ↓
 Server creates signed JWT
@@ -437,6 +445,7 @@ Keep token lifetimes appropriate.
 Protect token storage.
 Don't put sensitive data in the payload.
 Use strong signing keys/secrets.
+
 16. Authentication vs Authorization Example
 
 Suppose:
@@ -543,7 +552,7 @@ The complete authentication picture
 
   ==========================
 
-  6. Cluster in Node.js
+  # 6. Cluster in Node.js
 
 Cluster is an advanced Node.js architecture concept. The main reason for using it is to take advantage of multiple CPU cores.
 
@@ -577,7 +586,7 @@ The Node.js Cluster module allows us to create multiple Node.js processes, calle
 
 Conceptually:
 
-                 Master / Primary
+                    Primary
                        │
           ┌────────────┼────────────┐
           ↓            ↓            ↓
@@ -588,7 +597,7 @@ Conceptually:
                        ↓
                    Requests
 
-Modern Node.js documentation uses the term primary process rather than the older "master" terminology.
+Modern Node.js documentation uses the term primary process.
 
 3. Simple Cluster Example
 const cluster = require("cluster");
@@ -668,6 +677,7 @@ With Cluster:
 8 cores
    ↓
 8 Node.js worker processes
+
 6. Important: Workers are separate processes
 
 This is very important for interviews.
