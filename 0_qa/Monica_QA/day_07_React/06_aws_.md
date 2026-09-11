@@ -607,6 +607,7 @@ For example:
        ↓
 4 CPU + 8 GB RAM
 
+
 Horizontal scaling means adding more servers.
 
         Load Balancer
@@ -620,6 +621,7 @@ Remember:
 Vertical → Bigger server
 
 Horizontal → More servers
+ 
 ⭐ 47. What happens when a user accesses your MERN application deployed on AWS?
 
 This is probably one of the best scenario questions they can ask you.
