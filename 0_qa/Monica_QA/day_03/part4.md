@@ -66,6 +66,7 @@ Server
 Verify authentication
    ↓
 Allow / Reject request
+
 3. Why can't we just send username/password every time?
 
 We generally shouldn't.
@@ -579,6 +580,10 @@ For a CPU-heavy or high-throughput server, we may want to use multiple cores.
 
 That's where Cluster comes in.
 
+Doubt:does cluster makes node js multi threaded
+
+Not exactly. The cluster module allows a Node.js application to run multiple processes, not multiple threads.
+
 2. What is Cluster?
 Interview answer
 
@@ -600,24 +605,31 @@ Conceptually:
 Modern Node.js documentation uses the term primary process.
 
 3. Simple Cluster Example
-const cluster = require("cluster");
-const os = require("os");
-const http = require("http");
+
+
+import cluster from "cluster";
+import os from "os";
+import app from "./app";
 
 if (cluster.isPrimary) {
+  const cpuCount = os.cpus().length;
 
-    const cpuCount = os.cpus().length;
-
-    for (let i = 0; i < cpuCount; i++) {
-        cluster.fork();
-    }
-
+  for (let i = 0; i < cpuCount; i++) {
+    cluster.fork();   //Create a new worker Node.js process.
+  }
 } else {
+  app.listen(5000, () => {   //    // Start the Express server
 
-    http.createServer((req, res) => {
-        res.end(`Handled by worker ${process.pid}`);
-    }).listen(3000);
+    console.log(`Worker ${process.pid} running on port 5000`);    
+  });
 }
+
+
+else block : If it is NOT the Primary process
+This is one of those Worker processes that the Primary created.
+So the worker should NOT create more workers.
+Instead, it starts the Express server:
+
 
 Suppose your machine has 4 CPU cores.
 
@@ -629,6 +641,29 @@ Worker 3
 Worker 4
 
 Each worker is a separate Node.js process.
+
+
+
+                    server.ts starts
+                          │
+                          ↓
+                Is this Primary?
+                     /        \
+                   YES         NO
+                    │           │
+                    ↓           ↓
+             cluster.fork()   app.listen()
+                    │
+          ┌─────────┼─────────┐
+          ↓         ↓         ↓
+       Worker 1  Worker 2  Worker 3 ...
+          │         │         │
+       isPrimary  isPrimary  isPrimary
+        = false    = false    = false
+          │         │         │
+          └─────────┴─────────┘
+                    ↓
+               app.listen()
 
 4. How does a request get handled?
 

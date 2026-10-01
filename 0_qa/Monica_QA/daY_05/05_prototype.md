@@ -576,7 +576,7 @@ link from an object to its prototype."
 localStorage is a browser storage mechanism used to store data as key-value pairs on the user's device.
 
 The important point is that the data stays even after the browser is closed, and it remains there until we explicitly remove it or the user clears the browser data.
-- Commonly used for non-sensitive client-side data such as theme preferences or simple application state.
+- we  Commonly use it for non-sensitive client-side data such as theme preferences or language.
 
 Example:
 
@@ -598,7 +598,6 @@ Important Points:
 
 - Stores data as key-value pairs.
 - Values are stored as strings.
-- Data persists across browser sessions.
 - Data remains even after closing and reopening the browser.
 - Commonly used for non-sensitive client-side data such as theme preferences or simple application state.
 - Sensitive information such as passwords or authentication secrets should generally not be stored here because JavaScript can access localStorage.
@@ -608,7 +607,7 @@ Important Points:
 
 Interview Answer:
 
-sessionStorage is a browser-based storage mechanism that stores data as key-value pairs, but the data is associated with a particular browser tab or window session.
+sessionStorage stores key-value data for the current browser tab/session. The data is removed when that tab is closed.
 
 The main difference from localStorage is that sessionStorage data is removed when that tab or window is closed.
 - Different tabs have separate sessionStorage areas.
@@ -629,6 +628,30 @@ To clear all session storage:
 
 sessionStorage.clear();
 
+## data it stores
+→ Data needed only during the current tab/session
+→ Temporary search filters
+→ Current form progress
+→ Current checkout step
+→ Current selected tab
+
+For example, in EventHub:
+
+// User's long-term preference
+localStorage.setItem("theme", "dark");
+
+// Temporary state while booking
+sessionStorage.setItem("bookingStep", "2");
+
+If the user closes the EventHub tab:
+
+theme      → still there ✅
+bookingStep → gone ❌
+
+Interview line:
+
+localStorage is for persistent client-side data, while sessionStorage is for temporary data that should generally last only for the current browser tab/session.
+
 Important Points:
 
 - Stores data as key-value pairs.
@@ -637,6 +660,7 @@ Important Points:
 - Data is normally removed when the tab/window session ends.
 - Different tabs have separate sessionStorage areas.
 - Like localStorage, it should not be treated as secure storage for sensitive data.
+
 
 
 # What are cookies?
@@ -648,7 +672,24 @@ Cookies are small pieces of data stored by the browser and associated with a web
 The important difference is that cookies can be automatically sent with HTTP requests to the server 
 when their domain and path rules match.
 
-For example, a server can send:
+or 
+Cookie = browser mechanism for storing small key-value data, which can also be automatically sent with HTTP requests.
+
+And in your EventHub authentication:
+
+Cookie is the container; JWT access/refresh token is the data stored inside it.
+
+It can contain many kinds of small data:
+
+Cookie
+→ accessToken
+→ refreshToken
+→ sessionId
+→ preferences
+→ etc.
+
+
+example, a server can send:
 
 Set-Cookie: sessionId=abc123
 
@@ -740,7 +781,7 @@ function debounce(callback, delay) {
     let timer;
 
     return function () {
-        clearTimeout(timer);
+        clearTimeout(timer);  // Cancel any previous timer.
 
         timer = setTimeout(() => {
             callback();
@@ -784,7 +825,7 @@ Interview Answer:
 
 Throttling is a technique used to ensure that a function executes at most once within a specified time interval, even if the event keeps happening continuously.
 
-For example, if an event fires hundreds of times within a second and our throttle interval is 500ms, the function will execute at most once every 500ms.
+For example, if an event fires hundreds of times within a second and our throttle interval is 100ms, the function will execute at most once every 100ms.
 
 Example:
 

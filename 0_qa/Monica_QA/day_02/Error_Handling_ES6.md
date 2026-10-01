@@ -3108,7 +3108,7 @@ console.log(secret);    //gives password from object student
 • Property names can be renamed
 
 ================
-```text id="k3v8nx"
+text id="k3v8nx"
 ===============================================================================
                            this Keyword (JavaScript)
 ===============================================================================

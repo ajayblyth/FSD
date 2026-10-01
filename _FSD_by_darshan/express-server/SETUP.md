@@ -2,7 +2,7 @@
 
 ## 1. Install
 
-```powershell
+powershell
 npm init -y
 npm install express
 npm install --save-dev typescript ts-node nodemon @types/express @types/node
@@ -17,7 +17,7 @@ Rule of thumb: install `@types/<lib>` alongside any plain-JS library.
 
 ## 2. package.json scripts
 
-```jsonc
+jsonc
 "main": "dist/server.js",
 "scripts": {
   "build":    "tsc",                                  // compile src/*.ts → dist/*.js
@@ -51,7 +51,7 @@ Keep: `"rootDir": "./src"`, `"outDir": "./dist"`, `"strict": true`.
 
 ## 4. Run
 
-```powershell
+powershell
 npm run watch      # dev loop (recommended) — re-runs .ts on every save
 npm run dev        # run .ts once, no auto-restart
 npm run build      # tsc → dist/server.js
@@ -65,7 +65,7 @@ Expect: `Server on 3000`
 
 Leave the server running; open a second terminal.
 
-```powershell
+powershell
 curl http://localhost:3000/
 # → Hello from server
 

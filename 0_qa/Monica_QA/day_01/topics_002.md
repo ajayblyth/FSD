@@ -4,6 +4,8 @@
 
 A closure is created when an inner function remembers and can access the variables of its outer function even after the outer function has finished executing.
 
+or A closure is the combination of a function and its preserved access to the lexical environment where that function was created. JavaScript automatically maintains that environment when the function still needs variables from it.
+
 Why do we need Closures?
 
 Normally, when a function finishes executing, its local variables should be destroyed.
@@ -34,7 +36,7 @@ function outer() {
 }
 
 const myFunction = outer();  //outer() returns the reference to inner and stores refernce in myfFunction.
-//When you call myFunction(), inner() executes.
+//now When you call myFunction(), inner() executes.
 
 myFunction();
 
@@ -189,7 +191,7 @@ function bankAccount() {
 
 }
 
-const account = bankAccount();
+const account = bankAccount();// reference to inner functions in account
 
 account.deposit(500);
 
@@ -214,6 +216,85 @@ balance
 is private.
 
 Only the returned functions can access it.
+
+## Why do we need closures in JavaScript?
+
+A closure happens when a function remembers and can access variables from its outer scope even after the outer function has finished executing.
+
+The main purpose is:
+
+Closures allow us to preserve data and create private/persistent state.
+
+Simple example
+function counter() {
+  let count = 0;
+
+  return function () {
+    count++;
+    return count;
+  };
+}
+
+const increment = counter();
+
+console.log(increment()); // 1
+console.log(increment()); // 2
+console.log(increment()); // 3
+
+Here, counter() has already finished, but the returned function still remembers count.
+
+counter()
+  │
+  ├── count = 0
+  │
+  └── returns function
+          │
+          ↓
+       remembers
+        count
+What is the purpose?
+
+1. Data privacy
+
+function bankAccount() {
+  let balance = 1000;
+
+  return {
+    getBalance: () => balance
+  };
+}
+
+balance cannot be directly accessed from outside.
+
+2. Maintaining state
+
+Counters, timers, etc. can remember previous values.
+
+3. Callbacks
+
+Closures are heavily used with callbacks because the callback can remember variables from where it was created.
+
+4. Function factories
+
+You can create functions with different remembered values:
+
+function multiplyBy(x) {
+  return function (y) {
+    return x * y;
+  };
+}
+
+const double = multiplyBy(2);
+const triple = multiplyBy(3);
+
+console.log(double(5)); // 10
+console.log(triple(5)); // 15
+Interview answer
+
+The purpose of closures is to allow a function to retain access to variables from its outer lexical scope even after the outer function has finished executing. They are useful for data privacy, maintaining state, callbacks, and creating function factories.
+
+The key idea:
+Function + remembered outer variables = Closure
 
 This is one of the biggest uses of closures.
 
@@ -327,7 +408,7 @@ A closure is a JavaScript feature where an inner function remembers and can acce
 # HOISTING
 Definition
 
-Hoisting is JavaScript's default behavior of processing variable and function declarations before the code is executed.
+Hoisting is JavaScript's default BEHAVIOR OF PROCESSING VARIABLE AND FUNCTION DECLARATIONS BEFORE THE CODE IS EXECUTED.
 Important: JavaScript does not physically move your code.it only registers declarations before execution starts.
 
 JavaScript Execution Phases
@@ -567,19 +648,30 @@ Interview Answer (30–40 seconds)
 Hoisting is JavaScript's behavior during the memory creation phase where declarations are processed before code execution. Variables declared with var are hoisted and initialized with undefined, while let and const are hoisted but remain uninitialized in the Temporal Dead Zone (TDZ), causing a ReferenceError if accessed before their declaration. Function declarations are fully hoisted, so they can be called before they appear in the code, whereas function expressions and arrow functions follow the hoisting rules of the variables they are assigned to.
 
 
+Interview line:
+
+TDZ — Temporal Dead Zone is the time from when a let or const variable's scope begins until its declaration is initialized. Accessing it during this period causes a ReferenceError.
+Important: let and const are hoisted, but they remain in the TDZ until initialization.
+
 # 1. STREAM
 ---------
 
 CONCEPT:
 
-A stream is a way of processing data piece-by-piece (chunk-by-chunk)
-instead of loading the entire data into memory at once.
+A stream is a way of handling data gradually, piece by piece,
+instead of waiting for all the data to arrive at once.
 
-Instead of:
+Without a stream
 
-    read entire 2 GB file
-    → store 2 GB in memory
-    → process it
+Suppose you have a 2 GB video:
+
+2 GB video
+    ↓
+Load entire 2 GB
+    ↓
+Process/use it
+
+Problem: you may need a lot of memory, and the user has to wait for the whole thing before processing can begin.
 
 A stream does:
 
@@ -1001,6 +1093,9 @@ BUFFER:
 
     stores raw binary data in memory.
 
+    A Buffer is a temporary area of memory that holds a piece (chunk) of data 
+    while that data is being transferred or processed.
+
 STREAM:
 
     processes data over time/chunks.
@@ -1032,7 +1127,7 @@ STREAM HIGH-WATER MARK
 
 A stream has an internal buffering mechanism.
 
-`highWaterMark` controls approximately how much data the stream
+`highWaterMark` controls how much data the stream
 tries to buffer before applying backpressure.
 
 Example:
@@ -1369,7 +1464,7 @@ Example:
 
 --------------------------------------------------
 
-3. CLUSTER
+# . CLUSTER
 ----------
 
 CONCEPT:
@@ -1377,6 +1472,20 @@ Node.js runs JavaScript on a single main thread by default.
 
 The Node.js Cluster module allows us to create multiple processes
 called workers that can run on multiple CPU cores.
+
+
+Note:
+A process is a running program that is being executed by the operating system.
+A process gets its own resources, such as:
+
+Memory
+CPU time
+File handles
+Other operating-system resources
+
+PROGRAM = the code
+PROCESS = the code while it is running
+
 
 WITHOUT CLUSTER:
 
@@ -1395,6 +1504,21 @@ WITH CLUSTER:
     worker worker  worker
       1      2       3
 
+
+      Cluster
+│
+├── Process 1
+│    ├── Main JS thread
+│    └── Internal threads
+│
+├── Process 2
+│    ├── Main JS thread
+│    └── Internal threads
+│
+└── Process 3
+     ├── Main JS thread
+     └── Internal threads
+
 Each worker is a separate Node.js process.
 
 WHY?
@@ -1403,18 +1527,159 @@ To utilize multiple CPU cores and handle more requests.
 EXAMPLE:
 
     const cluster = require("cluster");
-    const os = require("os");
-
+    const os = require("os"); // gives information about the computer's operating system.
     if (cluster.isPrimary) {
         const cpuCount = os.cpus().length;
 
         for (let i = 0; i < cpuCount; i++) {
-            cluster.fork();
+            cluster.fork();  //create worker processes using cluster.fork()
         }
     } else {
         // worker process
         // start server here
     }
+
+
+## code explained:
+Check: Am I the primary process?
+if (cluster.isPrimary) {
+
+This is very important.
+
+When you initially run:
+
+node app.js
+
+Node starts the primary process.
+
+So initially:
+
+node app.js
+     ↓
+Primary process
+
+cluster.isPrimary will be:
+
+true
+
+Therefore this block runs:
+
+if (cluster.isPrimary) {
+    ...
+}
+4. Find CPU cores
+const cpuCount = os.cpus().length;
+
+Suppose your CPU has 8 logical CPUs.
+
+Then:
+
+os.cpus()
+
+returns information about those CPUs.
+
+And:
+
+os.cpus().length
+
+might give:
+
+8
+
+So:
+
+cpuCount = 8
+5. Create worker processes
+
+This is the most important line:
+
+cluster.fork();
+
+You run it repeatedly:
+
+for (let i = 0; i < cpuCount; i++) {
+    cluster.fork();
+}
+
+If cpuCount = 4:
+
+cluster.fork()
+cluster.fork()
+cluster.fork()
+cluster.fork()
+
+creates:
+
+Primary process
+      │
+      ├── Worker process 1
+      ├── Worker process 2
+      ├── Worker process 3
+      └── Worker process 4
+
+So cluster.fork() is what creates the worker process.
+
+## But how does the task get assigned?
+
+This is the part that is often confusing.
+
+You are not manually saying:
+
+Worker 1 → requests 1-100
+Worker 2 → requests 101-200
+
+Instead, the cluster module helps distribute incoming connections among the workers.
+
+For example:
+
+                  Client requests
+                        │
+                        ↓
+                  Primary/cluster
+                        │
+            ┌───────────┼───────────┐
+            ↓           ↓           ↓
+         Worker 1    Worker 2    Worker 3
+
+The workers all run your server.
+
+6. What does else mean?
+} else {
+    // worker process
+    // start server here
+}
+
+Remember:
+
+cluster.isPrimary
+
+is true for the primary process.
+
+For a worker:
+
+cluster.isPrimary
+
+is false.
+
+Therefore the worker executes the else block.
+
+For example:
+
+} else {
+    app.listen(5000);
+}
+
+Now each worker starts the Node.js server.
+
+So you effectively have:
+
+Primary
+  │
+  ├── Worker 1 → Express server :5000
+  ├── Worker 2 → Express server :5000
+  ├── Worker 3 → Express server :5000
+  └── Worker 4 → Express server :5000
+
 
 REAL USE CASE:
 Suppose a server machine has 8 CPU cores.
@@ -1439,14 +1704,14 @@ Node.js applications.
 # 4. THIS KEYWORD
 
 CONCEPT:
-`this` refers to the object/context associated with the current
-function execution.
+this refers to the object that is currently being used to call the function and 
+access its properties and methods
 
-Its value depends on HOW the function is called.
 
 IMPORTANT:
 `this` is NOT determined simply by where the function is written
-for normal functions.
+for normal functions.Its value depends on HOW the function is called.
+
 
 EXAMPLE:
 
@@ -1457,7 +1722,7 @@ EXAMPLE:
         }
     };
 
-    user.greet();
+    user.greet(); //greet is inside user block
 
 Output:
 
@@ -1527,6 +1792,73 @@ Object methods:
 `this` is useful when a method needs access to the object's
 properties.
 
+
+## Why use this?
+
+It lets an object refer to its own properties without hardcoding the object name.
+
+const person = {
+  name: "Ajay",
+
+  greet() {
+    console.log(this.name);
+  }
+};
+
+Instead of:
+
+console.log(person.name);
+
+
+## can i use this  to call any function in code
+
+Yes — but only if you explicitly make that object the this value when calling the function.
+
+You can use call(), apply(), or bind().
+
+Example
+const person = {
+  name: "Ajay"
+};
+
+function greet() {
+  console.log("Hello " + this.name);
+}
+
+greet.call(person);
+
+Output:
+
+Hello Ajay
+
+Here:
+
+greet.call(person);
+
+means:
+
+“Call greet() and make person the this inside it.”
+
+So inside greet():
+
+this === person
+
+and therefore:
+
+this.name
+
+becomes:
+
+person.name
+
+greet.call(person);      // immediately call
+greet.apply(person);     // immediately call
+const fn = greet.bind(person); // create a new function with this fixed
+fn();
+
+So the simple rule is:
+
+this is not permanently attached to an object. The way you call a regular function determines what this refers to.
 
 --------------------------------------------------
 
@@ -1663,6 +1995,12 @@ EXAMPLE:
 
     boundGreet();
 
+Here bind():
+
+Creates a new function
+Stores that new function in boundGreet
+Fixes this to person
+You can execute it later with newGreet()
 Output:
 
     Ajay
@@ -1798,6 +2136,8 @@ existing object.
 CONCEPT:
 Rest collects multiple values into a single array.
 
+It is called rest because it collects the rest of the values.
+
 It uses the same `...` syntax as spread.
 
 But its PURPOSE is different.
@@ -1807,6 +2147,42 @@ SPREAD:
 
 REST:
     collects/groups
+
+
+
+1. With arrays
+const numbers = [10, 20, 30, 40];
+
+const [first, second, ...rest] = numbers;
+
+console.log(first);  // 10
+console.log(second); // 20
+console.log(rest);   // [30, 40]
+[10, 20, 30, 40]
+ ↓   ↓    ↓──────↓
+first second   rest
+2. With objects
+const person = {
+  name: "Ajay",
+  age: 31,
+  city: "Bangalore",
+  country: "India"
+};
+
+const { name, ...rest } = person;
+
+console.log(name); // Ajay
+console.log(rest); // { age: 31, city: "Bangalore", country: "India" }
+3. In function parameters
+
+This is very common:
+
+function add(...numbers) {
+  console.log(numbers);
+}
+
+add(10, 20, 30, 40);
+
 
 
 FUNCTION EXAMPLE:
@@ -1855,6 +2231,32 @@ REAL USE CASES:
 - processing variable-length data
 
 
+
+## Destructuring in JavaScript
+
+Destructuring means taking values out of an object or array and storing them directly into variables.
+
+Instead of repeatedly doing:
+
+const person = {
+  name: "Ajay",
+  age: 31,
+  city: "Bangalore"
+};
+
+const name = person.name;
+const age = person.age;
+const city = person.city;
+
+You can do:
+
+const { name, age, city } = person;
+
+Now:
+
+console.log(name); // Ajay
+console.log(age);  // 31
+console.log(city); // Bangalore
 --------------------------------------------------
 
 10. SPREAD vs REST

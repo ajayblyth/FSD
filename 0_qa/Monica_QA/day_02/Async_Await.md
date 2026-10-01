@@ -12,8 +12,15 @@ Promises and make asynchronous code look synchronous.
     internally uses Promises to handle asynchronous operations.
 
 👉 CORE IDEA:
-Promise       → “I will give result later”
-Async/Await   → “Wait here until result comes, then continue”
+
+async
+ ↓
+Makes the function return a Promise
+
+
+await
+ ↓
+Waits for a Promise inside an async function
 
 ASYNC FUNCTION
 
@@ -230,6 +237,102 @@ OUTPUT
 --------------------------------------------------------------------------------
 15
 
+
+## Advantages of async/await
+
+Cleaner and easier to read
+
+const data = await getData();
+
+looks more like normal synchronous code than .then() chains.
+
+Easier error handling
+Use normal try...catch:
+
+try {
+  const data = await getData();
+} catch (error) {
+  console.log(error);
+}
+
+Avoids long .then() chains
+Instead of:
+
+login()
+  .then(getUser)
+  .then(getOrders)
+  .then(showOrders)
+  .catch(handleError);
+
+You can write:
+
+const user = await login();
+const orders = await getOrders(user);
+showOrders(orders);
+
+Makes sequential operations easy to understand
+
+const user = await login();
+const orders = await getOrders(user.id);
+
+The second operation clearly happens after the first.
+
+Works very well with APIs
+Common in Node/Express and React:
+
+const response = await axios.get("/events");
+Makes asynchronous code easier to maintain and debug.
+Should we always use async/await?
+
+No. But for most modern application code, it's a very good default when working with Promises.
+
+Use async/await when:
+const user = await getUser();
+const orders = await getOrders(user.id);
+
+You have multiple asynchronous steps and want readable sequential code.
+
+.then() can still be useful
+
+For simple one-off Promise handling:
+
+getUser()
+  .then(user => console.log(user))
+  .catch(error => console.log(error));
+Important: Don't unnecessarily await independent operations
+
+Bad:
+
+const users = await getUsers();
+const events = await getEvents();
+
+If they don't depend on each other, this makes them run sequentially.
+
+Better:
+
+const [users, events] = await Promise.all([
+  getUsers(),
+  getEvents()
+]);
+
+They can run concurrently.
+
+Easy rule
+Promise + multiple steps
+        ↓
+   async/await 👍
+
+Independent async operations
+        ↓
+   Promise.all() 👍
+
+Simple Promise callback
+        ↓
+   .then() is also fine
+
+Interview line:
+
+async/await provides a cleaner and more readable way to work with Promises and makes asynchronous code and error handling easier to understand. It isn't mandatory; the choice depends on the situation.
 Error Handling
 --------------------------------------------------------------------------------
 • Use `try { } catch { }` inside async function  

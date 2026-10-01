@@ -100,22 +100,22 @@ http://localhost:8081
 
 ### Home
 
-```http
+http
 GET /
 
 ### Get All Users
 
-```http
+http
 GET /users
 
 ### Create User
 
-```http
+http
 POST /users
 
 Example Request Body:
 
-```json
+json
 {
   "name": "Ajay",
   "email": "ajay@example.com"

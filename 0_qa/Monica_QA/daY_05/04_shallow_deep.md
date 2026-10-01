@@ -183,6 +183,56 @@ JSON METHOD LIMITATIONS:                 | structuredClone LIMITATIONS:
 - Cannot handle Map, Set                | - Supports Map, Set ✅
 - Fails on circular references ❗       | - Handles circular references ✅
 
+
+structuredClone() is the modern built-in choice when I need a true deep clone of JavaScript data because it supports types such as Date, Map, Set and circular references. JSON.parse(JSON.stringify()) is still commonly used for simple JSON-compatible objects, but it has data-loss and type limitations. In production, I would choose based on the data and the actual requirement rather than using JSON cloning by default.
+
+## circular reference happens when an object directly or indirectly refers back to itself.
+
+Direct circular reference
+const user = {
+    name: "Ajay"
+};
+
+user.self = user;
+
+Now:
+
+user
+ ↓
+self
+ ↓
+user
+ ↓
+self
+ ↓
+... ♾️
+
+So:
+
+JSON.stringify(user);
+
+❌ Throws an error:
+
+TypeError: Converting circular structure to JSON
+Indirect circular reference
+const user = {};
+const address = {};
+
+user.address = address;
+address.user = user;
+
+Flow:
+
+user → address → user → address → ... ♾️
+
+That's also a circular reference.
+
+Simple interview definition:
+
+A circular reference occurs when an object refers back to itself, either directly or through another object. JSON.stringify() cannot handle circular references, while structuredClone() can.
+
+structuredClone() keeps track of objects it has already encountered while cloning. If it encounters the same object again, instead of recursively cloning it forever, it reuses the corresponding cloned reference. Therefore, it can preserve circular references.
+
 ======================================== 4) SHALLOW vs DEEP (CORE DIFFERENCE) ========================================
 
 ======================================== 4.1 KEY DIFFERENCE ========================================

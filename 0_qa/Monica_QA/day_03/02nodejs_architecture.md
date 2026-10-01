@@ -41,6 +41,7 @@ Event Loop → coordinates asynchronous work
 libuv → provides the Event Loop and async I/O mechanisms
 Thread Pool → handles certain background operations
 Queues → hold callbacks/tasks waiting to be processed
+
 2. What actually happens with an async operation?
 
 Consider:

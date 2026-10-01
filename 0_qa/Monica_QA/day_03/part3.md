@@ -280,6 +280,251 @@ Node.js Event Loop
 **Complete foundation**
 ================================
 
+#  Express.js
+
+Express.js is a lightweight and fast web framework built on top of Node.js that is mainly used to develop web servers and REST APIs. It simplifies server-side development by providing features for handling HTTP requests and responses, routing, middleware, error handling, and serving data to clients. Using Express, we can easily create routes for HTTP methods such as GET, POST, PUT, PATCH, and DELETE, and use middleware such as `express.json()` to parse incoming JSON request bodies. It is commonly used with databases like MongoDB to build backend applications and APIs. 
+
+In simple terms, **Node.js provides the runtime to execute JavaScript on the server, while Express provides an easier structure and tools for building the server and APIs.**
+
+### Main Uses
+
+• **Create HTTP servers**
+
+
+const express = require("express");
+const app = express();
+
+const PORT = 5000;
+app.listen(PORT, () => {
+  console.log("Server running on port 5000");
+});
+
+
+• **Create API routes**
+
+
+app.get("/users", (req, res) => {
+  res.json({ message: "Users" });
+});
+
+
+• **Handle HTTP methods**
+
+GET     → Fetch data
+POST    → Create data
+PUT     → Update/replace data
+PATCH   → Partially update data
+DELETE  → Delete data
+
+
+• **Handle requests & responses**
+
+
+app.post("/users", (req, res) => {
+  console.log(req.body);
+  res.json({ success: true });
+});
+
+
+• **Use middleware**
+
+app.use(express.json());
+
+Middleware can handle things like:
+
+JSON parsing
+Authentication
+Logging
+CORS
+Cookies
+Error handling
+
+• **Build REST APIs**
+
+text
+React Frontend
+      ↓ Axios
+Express API
+      ↓
+Controller
+      ↓
+MongoDB
+
+
+### In one line
+
+**Node.js = runtime that runs JavaScript on the server**
+
+**Express.js = framework built on Node.js that makes creating servers, APIs, routes and middleware easier.**
+
+
+
+# ## Routing in Node.js / Express.js
+
+**Routing** means defining **what should happen when a client requests a particular URL using a particular HTTP method**.
+
+### Basic Syntax
+
+app.METHOD(PATH, HANDLER);
+
+
+Example:
+
+app.get("/users", (req, res) => {
+  res.send("Get all users");
+});
+
+
+Here:
+
+text
+GET       → HTTP method
+/users    → URL/path
+handler   → function that runs when request matches
+
+
+### Common Routes
+
+// GET → fetch data
+app.get("/users", (req, res) => {
+  res.send("Get users");
+});
+
+// POST → create data
+app.post("/users", (req, res) => {
+  res.send("Create user");
+});
+
+// PUT → update/replace
+app.put("/users/:id", (req, res) => {
+  res.send("Update user");
+});
+
+// PATCH → partial update
+app.patch("/users/:id", (req, res) => {
+  res.send("Partially update user");
+});
+
+// DELETE → delete data
+app.delete("/users/:id", (req, res) => {
+  res.send("Delete user");
+});
+
+
+### Route Parameters
+
+app.get("/users/:id", (req, res) => {
+  console.log(req.params.id);
+});
+
+
+Request:
+
+text
+GET /users/123
+
+
+Then:
+
+req.params.id
+// "123"
+
+
+### Query Parameters
+
+Request:
+
+text
+GET /users?age=30&city=bangalore
+
+
+Access them using:
+
+req.query.age
+req.query.city
+
+
+### Routing with `express.Router()`
+
+For larger applications, routes are usually separated into files.
+
+text
+src/
+├── server.js
+├── app.js
+└── routes/
+    └── userRoutes.js
+
+
+**userRoutes.js**
+
+const express = require("express");
+
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.send("Get users");
+});
+
+router.post("/", (req, res) => {
+  res.send("Create user");
+});
+
+module.exports = router;
+
+
+**app.js**
+
+const express = require("express");
+const userRoutes = require("./routes/userRoutes");
+
+const app = express();
+
+app.use("/users", userRoutes);
+
+module.exports = app;
+
+
+Now:
+
+text
+GET  /users  → router.get()
+POST /users  → router.post()
+
+
+### Request Flow
+
+text
+Client
+  ↓
+GET /users/123
+  ↓
+Express
+  ↓
+Find matching route
+  ↓
+/users/:id
+  ↓
+Route Handler / Controller
+  ↓
+Response
+
+
+### Interview Definition
+
+**Routing is the process of determining how an application responds to a client request for a specific URL/path and HTTP method.**
+
+In Express:
+
+text
+app.get()
+app.post()
+app.put()
+app.patch()
+app.delete()
+
+
+are used to define routes.
 
 
 # 2. Buffers in Node.js
@@ -352,7 +597,8 @@ Streams
      ↓
 Buffer
 
-For example, when reading a large file, Node.js doesn't necessarily need to load the entire file into memory at once. Data can be processed in chunks, and those chunks can be represented using Buffers.
+For example, when reading a large file, Node.js doesn't necessarily need to load the entire file into memory at once. 
+Data can be processed in chunks, and those chunks can be represented using Buffers.
 
 This leads directly to Streams.
 
@@ -465,10 +711,10 @@ This is important for interviews.
 
 Node.js has four main types:
 
-1. Readable
-2. Writable
-3. Duplex
-4. Transform
+Readable Stream → Reading a large file, receiving an HTTP request/upload, reading data from a database.
+Writable Stream → Writing a large file, sending an HTTP response, writing logs to a file.
+Duplex Stream → TCP/network socket communication where you send and receive data simultaneously.
+Transform Stream → Compressing/decompressing files, encrypting/decrypting data, modifying data while it flows (e.g., gzip).
 
 1. Readable Stream
 
@@ -629,31 +875,128 @@ destination
 
 This is much more memory-efficient.
 
-7. Stream Events
+# 7. Stream Events — Complete Example
 
-You may see these frequently:
+## Files
 
-Readable stream
+project/
+├── app.js
+└── data.txt
+
+
+## Step 1: Create data.txt
+
+// data.txt
+
+Hello Ajay!
+This is some sample data.
+We are reading this file using a Readable Stream.
+The file is read chunk by chunk instead of loading everything at once.
+
+
+## Step 2: app.js
+
+const fs = require("fs");
+
+const stream = fs.createReadStream("./data.txt", {
+  encoding: "utf8",    // "utf8" tells Node.js to convert the data from a Buffer (binary data) into a string when reading the file.
+  highWaterMark: 20
+});
+
+
+// "data" → fires whenever a chunk of data is available
 stream.on("data", (chunk) => {
-    console.log(chunk);
+  console.log("Received chunk:");
+  console.log(chunk);
 });
 
-data → a chunk of data is available.
 
+// "end" → fires when there is no more data to read
 stream.on("end", () => {
-    console.log("Reading finished");
+  console.log("Reading finished");
 });
 
-end → no more data is available.
 
-For errors:
-
+// "error" → fires if something goes wrong
 stream.on("error", (err) => {
-    console.log(err);
+  console.log("Error:", err.message);
 });
 
-You don't need to memorize every stream event now. These are the important ones to recognize.
 
+## highwater mark: highWaterMark controls how much data a stream tries to keep in its internal buffer at a time.
+20 means the stream will read up to roughly 20 bytes/characters per chunk for this text stream.
+
+## Run
+
+node app.js
+
+
+## Possible Output
+
+Received chunk:
+Hello Ajay!
+This is so
+
+Received chunk:
+me sample data.
+We are rea
+
+Received chunk:
+ding this file using a Rea
+
+Received chunk:
+dable Stream.
+The file is
+
+Received chunk:
+read chunk by chunk instea
+
+Received chunk:
+d of loading everything at
+
+Received chunk:
+once.
+
+Reading finished
+
+
+## What is happening?
+
+data.txt
+   ↓
+createReadStream()
+   ↓
+File is read in small chunks
+   ↓
+"data" event fires for each chunk
+   ↓
+Your code processes the chunk
+   ↓
+No more chunks
+   ↓
+"end" event fires
+
+
+## Important Events
+
+"data"  → A chunk is available
+"end"   → Reading is completely finished
+"error" → Something went wrong while reading
+
+
+## Why use a Stream?
+
+Without a stream:
+
+const data = fs.readFileSync("./data.txt");
+
+The entire file is loaded into memory.
+
+With a stream:
+
+const stream = fs.createReadStream("./data.txt");
+
+The file is processed chunk by chunk, which is much better for large files such as videos, large CSVs, logs, etc.
 8. Streams vs Buffers
 
 This is a common confusion.
@@ -753,8 +1096,12 @@ That's enough for Streams at your current level.
 Interview answer
 A REST API allows clients and servers to communicate using HTTP and follows REST principles such as stateless communication and resource-based URLs. In Node.js, Express is commonly used to build REST APIs. Requests contain methods, URLs, headers, and optionally a body. Express routes the request to the appropriate handler, which processes the request and returns a response containing a status code, headers, and usually JSON data.
 
-A REST API is an API that follows REST principles and uses HTTP methods to perform operations on resources. In Node.js applications, frameworks such as Express are commonly used to build REST APIs.
 
+HTTP is a communication protocol; REST is an architectural style that can be implemented using HTTP.
+A REST API is an API designed according to REST architectural principles, commonly using HTTP methods, resource-based URLs, stateless communication, and HTTP status codes.
+
+
+Resource-based URLs identify the resource being operated on, usually using nouns, while the HTTP method defines the operation to perform on that resource.
 Example resource:
 
 /users
@@ -962,6 +1309,11 @@ Only the age is changed.
 
 > **PUT generally replaces the complete resource representation, while PATCH modifies only selected fields.**
 
+
+
+Note: Interview answer
+
+PUT normally represents replacement of a resource, while PATCH represents partial updates. However, in our backend we can implement PUT using MongoDB's $set operator so that only supplied fields are modified and existing fields remain unchanged.
 ---
 
 ### DELETE
@@ -1080,6 +1432,9 @@ console.log(req.body);
 });
 
 `express.json()` is middleware that parses incoming JSON request bodies and makes the parsed data available through:
+
+Parse JSON string → JavaScript object
+Parse means take data in one format and understand/convert it into a usable structure.
 
 req.body
 
@@ -1661,13 +2016,15 @@ Status	Meaning
 201	Resource created
 204	Success, no response body
 400	Bad request
-401	Authentication required/failed
-403	Authenticated but not allowed
+401	Authentication required/failed     unauthorized
+403	Authenticated but not allowed     forbidden
 404	Resource not found
 500	Internal server error
 Important interview distinction
 401 → "Who are you?"
 403 → "I know who you are, but you're not allowed."
+
+
 11. Middleware
 
 This is very important in Express.
@@ -1703,7 +2060,6 @@ Validation
 Parsing request body
 Error handling
 
-You'll use middleware heavily when we reach Authentication.
 
 12. REST API Architecture
 

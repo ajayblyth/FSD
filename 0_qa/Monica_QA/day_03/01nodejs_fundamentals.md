@@ -4,25 +4,20 @@
 
 The key difference is **where JavaScript runs and what APIs are available**.
 
----
-
-## Comparison
-
-| Feature                | Browser                                                 | Node.js                              |
-| ---------------------- | ------------------------------------------------------- | ------------------------------------ |
-| **JavaScript engine**  | V8 (Chrome), SpiderMonkey (Firefox), etc.               | V8                                   |
-| **Main purpose**       | Run web applications/UI                                 | Run server-side/backend applications |
-| **DOM**                | ✅ Available                                             | ❌ Not available by default           |
-| **`window`**           | ✅ Available                                             | ❌ Not available                      |
-| **`document`**         | ✅ Available                                             | ❌ Not available                      |
-| **File system access** | ❌ Restricted                                            | ✅ Through `fs` module                |
-| **HTTP/server APIs**   | Client-side networking APIs such as `fetch()`           | ✅ `http`, networking APIs            |
-| **Modules**            | ES Modules                                              | CommonJS + ES Modules                |
-| **Package ecosystem**  | Packages commonly used through browser tooling/bundlers | npm ecosystem                        |
-| **Global object**      | `window`                                                | `global` / `globalThis`              |
-| **Typical use**        | UI, DOM manipulation, user interaction                  | APIs, servers, backend services      |
 
 ---
+| **Browser**                                                 | **Node.js**                                                     |
+| ----------------------------------------------------------- | --------------------------------------------------------------- |
+| Runs JavaScript **inside a web browser**                    | Runs JavaScript **outside the browser**                         |
+| Mainly used for **frontend/UI**                             | Mainly used for **backend/server-side**                         |
+| Has **DOM (`document`)**                                    | ❌ No DOM by default                                             |
+| Has **`window` object**                                     | ❌ No `window` object                                            |
+| Provides browser Web APIs like `fetch`, DOM, `localStorage` | Provides Node APIs like `fs`, `http`, `path`, `process`         |
+| Can directly interact with the webpage                      | Cannot directly manipulate a webpage                            |
+| JavaScript interacts with **HTML/CSS**                      | JavaScript interacts with **server, files, database, OS, etc.** |
+| Uses browser security restrictions/sandbox                  | Has more direct access to OS/server resources                   |
+| Example: **React application**                              | Example: **Express API/server**                                 |
+
 
 ## Important Point
 
@@ -72,7 +67,7 @@ Node.js does not wait for slow I/O operations like file access, database queries
 It starts the operation and continues executing other code; when the operation completes, its callback/promise is handled.
 
 Event-driven architecture
-Node.js uses events and callbacks/listeners to respond when asynchronous operations or other events occur.
+Node.js uses events and  listeners to respond when asynchronous operations or other events occur.
 Instead of continuously waiting for an operation, Node.js reacts to the event when it is ready.
 
 
@@ -717,11 +712,40 @@ A
 C
 B
 
+const setTimeout(()=>{
+    console.log("hi"), 2000;
+})
+
 Node.js doesn't stop JavaScript execution for two seconds waiting for the timer.
 
 The exact mechanism behind this involves the **Event Loop**, which we'll study shortly.
 
 ---
+
+## Note:
+// setTimeout → runs once after the given time
+const timeoutId = setTimeout(() => {
+  console.log("Timeout executed");
+}, 5000);
+
+
+// setInterval → runs repeatedly every given time
+const intervalId = setInterval(() => {
+  console.log("Interval running...");
+}, 1000);
+
+
+// clearTimeout → cancels the timeout before it executes
+clearTimeout(timeoutId);
+
+
+// clearInterval → stops the repeating interval
+setTimeout(() => {
+  clearInterval(intervalId);
+  console.log("Interval stopped");
+}, 5000);
+
+If you want the timeout to execute first and then clear itself, you usually don't need clearTimeout() at all. A setTimeout() automatically runs only once and then finishes.
 
 ## 5. Blocking vs Non-blocking
 
@@ -809,6 +833,12 @@ Don't say:
 
 They are related, but not exactly the same concept.
 
+Asynchronous
+→ Result comes/gets handled later.
+
+Non-blocking
+→ Doesn't stop/block other work while waiting.
+
 Think of them this way:
 
 **Synchronous / Asynchronous** → describes **how execution is organized in time**.
@@ -859,43 +889,39 @@ Continue other work
 ↓
 Handle result later
 
-3. Event-Driven Architecture
+# Event-Driven Architecture
 
 This is one of the core concepts of Node.js and directly connects to the Event Loop.
 
 1. What is Event-Driven Architecture?
-Interview answer
+
+Event-driven architecture means the application waits for events to happen and listens to it with
+corresponding handler or a listener and then performs the appropriate action in response.
+An event is simply something that happened.
+
+Examples:
+
+User clicks button
+User logs in
+Payment succeeds
+File finishes uploading
+Order is created
+Message is received
+
 
 Event-driven architecture is a programming model where the flow of the application is determined by events. 
 When an event occurs, a corresponding handler or callback is executed.
 Node.js uses an event-driven architecture to efficiently handle asynchronous operations.
 
+
 In simple words:
 
 Something happens → an event occurs → Node.js reacts to it.
 
-2. What is an Event?
 
-An event is simply something that happens in the application.
+0r 
 
-Examples:
-
-HTTP request received
-File reading completed
-Timer completed
-Database operation completed
-User sends data
-Connection established
-
-For example:
-
-Client sends HTTP request
-        ↓
-   "request" event
-        ↓
-Request handler executes
-        ↓
-Response sent
+Event-driven architecture is a design pattern where the application responds to events or actions instead of following only a fixed sequence of execution. When an event occurs, the corresponding event handler/listener performs the required action. Node.js is well known for using an event-driven, non-blocking architecture, which makes it suitable for handling many I/O operations efficiently.
 
 3. Event Handler
 An event handler is the function that runs when a particular event occurs.
@@ -906,6 +932,10 @@ n Node.js, the purpose of EventEmitter is to let different parts of your applica
 Think of it as:
 
 "When something happens, notify whoever is interested."
+
+# Event emitter 
+EventEmitter is a Node.js mechanism used to implement event-driven communication. It allows us to create events, listen for those events, and trigger them when something happens. We use .on() to register a listener and .emit() to trigger an event. It helps keep different parts of an application loosely coupled, so one part can notify other parts without directly calling their functions. Multiple listeners can also listen to the same event and perform different actions when that event occurs.
+
 
 Simple example
 const EventEmitter = require("events");
@@ -932,7 +962,88 @@ emit() → triggers the event.
 
 emitter.emit("login");
 
-You don't need to memorize EventEmitter deeply yet; we'll cover it as a Node.js API later.
+
+
+## complete example
+## Simple EventEmitter Example
+
+Create `app.js`:
+
+const EventEmitter = require("events");
+
+// 1. Create an EventEmitter object
+const emitter = new EventEmitter();
+
+// 2. Create a listener for an event
+emitter.on("ticketBooked", (ticket) => {
+  console.log("Booking successful!");
+  console.log("Ticket:", ticket);
+});
+
+// 3. Another listener for the SAME event
+emitter.on("ticketBooked", (ticket) => {
+  console.log("Sending confirmation email for:", ticket.user);
+});
+
+// 4. Emit/trigger the event
+const ticket = {
+  user: "Ajay",
+  event: "Tech Conference",
+  price: 500
+};
+
+emitter.emit("ticketBooked", ticket);
+
+Run:
+node app.js
+
+Output:
+
+Booking successful!
+Ticket: { user: 'Ajay', event: 'Tech Conference', price: 500 }
+Sending confirmation email for: Ajay
+
+---
+
+## What's actually happening?
+
+The important part is:
+
+emitter.on("ticketBooked", ...)
+
+This means:
+
+> "Whenever the `ticketBooked` event happens, run this function."
+
+Then:
+
+emitter.emit("ticketBooked", ticket);
+
+means:
+
+> "The `ticketBooked` event has happened. Run all listeners attached to it."
+
+### Flow
+
+emitter.on("ticketBooked", listener 1)
+                         ↓
+emitter.on("ticketBooked", listener 2)
+                         ↓
+                    LISTENING
+                         ↓
+                emitter.emit(...)
+                         ↓
+              "ticketBooked" happens
+                    ↙          ↘
+             listener 1     listener 2
+                 ↓               ↓
+          Booking message    Send email
+
+### Remember
+
+.on()    → listen for an event
+.emit()  → trigger an event
+.off()   → remove a listener
 
 
 placeOrder()
@@ -983,40 +1094,9 @@ Callback executes
 
 So Node.js doesn't sit waiting for the file operation.
 
-5. Real-world analogy
 
-Imagine a restaurant.
 
-You order food:
-
-You → "I want a pizza"
-
-The waiter doesn't stand in the kitchen staring at the pizza until it's ready.
-
-Instead:
-
-Order placed
-    ↓
-Kitchen prepares pizza
-    ↓
-Waiter handles other customers
-    ↓
-Pizza ready event
-    ↓
-Waiter brings pizza
-
-That's similar to the basic idea behind event-driven systems.
-
-Node.js can:
-
-Request 1 → waiting for database
-Request 2 → being processed
-Request 3 → waiting for file
-Request 4 → being processed
-
-When an asynchronous operation completes, Node.js can handle its result.
-
-6. Event-Driven vs Traditional Sequential Thinking
+5. Event-Driven vs Traditional Sequential Thinking
 Sequential/blocking thinking
 Request 1
    ↓
@@ -1098,10 +1178,6 @@ Callback/handler executes
 
  They explain **how we split code into multiple files and reuse it**.
 
----
-
-#. What is a Module?
-
 ### Interview answer
 
 > **A module is a reusable and independent piece of code that keeps related functionality at one place.
@@ -1123,7 +1199,7 @@ Then import only what we need.
 
 ---
 
-.# 2. Why do we use modules?
+## 2. Why do we use modules?
 
 Main reasons:
 
@@ -1178,6 +1254,268 @@ require("./math")
 uses add()
 
 ---
+## JavaScript Modules — CommonJS vs ES Modules
+
+There are two main module systems in Node.js: CommonJS (older/traditional) and ES Modules (modern JavaScript standard).
+
+# CommonJS vs ES Modules
+
+| Feature            | CommonJS (CJS)                         | ES Modules (ESM)                                                                    |
+| ------------------ | -------------------------------------- | ----------------------------------------------------------------------------------- |
+| Introduced by      | Node.js ecosystem                      | JavaScript standard (ECMAScript)                                                    |
+| Syntax             | `require()` / `module.exports`         | `import` / `export`                                                                 |
+| Import             | `const add = require("./math")`        | `import add from "./math.js"`                                                       |
+| Export             | `module.exports = add`                 | `export default add`                           
+                                                                |
+| Named export       | `exports.add = add`                    | `export { add }`                                                                    |
+| Loading            | Synchronous by default                 | Static imports are handled by the module system; dynamic `import()` is asynchronous |
+| Dynamic import     | `require()` is synchronous             | `import()` returns a Promise                                                        |
+| Browser support    | ❌ Not natively                         | ✅ Native support                                                                    |
+| Node.js support    | ✅                                      | ✅                                                                                   |
+| Modern standard    | ❌ Node-specific module system          | ✅ Official JavaScript module standard                                               |
+| Node.js file setup | Default for `.js` in CommonJS projects | `"type": "module"` in `package.json` or `.mjs`                                      |
+| Top-level `this`   | `module.exports`                       | `undefined`                                                                         |
+| Common use         | Older/traditional Node.js projects     | Modern Node.js + browser applications        
+
+## Note: CommonJS — synchronous:
+
+const add = require("./math");
+
+Node loads math.js and waits for it to finish loading before continuing to the next line.
+
+ES Modules — asynchronous-capable:
+
+import add from "./math.js";
+
+ESM has a module-loading system that can handle dependencies asynchronously, and dynamic:
+
+const module = await import("./math.js");
+
+returns a Promise, so loading can happen asynchronously.
+
+Interview wording
+
+CommonJS uses synchronous require() loading, meaning the code waits for the module to load before continuing. ES Modules use the modern module-loading system and support asynchronous dynamic imports through import(), which returns a Promise.
+
+Easy memory:
+require() → synchronous
+import() → asynchronous/dynamic
+import ... from → static ESM import (don't simply call this “async” in the same sense as import()).                                       |
+
+## JavaScript Modules — CommonJS vs ES Modules
+
+There are two main module systems:
+CommonJS (CJS) → traditional Node.js module system
+ES Modules (ESM) → modern JavaScript standard
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 1. CommonJS — Single Function
+
+// math.js
+function add(a, b) {
+  return a + b;
+}
+
+module.exports = add;
+
+// app.js
+const add = require("./math");
+
+console.log(add(10, 20));
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 2. ES Modules — Single Function
+
+// math.js
+export default function add(a, b) {
+  return a + b;
+}
+
+// app.js
+import add from "./math.js";
+
+console.log(add(10, 20));
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 3. Multiple Functions
+
+### CommonJS
+
+// math.js
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+module.exports = { add, subtract, multiply };
+
+
+// app.js
+const { add, subtract, multiply } = require("./math");
+
+console.log(add(10, 5));
+console.log(subtract(10, 5));
+console.log(multiply(10, 5));
+
+
+### ES Modules
+
+// math.js
+export function add(a, b) {
+  return a + b;
+}
+
+export function subtract(a, b) {
+  return a - b;
+}
+
+export function multiply(a, b) {
+  return a * b;
+}
+
+
+// app.js
+import { add, subtract, multiply } from "./math.js";
+
+console.log(add(10, 5));
+console.log(subtract(10, 5));
+console.log(multiply(10, 5));
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 4. Another ESM Way — Export at the Bottom
+
+// math.js
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+export { add, subtract, multiply };
+
+
+// app.js
+import { add, subtract, multiply } from "./math.js";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 5. Default vs Named Export
+
+Default export:
+export default add;
+
+→ One default export per module
+→ Import WITHOUT { }
+
+import add from "./math.js";
+
+
+Named export:
+export { add, subtract };
+
+→ Multiple named exports allowed
+→ Import WITH { }
+
+import { add, subtract } from "./math.js";
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 6. How Node.js Knows ES Modules
+
+// package.json
+{
+  "type": "module"
+}
+
+Then .js files use ESM syntax:
+
+import express from "express";
+export default app;
+
+Without "type": "module", .js files are treated as CommonJS by default.
+
+Alternative:
+Use .mjs extension for ES Modules.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 7. CommonJS vs ES Modules — Interview Difference
+
+CommonJS:
+require() + module.exports
+→ Traditional Node.js module system
+→ require() loads modules synchronously
+
+ES Modules:
+import + export
+→ Modern JavaScript standard
+→ Static imports are handled by the module system
+→ Dynamic import() is asynchronous and returns a Promise
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## Easy Memory
+
+CommonJS:
+module.exports → export
+require() → import
+
+ESM:
+export → export
+import → import
+
+Multiple functions:
+CommonJS → module.exports = { add, subtract, multiply }
+ESM → export { add, subtract, multiply }
+
+Default → no { }
+Named → use { }
+
+## Interview Difference
+
+CommonJS: Node.js's traditional module system using require() and module.exports; require() loads modules synchronously.
+
+ES Modules: Modern JavaScript standard using import and export; it supports static imports and asynchronous/dynamic loading through import().
+
+
+## Easy Memory
+
+require + module.exports → CommonJS
+import + export → ES Modules
+
+CommonJS → traditionally synchronous loading
+ESM → modern standard + static imports + async dynamic import()
+
+## Interview Answer
+
+**CommonJS is the traditional Node.js module system that uses `require()` and `module.exports`, while ES Modules is the modern JavaScript standard that uses `import` and `export`. CommonJS modules are traditionally loaded synchronously, whereas ES Modules support static imports and asynchronous dynamic imports using `import()`.**
+
+
+## CommonJS Example
+
+// math.js
+function add(a, b) {
+  return a + b;
+}
+
+module.exports = add;
 
 #. 4. `module.exports`
 
@@ -1606,6 +1944,33 @@ For example:
 
 **nodemon | eslint | testing libraries**
 
+2. ESLint — what is it?
+
+ESLint is a JavaScript/TypeScript code-quality and linting tool.
+
+It analyzes your code and detects things like:
+
+const name = "Ajay"
+
+console.log(nmae); // ESLint can detect that nmae is likely wrong
+
+It can also enforce rules such as:
+
+const name = "Ajay"; // preferred
+
+instead of:
+
+const name = 'Ajay';
+
+depending on your configured rules.
+
+Think:
+
+ESLint → "Is my code written correctly and according to the project's rules?"
+
+It can catch errors, suspicious code, unused variables, style problems, and common mistakes.
+
+
 Install them using:
 
 npm install --save-dev nodemon
@@ -1616,6 +1981,27 @@ They appear under:
 "nodemon": "^3.0.0"
 }
 
+{
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  }
+}
+
+npm run dev
+
+
+TypeScript / EventHub
+
+In your EventHub backend, you're already using:
+
+"dev": "tsx watch src/server.ts"
+
+tsx watch is essentially serving the same development auto-restart purpose as Nodemon, but it also directly handles TypeScript.
+
+So you don't need Nodemon if you're already using:
+
+tsx watch src/server.ts
 ### Interview answer
 
 > **Dependencies are required for the application to run, while devDependencies are primarily required during development, testing, or build processes.**
@@ -1775,7 +2161,7 @@ This installs Express and adds it to `dependencies`.
 
 ---
 
-# 13. One complete example
+## 13. One complete example
 
 Suppose we're creating a Node.js project.
 
